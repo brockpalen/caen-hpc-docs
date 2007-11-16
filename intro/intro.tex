@@ -335,26 +335,24 @@ resources_used.walltime=00:49:57
   \\ \texttt{qsub run}
  \end{block}
  \begin{block}{Interactive Jobs}
-  \uncover<2-> The CAC has 8 CPU's 
-  \begin{itemize}
-   
-  \end{itemize}
+  \uncover<2-> {The CAC has 8 CPU's for jobs 15 minutes or less \\}
+  \uncover<2-> {These CPU's can be used for testing PBS scripts and debugging code \\}
+  \uncover<3-> {Interactive jobs allow users to interact with the shell on a remote node \\}
+  \uncover<4-> {\texttt{qsub -I -l nodes=2:ppn=2,walltime=15:00 -q cac}}
  \end{block}
 \end{frame}
 
 \section{The Scheduler}
 \subsection{Understanding the Scheduler}
 \begin{frame}{Understanding the Scheduler}
-The scheduler determines what jobs can run, when the can run, and where.  There
+The scheduler determines what jobs can run, when they can run, and where.  There
 are many factors that go into the scheduler's decision.
-  \begin{itemize}
-  \item<1-> Limits
+   \begin{block}{Limits and Priority}
     \begin{itemize}
     \item<1-> Maximum number jobs eligible for scheduling: 4
     \item<1-> Maximum number of CPUs in use by one person: depends on queue
     \item<1-> Maximum number of jobs in the queue at one time: no limit
     \end{itemize}
-  \item<2-> Priority
     \begin{itemize}
     \item<2-> Who you are: user and group level priorities
     \item<2-> How long you've waited: the longer you wait, the higher your
@@ -362,7 +360,7 @@ priority
     \item<2-> Your recent usage (fairshare): People with less usage over the
 past month will have a higher priority than those with a lot of usage
     \end{itemize}
-  \end{itemize}
+   \end{block}
 \end{frame}
 \begin{frame}{Understanding the Scheduler}
   \begin{itemize}
