@@ -5,6 +5,9 @@
 %\pgfpagesuselayout{4 on 1}[letterpaper,border shrink=5mm,landscape] 
 %\pgfpagesuselayout{2 on 1}[letterpaper,border shrink=2mm]
 
+\setbeameroption{show notes on second screen=left}
+%\setbeameroption{show only notes}
+
 \usetheme{default}
 
 \mode<presentation> {
@@ -39,9 +42,8 @@
    \begin{block}{Compute Hardware}
     \begin{itemize}
     \item 1 Altix node, 32 cores
-    \item 468 Opteron nodes, over 1224 cores
+    \item 586 Opteron nodes, over 1760 cores
     \item 400+ nodes on CAEN Grid
-    \alert{update this}
     \item Gigabit networking, Myrinet networking, Infiniband networking
     \item Upto 96GB of memory (64GB public) for SMP work
     \end{itemize}
@@ -53,7 +55,7 @@
     \begin{itemize}
     \item nyx is the Opteron cluster;
     \item Login: \texttt{nyx-login.engin.umich.edu}
-    \item Currently has 6TB NFS file system
+    \item Currently has 7TB NFS file system
     \item Running RedHat Enterprise Linux 4
     \end{itemize}
    \end{block}
@@ -64,10 +66,11 @@
     \begin{itemize}
       \item bighouse is our Itanium SMP machine;
       \item Login: \texttt{bighouse.engin.umich.edu}
-      \item Shares nyx's 6TB NFS file system
+      \item Shares nyx's 7TB NFS file system
       \item Running SUsE Linux Enterprise Server 10
       \item ProPack 5 from SGI
       \item Only available for benchmarking (Private)
+         \note{Bighouse: Available to Aero Space Dept}
     \end{itemize}
    \end{block}
   \end{frame}
@@ -75,13 +78,15 @@
 \begin{frame}{Hardware: Grid}
  \begin{block}{CAEN Grid}
   \begin{itemize}
-   \item 400+ Nodes, Some Dual Core
+   \item 400+ Nodes, Dual Core
    \item All nodes have 2GB Ram
    \item FAST Single CPU's
    \item Some Parallel Ability
    \item Short Jobs Only
   \end{itemize}
  \end{block}
+  \note{nodes are great for paramater sweaps, hundereds of jobs etc}
+  \note{only for engin accounts}
 \end{frame}
   
 %default software  
@@ -100,6 +105,13 @@
       \item Intel Compilers
       \item PBS commands
     \end{itemize}
+    \end{block}
+    \begin{block}{Grid Defaults}
+      \begin{itemize}
+        \item OpenMPI
+        \item PGI Compilers
+        \item Intel Compilers
+      \end{itemize}
     \end{block}
   \end{frame}
 
@@ -125,7 +137,7 @@
    \\    Holds user created module
   \item man modulefile
   \end{itemize}
-  \note[item]{make example module, have sample exe available}
+  \note[item]{example suing fftw follows}
   \end{block}
 \end{frame}
 \begin{frame}{Module Example}
@@ -150,6 +162,7 @@
   \section{Mechanics: Usage}
   \subsection{Compiling programs}
   \begin{frame}{Tools}
+   \begin{block}{Tools}
     \begin{itemize}
     \item<1- > All of the standard GNU/Linux tools are also available: \texttt{make},
       \texttt{autoconf}, \texttt{awk}, \texttt{sed}, \texttt{Perl}, \texttt{Python},
@@ -159,6 +172,7 @@
     \item<3-| alert@1-> Only use \texttt{notepad} on Windows!
     \item<3-| alert@1-> If made on windows fix with \texttt{dos2unix filename}
     \end{itemize}
+   \end{block}
   \end{frame}
 %compile code
   \begin{frame}{Compile Code}
@@ -176,7 +190,11 @@
     \end{itemize}
    \end{block}
    \begin{block}{CAEN Grid}
-    TBD
+     \begin{itemize}
+      \item Use: mpicc, mpiCC, mpif90 for MPI code
+      \item Serial code: Intel or PGI commands are valid.
+        \note[item]{Grid: both compilers support OpenMP}
+     \end{itemize}
    \end{block}
   \end{frame}
 \begin{frame}{Compile Example}
@@ -199,6 +217,7 @@
    \item <2-> Thats it...  Ok not really
    \item <3-> \texttt{make clean}
    \item <3-> \texttt{mpicc -fastsse -o c\_ex01 c\_ex01.c}
+    \note[item]{'man make' Make lets you manage large bits of code. Works for all source types}
   \end{itemize}
  \end{block}
 \end{frame}
@@ -327,7 +346,7 @@ resources_used.walltime=00:49:57
 %example
 \begin{frame}{PBS Example}
  \begin{block}{PBS Example Job}
-  \texttt{cd ~/mpicodes}
+  \texttt{cd \~{}/mpicodes}
   \\ \texttt{nano run}
   \\ Edit \texttt{\#PBS -M}
   \\ \texttt{Ctl+o}
@@ -335,7 +354,7 @@ resources_used.walltime=00:49:57
   \\ \texttt{qsub run}
  \end{block}
  \begin{block}{Interactive Jobs}
-  \uncover<2-> {The CAC has 8 CPU's for jobs 15 minutes or less \\}
+  \uncover<2-> {The CAC has CPU's for jobs 15 minutes or less \\}
   \uncover<2-> {These CPU's can be used for testing PBS scripts and debugging code \\}
   \uncover<3-> {Interactive jobs allow users to interact with the shell on a remote node \\}
   \uncover<4-> {\texttt{qsub -I -l nodes=2:ppn=2,walltime=15:00 -q cac}}
