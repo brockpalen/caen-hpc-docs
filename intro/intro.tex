@@ -20,7 +20,7 @@
 \mode<handout>{\setbeamercolor{background canvas}{bg=black!5} %
     \pgfpagesuselayout{2 on 1}[letterpaper,border shrink=4mm] }
 
-\title[CAC Intro] {A Introduction to\\ The Center for Advanced Computing}
+\title[CAC Intro] {An Introduction to\\ The Center for Advanced Computing}
 \author{Brock Palen\\ \texttt{brockp@umich.edu}}
 \date{TBD}
 
@@ -44,7 +44,7 @@
     \item 1 Altix node, 32 cores
     \item 586 Opteron nodes, over 1760 cores
     \item 400+ nodes on CAEN Grid
-    \item Gigabit networking, Myrinet networking, Infiniband networking
+    \item Gigabit networking and Infiniband networking
     \item Upto 96GB of memory (64GB public) for SMP work
     \end{itemize}
    \end{block}
@@ -57,6 +57,7 @@
     \item Login: \texttt{nyx-login.engin.umich.edu}
     \item Currently has 7TB NFS file system
     \item Running RedHat Enterprise Linux 4
+    \item Uses PBS for Resource Access
     \end{itemize}
    \end{block}
   \end{frame}
@@ -67,8 +68,9 @@
       \item bighouse is our Itanium SMP machine;
       \item Login: \texttt{bighouse.engin.umich.edu}
       \item Shares nyx's 7TB NFS file system
-      \item Running SUsE Linux Enterprise Server 10
+      \item Running SuSE Linux Enterprise Server 10
       \item ProPack 5 from SGI
+      \item Uses PBS for Resource Access
       \item Only available for benchmarking (Private)
          \note{Bighouse: Available to Aero Space Dept}
     \end{itemize}
@@ -80,9 +82,10 @@
   \begin{itemize}
    \item 400+ Nodes, Dual Core
    \item All nodes have 2GB Ram
-   \item FAST Single CPU's
+   \item FAST Single cpus
    \item Some Parallel Ability
    \item Short Jobs Only
+   \item Uses PBS for Resource Access
   \end{itemize}
  \end{block}
   \note{nodes are great for paramater sweaps, hundereds of jobs etc}
@@ -96,14 +99,12 @@
     \begin{itemize}
       \item OpenMPI
       \item PGI Compilers
-      \item PBS commands
     \end{itemize}
     \end{block}
     \begin{block}{Bighouse Defaults}
     \begin{itemize}
       \item Message Passing Toolkit (MPT)
       \item Intel Compilers
-      \item PBS commands
     \end{itemize}
     \end{block}
     \begin{block}{Grid Defaults}
@@ -113,6 +114,10 @@
         \item Intel Compilers
       \end{itemize}
     \end{block}
+  \end{frame}
+
+  \begin{frame}{Common Software}
+
   \end{frame}
 
 %modules
@@ -131,13 +136,13 @@
 \begin{frame}{Module Fun}
   \begin{block}{Module Customization}
   \begin{itemize}
-  \item \texttt{~/privatemodules/default}
+  \item \texttt{\~{}/privatemodules/default}
    \\    Allows users to change their default modules.
-  \item \texttt{~/privatemodules/\textit{module/version}}
+  \item \texttt{\~{}/privatemodules/\textit{module/version}}
    \\    Holds user created module
   \item \texttt{man modulefile}
   \end{itemize}
-  \note[item]{example suing fftw follows}
+  \note[item]{example using fftw follows}
   \end{block}
 \end{frame}
 \begin{frame}{Module Example}
@@ -209,7 +214,7 @@
   \end{itemize}
  \end{block}
 \end{frame}
-\begin{frame}{Compile Example Ctd.}
+\begin{frame}{Compile Example Cont'd}
  \begin{block}{MPI Code}
   \begin{itemize}
    \item \texttt{make}
@@ -232,7 +237,7 @@
       is via the batch system
     \item We use a system called Torque, it is derived from PBS
     \item The batch system controls access to queues
-    \item The scheduling system decides if and where jobs can run
+    \item The scheduling (Maui/Moab) system decides if and where jobs can run
     \item<2-> There is a single public queue: \texttt{cac}
     \item<2-> There are many private queues for people who own or rent nodes
 	%fix this
@@ -265,7 +270,7 @@ A simple single cpu example
 \uncover<5->{#PBS -j oe}
 \uncover<6->{#PBS -V}
 \uncover<7->{cat \$PBS\_NODEFILE}
-\uncover<8->{cd ~/input1dir/}
+\uncover<8->{cd \~{}/input1dir/}
 \uncover<8->{mcnp5.mpi i=input o=output r=restart}
   \end{semiverbatim}
 \end{frame}
@@ -356,9 +361,11 @@ resources_used.walltime=00:49:57
 \end{frame}
 \begin{frame}{Interactive Jobs}
  \begin{block}{Interactive Jobs}
-  \uncover<2-> {The CAC has CPU's for jobs 15 minutes or less \\}
-  \uncover<2-> {These CPU's can be used for testing PBS scripts and debugging code \\}
+  \uncover<2-> {The CAC has cpus for jobs 15 minutes or less \\}
+  \uncover<2-> {These cpus can be used for testing PBS scripts and debugging code \\}
   \uncover<3-> {Interactive jobs allow users to interact with the shell on a remote node \\}
+ \end{block}
+ \begin{block}{Example}
   \uncover<4-> {\texttt{qsub -I -l nodes=2:ppn=2,walltime=15:00 -q cac}}
  \end{block}
 \end{frame}
@@ -370,16 +377,15 @@ The scheduler determines what jobs can run, when they can run, and where.  There
 are many factors that go into the scheduler's decision.
    \begin{block}{Limits and Priority}
     \begin{itemize}
-    \item<1-> Maximum number jobs eligible for scheduling: 4
-    \item<1-> Maximum number of CPUs in use by one person: depends on queue
+    \item<1-> Limited number jobs eligible for scheduling
+    \item<1-> Maximum number of cpus in use by one person: depends on queue
     \item<1-> Maximum number of jobs in the queue at one time: no limit
     \end{itemize}
     \begin{itemize}
-    \item<2-> Who you are: user and group level priorities
-    \item<2-> How long you've waited: the longer you wait, the higher your
-priority
-    \item<2-> Your recent usage (fairshare): People with less usage over the
-past month will have a higher priority than those with a lot of usage
+    \item<2-> How long you've waited: the longer you wait, the higher your priority
+    \item<2-> Your recent usage (fairshare): People with less usage over the past month will have a higher priority than those with a lot of usage
+
+    \note[item]{We can do priorities and limits in private queues as needed for those queues. Limits on User, group, hardware in use, time of use walltime are all options}
     \end{itemize}
    \end{block}
 \end{frame}
@@ -423,7 +429,7 @@ when the job will start
  \begin{itemize}
   \item Resources
    \begin{itemize}
-    \item Lots of CPUs
+    \item Lots of cpus
     \item A reasonable amount of software
     \item Watch or subscribe to \url{http://cac.engin.umich.edu} for updates
    \end{itemize}
@@ -440,7 +446,7 @@ platforms
 \end{frame}
 \subsection{Job Management}
 \begin{frame}{Summary}
- \begin{block}{Summary Ctd.}
+ \begin{block}{Summary Cont'd}
  \begin{itemize}
    \item Job Submission
      \begin{itemize}
@@ -457,7 +463,7 @@ scheduler optimize for their start.
 \end{frame}
 \subsection{Contact}
 \begin{frame}{Summary}
- \begin{block}{Summary Ctd.}
+ \begin{block}{Summary Con'd}
  \begin{itemize}
  \item News: \url{http://cac.engin.umich.edu}
    \begin{itemize}
