@@ -48,6 +48,13 @@
     \item Upto 96GB of memory (64GB public) for SMP work
     \end{itemize}
    \end{block}
+   \begin{block}{Visualization Hardware}
+    \begin{itemize}
+     \item \url{http://um3d.dc.umich.edu/}
+     \item Windows 64bit Nvidia 16GB Quad Core
+     \item Linux Nvidia 16GB Quad Core 30" wide screen
+    \end{itemize}
+   \end{block}
   \end{frame}
 %nyx
   \begin{frame}{Hardware: nyx}
@@ -56,6 +63,7 @@
     \item nyx is the Opteron cluster;
     \item Login: \texttt{nyx-login.engin.umich.edu}
     \item Currently has 7TB NFS file system
+    \item 2.6 TB fast scratch file system
     \item Running RedHat Enterprise Linux 4
     \item Uses PBS for Resource Access
     \end{itemize}
@@ -90,6 +98,18 @@
  \end{block}
   \note{nodes are great for paramater sweaps, hundereds of jobs etc}
   \note{only for engin accounts}
+\end{frame}
+% vislab
+\begin{frame}{Hardware: 3dlab}
+ \begin{center}\includegraphics[height=2.0in]{3dlab}\end{center}
+  \begin{itemize}
+   \item VMD Visual Molecular Dynamics
+   \note[item]{VMD \url{http://www.ks.uiuc.edu/Research/vmd/}}
+   \item Visit
+   \note[item]{Visit \url{https://wci.llnl.gov/codes/visit/}}
+   \item IDL Interactive Data Language
+   \note[item]{IDL \url{http://www.ittvis.com/idl/}}
+  \end{itemize}
 \end{frame}
   
 %default software  
@@ -269,7 +289,7 @@
 A simple single cpu example
   \begin{semiverbatim}
 \uncover<1->{#!/bin/sh}
-\uncover<1->{#PBS -N 1-cpu}
+\uncover<1->{#PBS -N cpu-1}
 \uncover<2->{#PBS -l nodes=1,walltime=1:00:00}
 \uncover<3->{#PBS -m abe}
 \uncover<3->{#PBS -M brockp@umich.edu}
@@ -283,7 +303,6 @@ A simple single cpu example
 \end{frame}
 \begin{frame}[fragile]
   \frametitle{Creating a PBS Batch File}
-A more complicated example:
   \begin{semiverbatim}  
 \uncover{#!/bin/sh}
 \uncover{#PBS -N mcnp-8x2}
@@ -298,6 +317,15 @@ A more complicated example:
 \uncover{cat \$PBS\_NODEFILE}
 \uncover{mpirun -np 16 mcnp5.mpi i=input2 o=output2 r=restart2}
   \end{semiverbatim}  
+ \note[item]{-N sets the job name, can not start with a number}
+ \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must email -np.}
+ \note[item]{-q optional: which queue to submit to, use default: \texttt{route}}
+ \note[item]{-M Who to email, can be more than one address}
+ \note[item]{-m when to email a=abort, b=begin, e=end}
+ \note[item]{-j optional: join STDOUT and STDERR default is to not}
+ \note[item]{-V Copy submit environment to compute environtment, ALWAYS use this}
+ \note{See \texttt{man qsub} for all options}
+ \note{Example pbs file included with example codes \texttt{run}}
 \end{frame}
 \begin{frame}[fragile]
   \frametitle{Submitting, Checking, and Deleting Batch Jobs}
@@ -364,6 +392,8 @@ resources_used.walltime=00:49:57
   \\ \texttt{Ctl+o}
   \\ \texttt{Ctl+x}
   \\ \texttt{qsub run}
+  \note{Please be sure to edit the email address I don't want to be getting all your mail}
+  \note{Nano is a clone of pico}
  \end{block}
 \end{frame}
 \begin{frame}{Interactive Jobs}
@@ -374,6 +404,23 @@ resources_used.walltime=00:49:57
  \end{block}
  \begin{block}{Example}
   \uncover<4-> {\texttt{qsub -I -l nodes=2:ppn=2,walltime=15:00 -q cac}}
+  \note{Interactive jobs can use X11 forwarding also}
+  \note[item]{\texttt{qsub -I -X nodes=2:ppn=2,walltime=15:00 -q route}}
+  \note[item]{Used with ddt our parallel debugger}
+ \end{block}
+\end{frame}
+%preempt jobs
+\begin{frame}{Preemptable Jobs}
+ \begin{block}{Preempt}
+  \begin{itemize}
+   \item{Gives fast access to lots of fast cpus}
+   \item{Great for hundreds of short jobs}
+   \item{Uses Private nodes}
+   \item{Read: \url{http://cac.engin.umich.edu/resources/software/pbspreemption.html}}
+  \end{itemize}
+ \end{block}
+ \begin{block}{How to use Preemption}
+  \texttt{\#PBS -l nodes=1:ppn=4,}\textbf{qos=preempt}
  \end{block}
 \end{frame}
 
