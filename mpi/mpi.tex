@@ -154,4 +154,154 @@ MPI\_FINALIZE(IERROR)
    \end{itemize}
 \end{frame}
 
+\begin{frame}
+ \frametitle{Communicators and Tags}
+  \begin{block}{Communicators}
+   \begin{itemize}
+     \item<1->Specifies a group of processors that can communicate together
+     \item<2->\texttt{MPI\_COMM\_WORLD}
+     \item<2->Created at startup includes all processes started by the launcher
+   \end{itemize}
+  \end{block}
+  \begin{block}{Tags}
+    \begin{itemize}
+     \item<3->Adds distinct meaning to a message
+     \item<4->Very Useful
+    \end{itemize}
+  \end{block}
+\note{
+ \begin{itemize}
+  \item \textbf{Communicators}
+  \item There can be more than one communicator
+  \item They can be duplicated \texttt{MPI\_Comm\_dup()}
+  \item They can be created \texttt{MPI\_Comm\_create()}
+  \item They can have physical meaning \texttt{MPI\_Cart\_create()}
+ \end{itemize}
+ \begin{itemize}
+  \item \textbf{Tags}
+  \item \texttt{MPI\_ANY\_TAG} 
+  \item \texttt{Information on tag available in \texttt{MPI\_Status}}
+ \end{itemize}
+} %note
+
+\end{frame}
+
+\begin{frame}[fragile]
+ \frametitle{MPI\_DATATYPE}
+  \begin{columns}[T]
+   \begin{column}{5cm}
+    \begin{block}{C}
+     \begin{itemize}
+      \item \texttt{MPI\_CHAR char}
+      \item \texttt{MPI\_INT int}
+      \item \texttt{MPI\_FLOAT float}
+      \item \texttt{MPI\_DOUBLE double}
+      \item \texttt{MPI\_Pack() struct}
+     \end{itemize}
+    \end{block}
+   \end{column}
+   \begin{column}{5cm}
+    \begin{block}{Fortran}
+     \begin{itemize}
+      \item \texttt{MPI\_CHARACTER CHARACTER}
+      \item \texttt{MPI\_INTEGER INTEGER}
+      \item \texttt{MPI\_REAL REAL}
+      \item \texttt{MPI\_DOUBLE\_PRECISION DOUBLE}
+      \item \texttt{MPI\_COMPLEX COMPLEX}
+      \item \texttt{MPI\_DOUBLE\_COMPLEX DBOUBLE\_COMPLEX}
+     \end{itemize}
+    \end{block}
+   \end{column}
+  \end{columns}
+ \note{
+ \begin{itemize}
+  \item Unsigned and shorts also available
+  \item Fortran can use \texttt{MPI\_REAL8 MPI\_INTEGER2} etc.
+  \item C Structs must be 'packed' with \texttt{MPI\_Pack()}
+  \item \url{http://www.lam-mpi.org/tutorials/one-step/datatypes.php}
+ \end{itemize}
+} %note
+\end{frame}
+
+\subsection{Point to Point}
+\begin{frame}[fragile]
+ \frametitle{MPI\_Send()}
+   \begin{columns}[T]
+    \begin{column}{5cm}
+     \begin{block}{C}
+      \begin{semiverbatim}
+MPI\_Send( void  *buf,
+           int count,
+  MPI\_Datatype  type,
+           int  dest,
+           int   tag,
+      MPI\_Comm   comm)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+    \begin{column}{5cm}
+     \begin{block}{Fortan}
+      \begin{semiverbatim}
+MPI\_SEND( <type>   BUF,
+      INTEGER    COUNT,
+ MPI\_Datatype     TYPE,
+      INTEGER     DEST,
+      INTEGER      TAG,
+     MPI\_Comm     COMM,
+      INTEGER    IERROR)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+   \end{columns}
+\note{
+These are called 'blocking' sends. Note that MPI does not require that \texttt{MPI\_Send()} block, just that it not return untill \texttt{buf} is safe to use again. This can cause deadlocks to appear in code when scaled up. See the example included with this.
+} %note
+\end{frame}
+\begin{frame}[fragile]
+ \frametitle{MPI\_Recv()}
+   \begin{columns}[T]
+    \begin{column}{5cm}
+     \begin{block}{C}
+      \begin{semiverbatim}
+MPI\_Recv( void   *buf,
+           int  count,
+  MPI\_Datatype   type,
+           int source,
+           int    tag,
+      MPI\_Comm   comm,
+    MPI\_Status  *status)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+    \begin{column}{5cm}
+     \begin{block}{Fortan}
+      \begin{semiverbatim}
+MPI\_RECV( <type>    BUF,
+      INTEGER     COUNT,
+ MPI\_Datatype      TYPE,
+      INTEGER    SOURCE,
+      INTEGER       TAG,
+     MPI\_Comm      COMM,
+      INTEGER    STATUS,
+      INTEGER     IERROR)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+   \end{columns}
+\note{
+The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there must be a \texttt{MPI\_Recv()}. Most codes will put most of their communication time waiting for Recv's to actualy get their data. If there is no Send, Recv will wait forever.  See \texttt{MPI\_Irecv()} for non-blocking.
+} %note
+\end{frame}
+\begin{frame}{First MPI Program}
+\begin{block}{helloworld}
+ \begin{enumerate}
+  \item<1-> \texttt{cp \~{}brockp/mpi-cac.tar \~{}}
+  \item<1->\texttt{tar -xvf mpi-cac.tar}
+  \item<1->\texttt{cd mpi-cac
+  \item<2-> C: \texttt{mpicc -o hello helloworld.c}
+  \item<2-> F90: \texttt{mpif90 -o hello helloworld.f90}
+  \item<3-> mpirun -np 4 a.out
+ \end{enumerate}
+\end{block}
+\end{frame}
 \end{document}
