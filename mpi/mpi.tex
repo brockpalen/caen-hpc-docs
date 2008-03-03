@@ -72,7 +72,7 @@
                \begin{itemize}
                 \item {All process in a single Communicator,  'ALL DO THIS'}
                \end{itemize}
-    }
+    } %note
   \end{frame}
   \begin{frame}{OpenMP}
    \begin{center}\includegraphics[height=2.5in]{openmp}\end{center}
@@ -289,19 +289,60 @@ MPI\_RECV( <type>    BUF,
     \end{column}
    \end{columns}
 \note{
+In fortran STATUS must be: \texttt{integer status(MPI\_STATUS\_SIZE)}
 The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there must be a \texttt{MPI\_Recv()}. Most codes will put most of their communication time waiting for Recv's to actualy get their data. If there is no Send, Recv will wait forever.  See \texttt{MPI\_Irecv()} for non-blocking.
 } %note
 \end{frame}
+
 \begin{frame}{First MPI Program}
 \begin{block}{helloworld}
  \begin{enumerate}
-  \item<1-> \texttt{cp \~{}brockp/mpi-cac.tar \~{}}
+  \item<1->\texttt{cp \~{}brockp/mpi-cac.tar \~{}}
   \item<1->\texttt{tar -xvf mpi-cac.tar}
-  \item<1->\texttt{cd mpi-cac
-  \item<2-> C: \texttt{mpicc -o hello helloworld.c}
-  \item<2-> F90: \texttt{mpif90 -o hello helloworld.f90}
-  \item<3-> mpirun -np 4 a.out
+  \item<1->\texttt{cd mpi-cac}
+  \item<2-> C: \texttt{mpicc -o chello helloworld.c}
+  \item<2-> F90: \texttt{mpif90 -o fhello helloworld.f90}
+  \item<3-> mpirun -np 4 fhello
  \end{enumerate}
 \end{block}
+ \note{
+  \texttt{mpi-cac.tar} includes a \texttt{Makefile} all examples can be built by running \texttt{make} or built one at a time, \texttt{make chello} will build the \texttt{helloworld.c} example.  While \texttt{make fapps} will build all fortran examples.  See \texttt{README} included for information.
+ } %note
 \end{frame}
+
+\begin{frame}{Deadlocks}
+ \begin{block}{Deadlock}
+   \begin{itemize}
+    \item Every \texttt{MPI\_Send()} must have a matching \texttt{MPI\_Recv()}
+    \item A call that does not have a matching Send or Recv is deadlocked
+    \item Calls do not return unless \texttt{buffer} is safe to reuse, \alert{not} that it was recved
+    \item Some MPI libraries will let deadlocked code run untill messages reach a given size
+   \end{itemize}
+ \end{block}
+ \begin{block}{cdeadlock}
+  \begin{itemize}
+   \item <2->\texttt{make cdeadlock no-cdeadlock}
+   \item <2->\texttt{mpirun -np 4 cdeadlock}
+   \item <2->\texttt{mpirun -np 4 no-cdeadlock}
+  \end{itemize}
+ \end{block}
+ \note{
+    This example will demonstrate the effects of deadlock, and eager messages. \\
+    cdeadlock and no-cdeadlock is the same code, the change is in the size of \texttt{buffer} when buffer falls below some value eager messaging takes place. In this case the MPI library says the message is small enough, lets allocate memory copy the buffer to it and return right away, so the buffer is now safe to reuse allowing the code to continue.  In the cdeadlock/fdeadlock case these buffers are to large and MPI
+ will not copy the code will block at \texttt{MPI\_Send()}  for forever.
+} %note
+\end{frame}
+
+\begin{frame}{Deadlock Example}
+   \begin{center}\includegraphics[height=3.0in]{deadlock}\end{center}
+   \note{
+    \begin{itemize}
+      \item Each process does a \texttt{MPI\_Send()} to rank+1
+      \item Each process then calls \texttt{MPI\_Recv()} from rank-1
+      \item \texttt{make cdeadlock} or \texttt{make fdeadlock}
+      \item \texttt{mpirun -np 4 cdeadlock}
+      \item \texttt{make no-cdeadlock} or \texttt{make no-fdeadlock}
+    \end{itemize}
+} %notes
+\end{frame} 
 \end{document}
