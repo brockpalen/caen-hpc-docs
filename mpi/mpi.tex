@@ -345,4 +345,152 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
     \end{itemize}
 } %notes
 \end{frame} 
+\begin{frame}{Non-Blocking Functions}
+\begin{block}{MPI\_Isend() MPI\_Irecv()}
+  \begin{itemize}
+   \item Example \texttt{non-blocking.c/non-blocking.f90}
+   \item Can mix blocking with non blocking
+   \item \texttt{MPI\_Isend() -> MPI\_Recv()}
+   \item Uses \texttt{MPI\_Request} opbjects
+   \item \texttt{MPI\_Test() MPI\_Wait()} etc.
+  \end{itemize}
+\end{block}
+\note{
+   \texttt{MPI\_Wait()} will block waiting for the send or recv to compleate.  \texttt{MPI\_Test()} returns if a message has compleated. You can \alert{not} touch the buffer once it is used in a request. Once the request has been complated by checking with \texttt{MPI\_Wait()} or \texttt{MPI\_Test()} the buffer may be reused.
+\begin{itemize}
+  \item \texttt{MPI\_Testany() MPI\_Waitandy()}
+  \item These calls have overhead the blocking calls don't
+  \item The overhead of complicated programming
+  \item Overhead for more complicated communication may outweigh benefits
+\end{itemize}
+} %note
+\end{frame}
+
+\subsection{Collectives}
+\begin{frame}{Collectives}
+\begin{block}{Collectives}
+ Collectives work on a entire communicator of processes
+ \begin{itemize}
+  \item <2->\texttt{MPI\_Barrier()} Blocks till all ranks reach a single point
+  \item <2->\texttt{MPI\_Bcast()} Send data from one rank to all others
+  \item <3->\texttt{MPI\_Reduce()} Do a operation on data on all processors and store result on a single rank
+  \item <4->\texttt{MPI\_Scatter()} Scatter data from one cpu to many
+  \item <5->\texttt{MPI\_Gather()} Gather data and put on a single rank
+ \end{itemize}
+\end{block}
+\note{
+  All these collective fucntions have a 'All' version (\texttt{MPI\_Allreduce()}) which has the results end on all cpus.  For example \texttt{MPI\_Allreduce()} puts the results of the reducing operaion on all ranks not just a single rank.\\ Other fucntions to look at:
+\begin{itemize}
+ \item \texttt{MPI\_Allreduce()}
+ \item \texttt{MPI\_Allscatter()}
+ \item \texttt{MPI\_Allgather()}
+ \item \texttt{MPI\_Alltoall()}
+\end{itemize}
+} %note 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{MPI\_Bcast()}
+   \begin{columns}[T]
+    \begin{column}{5cm}
+     \begin{block}{C}
+      \begin{semiverbatim}
+MPI\_Bcast(void   *buf,
+           int  count,
+  MPI\_Datatype   type,
+           int   root,
+      MPI\_Comm   comm)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+    \begin{column}{5cm}
+     \begin{block}{Fortan}
+      \begin{semiverbatim}
+MPI\_BCAST( <type>    BUF,
+         INTEGER   COUNT,
+    MPI\_Datatype    TYPE,
+         INTEGER    ROOT,
+        MPI\_Comm    COMM,
+         INTEGER  IERROR)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+   \end{columns}
+\note{
+\texttt{root} is the rank you wish to broadcast data from. Root must be specified and the same on all ranks in \texttt{comm}. \\ 
+If you need every rank to broadcast its data to every other process (A very inefficent operation) the fucntion is \texttt{MPI\_Alltoall()} 
+} %note
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{MPI\_Reduce()}
+   \begin{columns}[T]
+    \begin{column}{5cm}
+     \begin{block}{C}
+      \begin{semiverbatim}
+MPI\_Reduce(void *sendbuf,
+           void *recvbuf,
+            int    count,
+   MPI\_Datatype     type,
+         MPI\_Op       op,
+            int     root,
+       MPI\_Comm     comm)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+    \begin{column}{5cm}
+     \begin{block}{Fortan}
+      \begin{semiverbatim}
+MPI\_REDUCE(<type> SENDBUF,
+           <type> RECVBUF,
+          INTEGER  COUNT,
+     MPI\_Datatype   TYPE,
+          MPI\_Opt     OP,
+          INTEGER   ROOT,
+         MPI\_Comm   COMM,
+          INTEGER IERROR)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+   \end{columns}
+\note{
+\begin{itemize}
+  \item \texttt{root} is the rank that the results of \texttt{op} should go to
+  \item \texttt{*recvbuf} does need to be defind on all ranks
+\end{itemize}
+}%
+\end{frame}
+\begin{frame}{MPI Operations}
+  \begin{block}{MPI\_Op}
+   \begin{columns}[T]
+   \begin{column}{5cm}
+   \begin{itemize}
+    \item MPI\_MAX
+    \item MPI\_MIN
+    \item MPI\_PROD
+    \item MPI\_SUM
+    \item MPI\_LAND
+    \item MPI\_LOR
+    \item MPI\_LXOR
+   \end{itemize}
+   \end{column}
+   \begin{column}{5cm}
+    \begin{itemize}
+    \item MPI\_BAND
+    \item MPI\_BOR
+    \item MPI\_BXOR
+    \item MPI\_MAXLOC
+    \item MPI\_MINLOC
+    \end{itemize}
+   \end{column}
+  \end{columns}
+  \note{
+   \begin{itemize}
+    \item LAND, LOR, LXOR: Logical AND, Logical OR, Logical XOR.
+    \item BAND, BOR, BXOR: Bitwise AND, Bitwise OR, Bitwise XOR.
+   \end{itemize}
+   
+   Use \texttt{MPI\_Reduce\_scatter()} to reduce the buffers with \texttt{MPI\_Op} and then scatter (to be covered) the results to all ranks. Rather than using two calls.
+  }%note
+  \end{block}
+\end{frame}
 \end{document}
