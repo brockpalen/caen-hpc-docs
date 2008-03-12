@@ -483,6 +483,7 @@ MPI\_REDUCE(<type> SENDBUF,
     \end{itemize}
    \end{column}
   \end{columns}
+  \end{block}
   \note{
    \begin{itemize}
     \item LAND, LOR, LXOR: Logical AND, Logical OR, Logical XOR.
@@ -491,6 +492,42 @@ MPI\_REDUCE(<type> SENDBUF,
    
    Use \texttt{MPI\_Reduce\_scatter()} to reduce the buffers with \texttt{MPI\_Op} and then scatter (to be covered) the results to all ranks. Rather than using two calls.
   }%note
-  \end{block}
+\end{frame}
+
+\begin{frame}{fpi.f90}
+
+\begin{block}{Claculate pi}
+\[
+\int^1_0 \frac{4}{1+x^2}\,dx = \pi
+\]
+\begin{enumerate}
+ \item <2->Break into \texttt{n} rectangles
+ \item <3->Have each rank work on a subset of these
+ \item <4->Find a global sum from partial sums
+\end{enumerate}
+\end{block}
+\begin{block}{fpi.f90}
+ \texttt{make fpi}
+ \texttt{mpirun -np 4 fpi}
+\end{block}
+\note{
+ \textbf{Details}
+\begin{itemize}
+ \item Rank 0 asks the number of intervals from the user and uses \texttt{MPI\_Bcast()} to other ranks
+ \item Ranks work on a subset of the intervals. Ranks step by n+nproc intervals each itteration
+ \item All ranks use \texttt{MPI\_Reduce()} with \texttt{MPI\_SUM} to find a global total
+ \item Rank 0 then normalizes and displays output
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{Warnings with Collectives}
+ \begin{block}{Warnings}
+  \begin{itemize}
+   \item Avoid \texttt{MPI\_Barrior()}
+   \item \texttt{MPI\_Alltoall()} requires n*(n-1) sends
+   \item \texttt{}
+  \end{itemize}
+ \end{block}
 \end{frame}
 \end{document}
