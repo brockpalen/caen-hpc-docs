@@ -29,7 +29,7 @@ all: $(APPS)
 fapps: $(FAPPS)
 
 #build only C apps
-capps: $(FAPPS)
+capps: $(CAPPS)
 
 #kill everything start over
 clean:
