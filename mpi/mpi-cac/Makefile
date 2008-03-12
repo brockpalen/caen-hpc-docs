@@ -35,6 +35,10 @@ capps: $(CAPPS)
 clean:
 	-rm -rf *.o *mod $(APPS)
 
+#make tar
+tar:
+	-tar -czvf ../mpi-cac.tar.gz ../mpi-cac
+
 #c version helloworld.c
 chello: helloworld.c
 	$(CC) $(CFLAGS) -o $@ $?
