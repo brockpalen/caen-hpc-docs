@@ -61,14 +61,14 @@
  \subsection{Alternatives}
   \begin{frame}{MPI's Flow}
    \begin{center}\includegraphics[height=1.5in]{mpi}\end{center}
-    \note {MPI-All processes (normally one cpu per proccess but could be more) execute the same code. 
+    \note {MPI-All processes (normally one CPU per process but could be more) execute the same code. 
            These processes only know 'who they are' (their Rank). These ranks then have to explicitly 
            pass data.  This passing follows the form:
             \begin{enumerate}
               \item{Process 1 'Send to process 2'}
               \item{Process 2 'Recv from process 1'}
             \end{enumerate}
-              \par Others options Colectives: \\ 
+              \par Others options Collectives: \\ 
                \begin{itemize}
                 \item {All process in a single Communicator,  'ALL DO THIS'}
                \end{itemize}
@@ -77,8 +77,8 @@
   \begin{frame}{OpenMP}
    \begin{center}\includegraphics[height=2.5in]{openmp}\end{center}
    \note{OpenMP \url{http://www.openmpi.org} (Not to be confused with OpenMPI) is
-         implimented in the compiler. Each compiler has its own issues with their 
-         own implimentation of OpenMP but most users should find no problems with the basics.
+         implemented in the compiler. Each compiler has its own issues with their 
+         own implementation of OpenMP but most users should find no problems with the basics.
          \begin{itemize}
            \item Anything that uses \texttt{OMP\_NUM\_THREADS} uses OpenMP
            \item PGI Compilers: \texttt{pgf90 -mp openmp.f90}
@@ -111,7 +111,7 @@
      \item<1->{ Address of data, called a buffer}
      \item<1->{ MPI Datatype}
      \item<1->{ Count, or number of MPI datatypes to message}
-     \item<2->{ Tag, Used to seperate messages from the same processor}
+     \item<2->{ Tag, Used to separate messages from the same processor}
      \item<3->{ Communicator}
      \item<4->{ Rank of target}
      \end{itemize}
@@ -119,7 +119,7 @@
     \note{
      MPI uses the buffer address, datatype and count to find how much raw data to send.
      For example, if MPI\_DOUBLE is 8 bytes, and count is 10, MPI 'knows' to send 80 bytes (10*8bytes) to the target process.  \\
-     Note that \texttt{std::vector} is not a valid buffer for MPI! (or any STL class).  The STL does not make sure that all memory in continous. This breaks MPI, remember all buffers must be well defined. 
+     Note that \texttt{std::vector} is not a valid buffer for MPI! (or any STL class).  The STL does not make sure that all memory in continuous. This breaks MPI, remember all buffers must be well defined. 
 
   } %end note
    \end{frame}
@@ -138,7 +138,7 @@ MPI\_Finalize()
      \end{block}
     \end{column}
     \begin{column}{5cm}
-     \begin{block}{Fortan}
+     \begin{block}{Fortran}
       \begin{semiverbatim}
 INTEGER IERROR
 MPI\_INIT(IERROR)
@@ -208,7 +208,7 @@ MPI\_FINALIZE(IERROR)
       \item \texttt{MPI\_REAL REAL}
       \item \texttt{MPI\_DOUBLE\_PRECISION DOUBLE}
       \item \texttt{MPI\_COMPLEX COMPLEX}
-      \item \texttt{MPI\_DOUBLE\_COMPLEX DBOUBLE\_COMPLEX}
+      \item \texttt{MPI\_DOUBLE\_COMPLEX DOUBLE\_COMPLEX}
      \end{itemize}
     \end{block}
    \end{column}
@@ -240,7 +240,7 @@ MPI\_Send( void  *buf,
      \end{block}
     \end{column}
     \begin{column}{5cm}
-     \begin{block}{Fortan}
+     \begin{block}{Fortran}
       \begin{semiverbatim}
 MPI\_SEND( <type>   BUF,
       INTEGER    COUNT,
@@ -254,7 +254,7 @@ MPI\_SEND( <type>   BUF,
     \end{column}
    \end{columns}
 \note{
-These are called 'blocking' sends. Note that MPI does not require that \texttt{MPI\_Send()} block, just that it not return untill \texttt{buf} is safe to use again. This can cause deadlocks to appear in code when scaled up. See the example included with this.
+These are called 'blocking' sends. Note that MPI does not require that \texttt{MPI\_Send()} block, just that it not return until \texttt{buf} is safe to use again. This can cause deadlocks to appear in code when scaled up. See the example included with this.
 } %note
 \end{frame}
 \begin{frame}[fragile]
@@ -274,7 +274,7 @@ MPI\_Recv( void   *buf,
      \end{block}
     \end{column}
     \begin{column}{5cm}
-     \begin{block}{Fortan}
+     \begin{block}{Fortran}
       \begin{semiverbatim}
 MPI\_RECV( <type>    BUF,
       INTEGER     COUNT,
@@ -289,8 +289,8 @@ MPI\_RECV( <type>    BUF,
     \end{column}
    \end{columns}
 \note{
-In fortran STATUS must be: \texttt{integer status(MPI\_STATUS\_SIZE)}
-The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there must be a \texttt{MPI\_Recv()}. Most codes will put most of their communication time waiting for Recv's to actualy get their data. If there is no Send, Recv will wait forever.  See \texttt{MPI\_Irecv()} for non-blocking.
+In Fortran STATUS must be: \texttt{integer status(MPI\_STATUS\_SIZE)}
+The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there must be a \texttt{MPI\_Recv()}. Most codes will put most of their communication time waiting for Recv's to actually get their data. If there is no Send, Recv will wait forever.  See \texttt{MPI\_Irecv()} for non-blocking.
 } %note
 \end{frame}
 
@@ -306,7 +306,7 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
  \end{enumerate}
 \end{block}
  \note{
-  \texttt{mpi-cac.tar} includes a \texttt{Makefile} all examples can be built by running \texttt{make} or built one at a time, \texttt{make chello} will build the \texttt{helloworld.c} example.  While \texttt{make fapps} will build all fortran examples.  See \texttt{README} included for information.
+  \texttt{mpi-cac.tar.gz} includes a \texttt{Makefile} all examples can be built by running \texttt{make} or built one at a time, \texttt{make chello} will build the \texttt{helloworld.c} example.  While \texttt{make fapps} will build all Fortran examples.  See \texttt{README} included for information.
  } %note
 \end{frame}
 
@@ -315,8 +315,8 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
    \begin{itemize}
     \item Every \texttt{MPI\_Send()} must have a matching \texttt{MPI\_Recv()}
     \item A call that does not have a matching Send or Recv is deadlocked
-    \item Calls do not return unless \texttt{buffer} is safe to reuse, \alert{not} that it was recved
-    \item Some MPI libraries will let deadlocked code run untill messages reach a given size
+    \item Calls do not return unless \texttt{buffer} is safe to reuse, \alert{not} that it was received
+    \item Some MPI libraries will let deadlocked code run until messages reach a given size
    \end{itemize}
  \end{block}
  \begin{block}{cdeadlock}
@@ -356,9 +356,9 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
   \end{itemize}
 \end{block}
 \note{
-   \texttt{MPI\_Wait()} will block waiting for the send or recv to compleate.  \texttt{MPI\_Test()} returns if a message has compleated. You can \alert{not} touch the buffer once it is used in a request. Once the request has been complated by checking with \texttt{MPI\_Wait()} or \texttt{MPI\_Test()} the buffer may be reused.
+   \texttt{MPI\_Wait()} will block waiting for the send or recv to complete.  \texttt{MPI\_Test()} returns if a message has completed. You can \alert{not} touch the buffer once it is used in a request. Once the request has been completed by checking with \texttt{MPI\_Wait()} or \texttt{MPI\_Test()} the buffer may be reused.
 \begin{itemize}
-  \item \texttt{MPI\_Testany() MPI\_Waitandy()}
+  \item \texttt{MPI\_Testany() MPI\_Waitany()}
   \item These calls have overhead the blocking calls don't
   \item The overhead of complicated programming
   \item Overhead for more complicated communication may outweigh benefits
@@ -374,12 +374,12 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
   \item <2->\texttt{MPI\_Barrier()} Blocks till all ranks reach a single point
   \item <2->\texttt{MPI\_Bcast()} Send data from one rank to all others
   \item <3->\texttt{MPI\_Reduce()} Do a operation on data on all processors and store result on a single rank
-  \item <4->\texttt{MPI\_Scatter()} Scatter data from one cpu to many
+  \item <4->\texttt{MPI\_Scatter()} Scatter data from one CPU to many
   \item <5->\texttt{MPI\_Gather()} Gather data and put on a single rank
  \end{itemize}
 \end{block}
 \note{
-  All these collective fucntions have a 'All' version (\texttt{MPI\_Allreduce()}) which has the results end on all cpus.  For example \texttt{MPI\_Allreduce()} puts the results of the reducing operaion on all ranks not just a single rank.\\ Other fucntions to look at:
+  All these collective functions have a 'All' version (\texttt{MPI\_Allreduce()}) which has the results end on all cpus.  For example \texttt{MPI\_Allreduce()} puts the results of the reducing operation on all ranks not just a single rank.\\ Other functions to look at:
 \begin{itemize}
  \item \texttt{MPI\_Allreduce()}
  \item \texttt{MPI\_Allscatter()}
@@ -404,7 +404,7 @@ MPI\_Bcast(void   *buf,
      \end{block}
     \end{column}
     \begin{column}{5cm}
-     \begin{block}{Fortan}
+     \begin{block}{Fortran}
       \begin{semiverbatim}
 MPI\_BCAST( <type>    BUF,
          INTEGER   COUNT,
@@ -418,7 +418,7 @@ MPI\_BCAST( <type>    BUF,
    \end{columns}
 \note{
 \texttt{root} is the rank you wish to broadcast data from. Root must be specified and the same on all ranks in \texttt{comm}. \\ 
-If you need every rank to broadcast its data to every other process (A very inefficent operation) the fucntion is \texttt{MPI\_Alltoall()} 
+If you need every rank to broadcast its data to every other process (A very inefficient operation) the function is \texttt{MPI\_Alltoall()} 
 } %note
 \end{frame}
 \begin{frame}[fragile]
@@ -438,7 +438,7 @@ MPI\_Reduce(void *sendbuf,
      \end{block}
     \end{column}
     \begin{column}{5cm}
-     \begin{block}{Fortan}
+     \begin{block}{Fortran}
       \begin{semiverbatim}
 MPI\_REDUCE(<type> SENDBUF,
            <type> RECVBUF,
@@ -455,7 +455,7 @@ MPI\_REDUCE(<type> SENDBUF,
 \note{
 \begin{itemize}
   \item \texttt{root} is the rank that the results of \texttt{op} should go to
-  \item \texttt{*recvbuf} does need to be defind on all ranks
+  \item \texttt{*recvbuf} does need to be defined on all ranks
 \end{itemize}
 }%
 \end{frame}
@@ -496,7 +496,7 @@ MPI\_REDUCE(<type> SENDBUF,
 
 \begin{frame}{fpi.f90}
 
-\begin{block}{Claculate pi}
+\begin{block}{Calculate pi}
 \[
 \int^1_0 \frac{4}{1+x^2}\,dx = \pi
 \]
@@ -514,19 +514,91 @@ MPI\_REDUCE(<type> SENDBUF,
  \textbf{Details}
 \begin{itemize}
  \item Rank 0 asks the number of intervals from the user and uses \texttt{MPI\_Bcast()} to other ranks
- \item Ranks work on a subset of the intervals. Ranks step by n+nproc intervals each itteration
+ \item Ranks work on a subset of the intervals. Ranks step by n+nproc intervals each iteration
  \item All ranks use \texttt{MPI\_Reduce()} with \texttt{MPI\_SUM} to find a global total
  \item Rank 0 then normalizes and displays output
 \end{itemize}
 }
 \end{frame}
 
-\begin{frame}{Warnings with Collectives}
- \begin{block}{Warnings}
+\begin{frame}{MPI\_Scatter() MPI\_Gather()}
   \begin{itemize}
-   \item Avoid \texttt{MPI\_Barrior()}
-   \item \texttt{MPI\_Alltoall()} requires n*(n-1) sends
-   \item \texttt{}
+   \item <1->\texttt{MPI\_Scatter()}
+   \item <2->\texttt{MPI\_Gather()} is the reverse
+  \end{itemize} 
+   \begin{center}\includegraphics[height=2.2in]{scatter}\end{center}
+ \note{
+  \texttt{MPI\_Scatter()} takes data on a single rank breaks it evenly among all the ranks leaving each rank with a small portion of the entire set of data in its output buffer.  \\
+   It is commonly useful to combine \texttt{MPI\_Scatter()} with \texttt{MPI\_Reduce()}. MPI defines a function that does this for you: \texttt{MPI\_Reduce\_scatter()}. This is different than \texttt{MPI\_Allreduce()} because the reduced data is not cloned across all ranks but broken in pieces across all ranks.\\
+Because sometimes each rank is not to get the same amount of data from a Scatter or Gather MPI defines: \texttt{MPI\_Scatterv(), MPI\_Gatherv()} and \texttt{MPI\_Allgatherv()}. These calls take an extra \texttt{displs} option that describes how much data each rank should receive. See the \texttt{man} pages for these calls.
+ } %note
+\end{frame}
+
+\begin{frame}{MPI\_Allgather()}
+   \begin{center}\includegraphics[height=2.2in]{allgather}\end{center}
+\end{frame}
+
+\begin{frame}{Warnings with Collectives}
+ \begin{block}{Avoid}
+  \begin{itemize}
+   \item \texttt{MPI\_Barrier()}
+   \item \texttt{MPI\_Alltoall()} 
+   \item \texttt{MPI\_Allreduce()}
+   \item \texttt{MPI\_Allreduce()}
+   \item \texttt{MPI\_All*()}
+  \end{itemize}
+ \end{block}
+\note{
+While I point out to avoid these calls its because of the communication complexity. For example \texttt{MPI\_Alltoall()} in its worse form is: \[O(n^{2}-n)\] You should not try to mimic its behavior by mixing other calls.  What should be done is find a algorithm that does not require such a exchange. If this is not the case \textbf{do} make sure to use \texttt{MPI\_Alltoall()}.  This applies to all other mentioned calls. \\
+
+\texttt{MPI\_Barrier()} gets abused. Its use normally is not needed.  Because most other MPI calls block such synchronization is implied.  Using a barrier is really only good for timing with \texttt{MPI\_Wtime()}
+} %note
+\end{frame}
+
+\section{Summary}
+\subsection{Advanced MPI}
+\begin{frame}{Advanced Calls}
+ \begin{block}{Topology}
+ \begin{itemize}
+  \item\texttt{MPI\_Cart\_create()} creates a communicator with Cartesian topology.
+ \end{itemize}
+ \end{block}
+ \begin{block}{Timing}
+  \begin{itemize}
+   \item \texttt{MPI\_Wtime()} Time in seconds from arbitrary time in the past.
+   \item \texttt{MPI\_Wtick()} Returns resolution of \texttt{MPI\_Wtime()}
+  \end{itemize}
+ \end{block}
+\end{frame}
+
+\subsection{Documentation}
+\begin{frame}{Documentation}
+\begin{block}{Documentation}
+ \begin{itemize}
+  \item Use the \texttt{man} pages on the CAC systems.
+  \item Google/Yahoo Etc.
+  \item CoE EECS 587
+  \item "Using MPI" -- Gropp, Lusk, and Skjellum  
+  \item "Parallel programming in C with MPI and OpenMP" -- Quinn
+  \item "Parallel scientific computing in C++ and MPI" -- Karniadakis, Kirby
+ \end{itemize}
+\end{block}
+ \note{
+ Many books are available in Mirlyn:\\
+ \begin{itemize}
+  \item "Parallel programming in C with MPI and OpenMP" QA 76.73 .C15 Q551 2004
+  \item "Parallel scientific computing in C++ and MPI" QA 76.58 .K371 2003
+ \end{itemize}
+} %
+
+\end{frame}
+
+\subsection{Contact}
+\begin{frame}{Contact Us}
+ \begin{block}{Support}
+  \begin{itemize}
+   \item \url{http://cac.engin.umich.edu}
+   \item cac-support@umich.edu
   \end{itemize}
  \end{block}
 \end{frame}
