@@ -536,6 +536,9 @@ Because sometimes each rank is not to get the same amount of data from a Scatter
 
 \begin{frame}{MPI\_Allgather()}
    \begin{center}\includegraphics[height=2.2in]{allgather}\end{center}
+ \note{
+\texttt{MPI\_Allgather()} collects distributed data like \texttt{MPI\_Gather()} but then distributes this data to all ranks in the communicator. This behavior could be simulated with \texttt{MPI\_Gather()} followed by \texttt{MPI\_Bcast()}. As always use the single collective not the two latter together. 
+} %note
 \end{frame}
 
 \begin{frame}{Warnings with Collectives}
