@@ -3,10 +3,7 @@
 
 \usepackage{pgfpages} 
 
-%\pgfpagesuselayout{4 on 1}[letterpaper,border shrink=5mm,landscape] 
-%\pgfpagesuselayout{2 on 1}[letterpaper,border shrink=2mm]
 
-\setbeameroption{show notes on second screen=left}
 %\setbeameroption{show only notes}
 
 \usetheme{default}
@@ -19,7 +16,8 @@
 }
 
 \mode<handout>{\setbeamercolor{background canvas}{bg=black!5} %
-    \pgfpagesuselayout{2 on 1}[letterpaper,border shrink=4mm] }
+    \pgfpagesuselayout{4 on 1}[letterpaper,border shrink=4mm,landscape] %
+    \setbeameroption{show notes}}
 
 \title[CAC Intro] {An Introduction to MPI}
 \author{Brock Palen\\ \texttt{brockp@umich.edu}}
@@ -152,6 +150,9 @@ MPI\_FINALIZE(IERROR)
      \item<2-> MPI\_Init() and MPI\_Finalize() should only be called once
      \item<3-> No other MPI calls are valid outside these functions
    \end{itemize}
+  \note{
+A few other advanced methods are around that can take the place of \texttt{MPI\_Init()} but most users will never used them, nor should they use them.
+  } %note
 \end{frame}
 
 \begin{frame}
