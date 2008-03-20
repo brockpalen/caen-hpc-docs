@@ -346,6 +346,26 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
     \end{itemize}
 } %notes
 \end{frame} 
+\begin{frame}{MPI\_Sendrecv()}
+ \begin{block}{MPI\_Sendrecv()}
+  \begin{itemize}
+    \item Swaps data betwen two ranks.
+    \item Much simpler than Non-blocking functions
+    \item Much simpler than trying to inter-mix Sends and Recvs
+  \end{itemize}
+ \end{block}
+ \begin{block}{Example}
+  \begin{itemize}
+    \item \texttt{make csendrecv fsendrecv}
+    \item \texttt{mpirun -np 4 csendrecv}
+  \end{itemize}
+ \end{block}
+ \note{
+ \texttt{csendrecv.c} and \texttt{fsendrecv.f90} do the same function as the \texttt{deadlock} codes but do not have the issue of deadlocks and is slightly simpler.  
+ } %note
+\end{frame}
+
+
 \begin{frame}{Non-Blocking Functions}
 \begin{block}{MPI\_Isend() MPI\_Irecv()}
   \begin{itemize}
