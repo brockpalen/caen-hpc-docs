@@ -593,6 +593,11 @@ While I point out to avoid these calls its because of the communication complexi
    \item \texttt{MPI\_Wtick()} Returns resolution of \texttt{MPI\_Wtime()}
   \end{itemize}
  \end{block}
+ \note{
+ \texttt{MPI\_Wtime()}  does not start from zero. They start from some arbitrary time in the past. So two calls to \texttt{MPI\_Wtime()} is normally needed to get a time result. \\
+ \texttt{MPI\_Barrier()} needs to be used often around calls to \texttt{MPI\_Wtime()} to get acurate times around single portions of code.  \\
+
+ } %note
 \end{frame}
 
 \subsection{Documentation}
