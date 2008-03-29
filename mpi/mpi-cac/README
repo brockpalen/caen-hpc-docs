@@ -1,0 +1,21 @@
+Example MPI programs
+--------------------
+Brock Palen
+brockp@umich.edu
+http://cac.engin.umich.edu
+
+helloworld.c/helloworld.f90
+---------------------------
+Simple point to point:
+MPI_Send()
+MPI_Recv()
+
+deadlock.c/deadlock.F90
+---------------------------
+Demonstate how deadlocks can happen with eager messages
+by setting SIZE=###
+
+mpif90 -o fdeadlock -DSIZE=100 deadlock.F90
+
+When this value goes to high the code locks up and spins because eager 
+messages can not happen
