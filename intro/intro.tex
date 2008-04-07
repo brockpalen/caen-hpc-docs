@@ -1,12 +1,9 @@
-\documentclass{beamer}
-%\documentclass[handout]{beamer}
+%\documentclass{beamer}
+\documentclass[handout]{beamer}
 
 \usepackage{pgfpages} 
-%\pgfpagesuselayout{4 on 1}[letterpaper,border shrink=5mm,landscape] 
-%\pgfpagesuselayout{2 on 1}[letterpaper,border shrink=2mm,landscape]
 
 %\setbeameroption{show only notes}
-\setbeameroption{show notes on second screen=left}
 
 \usetheme{default}
 
@@ -18,7 +15,8 @@
 }
 
 \mode<handout>{\setbeamercolor{background canvas}{bg=black!5} %
-    \pgfpagesuselayout{4 on 1}[letterpaper,border shrink=4mm,landscape] }
+    \pgfpagesuselayout{4 on 1}[letterpaper,border shrink=4mm,landscape] %
+    \setbeameroption{show notes}}
 
 \title[CAC Intro] {An Introduction to\\ The Center for Advanced Computing}
 \author{Brock Palen\\ \texttt{brockp@umich.edu}}
