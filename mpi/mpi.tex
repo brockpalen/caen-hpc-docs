@@ -155,6 +155,47 @@ A few other advanced methods are around that can take the place of \texttt{MPI\_
   } %note
 \end{frame}
 
+  \begin{frame}[fragile]
+  \frametitle{MPI\_Comm\_size() MPI\_Comm\_rank()}
+   \begin{columns}[T]
+    \begin{column}{5cm}
+     \begin{block}{C}
+      \begin{semiverbatim}
+MPI\_Comm\_size(
+          MPI\_Comm comm,
+          int     *size)
+
+MPI\_Comm\_rank(
+          MPI\_Comm comm,
+          int     *rank)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+    \begin{column}{5cm}
+     \begin{block}{Fortran}
+      \begin{semiverbatim}
+MPI\_COMM\_SIZE(
+        MPI\_Comm COMM,
+        INTEGER   SIZE,
+        INTEGER IERROR)
+
+MPI\_COMM\_RANK(
+        MPI\_Comm COMM,
+        INTEGER   RANK,
+        INTEGER IERROR)
+      \end{semiverbatim}
+     \end{block}
+    \end{column}
+   \end{columns}
+  \note{
+These fuctions can be called as many times as needed.  Ranks that belong to more than one communicator will have a uniqe rank in each communicator, thus two calls to \texttt{MPI\_Comm\_rank()} would be needed for each communicator to find its rank in each.  \\
+Repeat calls should not be needed.
+\\
+A processes rank in a given communicator will never change.  Also the user is not able to adjust a processes rank.  \\
+There are methods for control over the placement of ranks on cpus on the cluster that are given to \texttt{mpirun}
+} %note
+\end{frame}
+
 \begin{frame}
  \frametitle{Communicators and Tags}
   \begin{block}{Communicators}
