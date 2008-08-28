@@ -59,8 +59,6 @@
     \begin{itemize}
     \item nyx is the Opteron cluster;
     \item Login: \texttt{nyx-login.engin.umich.edu}
-    \item Currently has 7TB NFS file system
-    \item 2.6 TB fast scratch file system
     \item Running RedHat Enterprise Linux 4
     \item Uses PBS for Resource Access
     \end{itemize}
@@ -72,7 +70,6 @@
     \begin{itemize}
       \item bighouse is our Itanium SMP machine;
       \item Login: \texttt{bighouse.engin.umich.edu}
-      \item Shares nyx's 7TB NFS file system
       \item Running SuSE Linux Enterprise Server 10
       \item ProPack 5 from SGI
       \item Uses PBS for Resource Access
@@ -91,7 +88,43 @@
    \note[item]{Visit \url{https://wci.llnl.gov/codes/visit/}}
    \item IDL Interactive Data Language
    \note[item]{IDL \url{http://www.ittvis.com/idl/}}
+   \item Has /nobackup mounted
   \end{itemize}
+\end{frame}
+% stroage
+\begin{frame}{Storage}
+ \begin{columns}[c]
+ \begin{column}{7cm}
+ \begin{block}{/home}
+  \begin{itemize}
+   \item 7TB total size
+   \item 80GB quota per user
+   \item Reliable but slow
+   \item Only for current jobs
+  \end{itemize}
+ \end{block}
+ \begin{block}{/nobackup}
+  \begin{itemize}
+   \item Fast and supports MPI-IO
+   \item 49TB total size
+   \item No quotas
+   \item Only for current jobs
+   \item \texttt{mkdir /nobackup/\$USER}
+  \end{itemize}
+ \end{block}
+ \end{column}
+ \begin{column}{5cm}
+  \begin{center}\includegraphics[height=2.7in]{Lustre}\end{center}
+ \end{column}
+\end{columns}
+\note{
+Both filesystems are shared on all CAC systems.
+\url{http://cac.engin.umich.edu/resources/storage/lustre.html}
+\\
+For /nobackup user directories have to be created by the user \texttt{mkdir /nobackup/\$USER}.  All users are logged into /home by default. \\
+
+/home provides read-only snapshots. These allow users to recover deleted/modified files from the past.  Snapshops are located at /home/.snapshot
+} %end note
 \end{frame}
   
 %default software  
