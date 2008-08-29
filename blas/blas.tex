@@ -32,7 +32,53 @@
   \begin{frame}{Outline}
     \tableofcontents
   \end{frame}
-  
-  \section{Resources}
-  \subsection {Hardware}
+ 
+\begin{frame}{References}
+ \begin{block}{References}
+  \begin{itemize}
+   \item U.C. Berkeley CS267 Jim Demmel \\
+     \url{http://www.cs.berkeley.edu/~demmel/cs267/}
+   \item Numerical Algorithms Group     \\
+     \url{http://www.nag.com/lapack-ex/}
+   \item Basic Linear Algebra Subprograms \\
+     \url{http://www.netlib.org/blas/}
+   \item Linear ALgebra Package         \\
+     \url{http://www.netlib.org/lapack/}
+  \end{itemize}
+ \end{block}
+\end{frame} 
+\section{Concepts}
+ \subsection {Memory vs CPU}
+ \begin{frame}{CPU Speed}
+  \begin{block}{CPU Perfromance}
+   \begin{itemize}
+    \item <1->Moore's Law
+    \item <2->Focus and Rightly So
+    \item <3->Multi-Core
+    \item <4->Single Instruction Multiple Data (Vector)
+   \end{itemize}
+  \end{block}
+  \note{
+  \url{http://en.wikipedia.org/wiki/Moore's\_law} \\
+  \url{http://en.wikipedia.org/wiki/SIMD}         \\
+  \url{http://en.wikipedia.org/wiki/Vector\_processor} \\
+  SIMD (SSE, 3DNow, AltiVec) is related to the vector CPU's systems like the NEC SX-9.  Vectors are for working on lists of numbers at the same time. It can be thought as a type of paralellism.  Most HPC Math Libraries make use of the SIMD unit on modern CPU's.  For example on the AMD Barcilona perfromance doubled in the SIMD (sse 128) unit. \\
+  SIMD is very related to GP-GPU processing and CPU's like the IBM Cell. \\
+ 
+  Cell CPU (PS3 and Road Runner)\\ 
+  \url{http://en.wikipedia.org/wiki/Cell\_microprocessor} \\
+  Computed Unified Device Arch. GP-GPU for Nvidia Cards
+  \url{http://en.wikipedia.org/wiki/CUDA}
+  } %end note
+ \end{frame}
+
+ \begin{frame}{Memory Speed}
+  \begin{block}{Memory Performance}
+   \begin{itemize}
+    \item <1-> Memory Size
+    \item <2-> Memory Speed (GB/s) trails CPU Flops
+    \item <3-> Memory Latency is Worse than You think
+   \end{itemize}
+  \end{block}
+ \end{frame}
 \end{document}
