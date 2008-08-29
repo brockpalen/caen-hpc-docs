@@ -46,8 +46,32 @@
      \url{http://www.netlib.org/lapack/}
   \end{itemize}
  \end{block}
+ \note{
+   All Traning docs are available at \url{www.umich.edu/~brockp} \\
+ } %end note
 \end{frame} 
+
+
+
 \section{Concepts}
+\subsection{Terms}
+\begin{frame}{Terms}
+ \begin{block}{Terms}
+  \begin{itemize}
+   \item<1-> Bandwidth - Speed in GB/s of memory to CPU
+   \item<2-> Floating Point Number - Floats and Doubles (1.2 5.002)
+   \item<2-> Fixed Point Number - Ints (1 50 1,000)
+   \item<3-> Floating Point Operation (Flop) - A mathematic operation on a floating point number
+   \item<4-> Memory Refernce - A call to memory for data
+   \item<5->  $q=f/m$ - Ratio of Flops to Refernces
+   \item<6-> Cache - Fast memory local to the cpu
+  \end{itemize}
+ \end{block}
+ \note{
+  Most HPC applications require floating point calculations thus focus is on FLOPS and not fixed point performance. \\
+  Data in cache is assumed to be latency free. It is also assumed to have enough bandwidth to feed the CPU.
+ } %end note
+\end{frame}
  \subsection {Memory vs CPU}
  \begin{frame}{CPU Speed}
   \begin{block}{CPU Perfromance}
@@ -81,4 +105,57 @@
    \end{itemize}
   \end{block}
  \end{frame}
+ \note{
+  Memory speeds matter more than latency. Modern CPUs like the AMD Opteron have the memory controler right in the cpu. This lowers memory latency.  It also adds total bandwidth (speed in GB/s) for an entire system in an SMP system. In such systems memory needs to be balanced across CPU Stockets.  
+ } %end note
+ \begin{frame}{Human vs. Computer}
+   \[
+    \alpha A=c
+   \]
+  \begin{block}{Sacle A Vector}
+   \begin{itemize}
+    \item<2-> 2n Flops
+    \item<3-> 3n Refernces
+    \item<4-> q=2/3
+    \item<5-> \alert{Memory must be faster than the CPU}
+   \end{itemize}
+  \end{block}
+ \end{frame}
+ \note{
+   While using sequences of simple operations like $AB=c$ and $ \alpha B=c$ are simple for a human to have organized it is a very slow type of operation for a computer. Computers need oprotunites for data reuse. \\
+   BLAS 1 Functions: \\
+   $AB=c$ is xDOT()  \\
+   $\alpha B=c$ is xSCAL() \\
+ These are the slowest of the BLAS operations.  Their ratio $ q=f/m $ is 2/3
+ } %end note
+
+\begin{frame}{Computers are Faster}
+  \[ M[ \ddots ] A[\vdots] = B[\vdots]\]
+ \begin{block}{xGEMV() Matrix Vector Multiplication}
+  \begin{itemize}
+   \item $ 2n^2 $ Flops
+   \item $n^2+n $ Refernces
+   \item $q=2$
+  \end{itemize}
+ \end{block}
+ \note{
+   These are the Blas 2 operations. They require that memory be half the speed of the CPU. We will see latter how in real world examples that because Blas 2 (and Blas 1) that there is not enough data reuse (none really) to allow the cache to keep the CPU fed.
+ } % end note
+\end{frame}
+
+\begin{frame}{Computers are Faster Ctd.}
+ \[ M[ \ddots ] N[ \ddots ] = C[ \ddots ] \]
+ \begin{block}{xGEMM() Matrix Matrix Multiplication}
+  \begin{itemize}
+   \item $ 2n^3 \rightarrow n^3 $ Flops
+   \item $ 4n^2 $ Refernces
+   \item $ q=n/2 $
+  \end{itemize}
+ \end{block}
+\end{frame}
+ \note{
+  Blas 3.  These calls are the basis of the LAPACK calls. Notice how as the size of M scales the ratio of flops (when coded right) increases to memory references.  The reason for this is clever coding can maximize reuse of data already requested from memory.  The vendor provided Blas libs will cleverly make sure that the data for an upcomming flop is already in cache. \\
+User coded routines for xGEMM() are really a serious of xGEMV() calls. These operations cause data to be requested redundently from memory. \\
+Users should always try to use Blas 3 calls even when they could be done with Blas 1 or 2.
+ } % end note
 \end{document}
