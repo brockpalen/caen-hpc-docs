@@ -29,11 +29,11 @@ Code runs BLAS 1 2 and 3 to compare performance
 ******/
 
 struct timeval tv1, tv2;
-struct timezone tz;
- double timeelapsed=0;
-unsigned int numops=0;
+int timeelapsed=0;
+int total=0;
+unsigned int mflops=0;
 unsigned int order=0;
-unsigned int dim=100, dimmax=1000, diminc=100;
+unsigned int dim=100, dimmax=100000, diminc=100;
 
 int main(int argc, char **argv){
 
@@ -88,14 +88,29 @@ for(dim; dim<=dimmax; dim+=diminc){
    } /* end for */
 
    /* blas 1 */
-   gettimeofday( &tv1, &tz);
+   gettimeofday( &tv1, NULL);
    #ifdef ACML
-   ddot(dim, x, 1, y, 1);
+   total=ddot(dim, x, 1, y, 1);
    #endif /*  ACML */
 
-   gettimeofday( &tv2, &tz);
-   timeelapsed = (tv2.tv_usec-tv1.tv_usec);
-   printf("%4d %4d", dim, timeelapsed);
+   gettimeofday( &tv2, NULL);
+   timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
+   timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
+   order=dim*2;
+   mflops=order/timeelapsed;
+   printf("%8d %10d", dim, mflops);
+
+   gettimeofday( &tv1, NULL);
+   total=0;
+   for(counter=0; counter<dim; counter++){
+      total+=x[counter]*y[counter];
+   }  /* end for */
+   gettimeofday( &tv2, NULL);
+   timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
+   timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
+   mflops=order/timeelapsed;
+   printf(" %10d", mflops);
+   
    /* free blas 1 arrays */
    free(x);
    free(y);
