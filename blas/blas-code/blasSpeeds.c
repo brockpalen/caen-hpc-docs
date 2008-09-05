@@ -33,7 +33,8 @@ int timeelapsed=0;
 int total=0;
 unsigned int mflops=0;
 unsigned int order=0;
-unsigned int dim=100, dimmax=100000, diminc=100;
+unsigned int dim=100, dimmax=10000, diminc=100;
+int counter=0;
 
 int main(int argc, char **argv){
 
@@ -73,6 +74,8 @@ INCY   Increments for the elements of Y
 *****/
 
 for(dim; dim<=dimmax; dim+=diminc){
+   printf("%8d ", dim);
+   #if defined (BLAS1) || defined (BLAS2)
    /** allocate arrays needed for blas 1/2**/
    double *x = (double *)malloc(dim*sizeof(double));
    double *y = (double *)malloc(dim*sizeof(double));
@@ -82,11 +85,12 @@ for(dim; dim<=dimmax; dim+=diminc){
       return -1;
    }
 
-   int counter=0;
    for(counter=0;counter<dim;counter++){
       x[counter]=y[counter]=counter;
    } /* end for */
+   #endif /* blas 1/2 arrays */
 
+   #ifdef BLAS1
    /* blas 1 */
    gettimeofday( &tv1, NULL);
    #ifdef ACML
@@ -98,7 +102,7 @@ for(dim; dim<=dimmax; dim+=diminc){
    timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
    order=dim*2;
    mflops=order/timeelapsed;
-   printf("%8d %10d", dim, mflops);
+   printf(" %10d", mflops);
 
    gettimeofday( &tv1, NULL);
    total=0;
@@ -111,9 +115,109 @@ for(dim; dim<=dimmax; dim+=diminc){
    mflops=order/timeelapsed;
    printf(" %10d", mflops);
    
+   #endif  /* blas1 */
+
+   /* blas 2 */
+   #if defined (BLAS2) || defined (BLAS3)
+   double *A = (double *)malloc(dim*dim*sizeof(double));
+   if(A==NULL){
+      fprintf(stderr, WHERESTR " ERROR: %s\n", WHEREARG, strerror(errno));
+      return -1;
+   }
+   #endif
+   #ifdef BLAS2
+   for(counter=0;counter<dim*dim;counter++){
+      A[counter]=counter;
+   } /* end for */
+
+   gettimeofday( &tv1, NULL);
+   #ifdef ACML
+   dgemv('T', dim, dim, 1, A, dim, x, 1, 0, y, 1);
+   #endif /*  ACML */
+
+   gettimeofday( &tv2, NULL);
+   timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
+   timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
+   order=dim*dim*2;
+   mflops=order/timeelapsed;
+   printf(" %10d", mflops);
+
+   unsigned int counter2=0;
+   for(counter=0; counter<dim; counter++) y[counter]=0;
+   
+   gettimeofday( &tv1, NULL);
+   for(counter=0; counter<dim; counter++){
+      for(counter2=0; counter2<dim; counter2++){
+      y[counter]+=A[counter2+(counter*dim)]*x[counter2];
+      }
+   } /* end for */
+   gettimeofday( &tv2, NULL);
+   timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
+   timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
+   order=dim*dim*2;
+   mflops=order/timeelapsed;
+   printf(" %10d", mflops);
+   
+   #endif  /* blas2 */
+
+   #ifdef BLAS3
+   
+   double *B = (double *)malloc(dim*dim*sizeof(double));
+   double *C = (double *)malloc(dim*dim*sizeof(double));
+   if(B==NULL || C==NULL){
+      fprintf(stderr, WHERESTR " ERROR: %s\n", WHEREARG, strerror(errno));
+      return -1;
+   }
+   for(counter=0;counter<dim*dim;counter++){
+      A[counter]=B[counter]=counter;
+   } /* end for */
+
+   gettimeofday( &tv1, NULL);
+   #ifdef ACML
+   dgemm('T', 'T', dim, dim, dim, 1, A, dim, B, dim, 0, C, dim);
+   #endif /*  ACML */
+
+   gettimeofday( &tv2, NULL);
+   timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
+   timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
+   order=dim*dim*dim*2;
+   mflops=order/timeelapsed;
+   printf(" %10d", mflops);
+
+
+   /* zero result matrix */
+   for(counter=0; counter<dim*dim; counter++){
+
+   }  /* end for */
+
+   int j, k;
+   gettimeofday( &tv1, NULL);
+   for(counter=0; counter<dim; counter++){
+      for(j=0; j<dim; j++){
+          for(k=0; k<dim; k++){
+             C[counter+j*dim]+=A[counter+k*dim]*B[k+j*dim];
+          }
+      }
+   } /* end for */
+   gettimeofday( &tv2, NULL);
+   timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
+   timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
+   order=dim*dim*dim*2;
+   mflops=order/timeelapsed;
+   printf(" %10d", mflops);
+
+   #endif /* blas3 */  
+ 
    /* free blas 1 arrays */
+   #if defined (BLAS1) || defined (BLAS2)
    free(x);
    free(y);
+   #endif
+
+   /* free blas 2/3 Matrix */
+   #if defined (BLAS2) || defined (BLAS3)
+   free(A);
+   #endif
 
    /* endline needed to fpretty output */
    printf("\n");
