@@ -6,10 +6,12 @@
 
 #ifdef ACML
   #include <acml.h>
-#elif MKL
+#elif MKL     
   #include <mkl_cblas.h>
 #elif CBLAS
   #include <cblas.h>
+#elif VECLIB  /* Apple blas lib provides CBLAS type functions */
+  #include <vecLib/vecLib.h>
 #else
   #error "No BLAS lib defined Options: ACML, MKL, CLBAS"
 #endif
@@ -33,8 +35,12 @@ int timeelapsed=0;
 int total=0;
 unsigned int mflops=0;
 unsigned int order=0;
+<<<<<<< HEAD:blas/blas-code/blasSpeeds.c
 unsigned int dim=100, dimmax=10000, diminc=100;
 int counter=0;
+=======
+unsigned int dim=100, dimmax=1000000, diminc=100;
+>>>>>>> 6093b3c6a1bd9feb1b1d741a35510914860a183e:blas/blas-code/blasSpeeds.c
 
 int main(int argc, char **argv){
 
@@ -95,7 +101,9 @@ for(dim; dim<=dimmax; dim+=diminc){
    gettimeofday( &tv1, NULL);
    #ifdef ACML
    total=ddot(dim, x, 1, y, 1);
-   #endif /*  ACML */
+   #elif defined (VECLIB) || defined (CBLAS)
+    total=cblas_ddot(dim, x, 1, y, 1);
+   #endif
 
    gettimeofday( &tv2, NULL);
    timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
