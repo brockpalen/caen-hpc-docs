@@ -1,0 +1,25 @@
+Example BLAS/Lapack/FFTW programs
+----------------------------
+Brock Palen brockp@umich.edu
+http://cac.engin.umich.edu
+http://www.umich.edu/~brockp
+
+blasSpeed.c
+-------------
+Demonstrates performance of each blas level
+
+BLAS1 ddot()
+BLAS2 dgemv()
+BLAS3 dgemm()
+
+Supports MKL, ACML, CBLAS, and VECLIB
+Cflags:  BLAS1 BLAS2 BLAS3 ACML MKL VECLIB
+
+Compile example:
+Linux:
+pgcc blasSpeed.c -DBLAS1 -BLAS2 -DACML -lacml -lpgftnrtl
+gcc blasSpeed.c -DBLAS1 -DACML -lacml -lg2c
+icc blasSpeed.c -DBLAS3 -DMKL -lmkl
+Apple:
+gcc blasSpeed.c -DBLAS2 -framework vecLib -DVECLIB
+
