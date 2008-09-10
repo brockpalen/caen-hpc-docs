@@ -97,7 +97,7 @@ for(dim; dim<=dimmax; dim+=diminc){
    gettimeofday( &tv1, NULL);
    #ifdef ACML
    total=ddot(dim, x, 1, y, 1);
-   #elif defined (VECLIB) || defined (CBLAS)
+   #elif defined (VECLIB) || defined (CBLAS) || defined (MKL)
     total=cblas_ddot(dim, x, 1, y, 1);
    #endif
 
@@ -137,7 +137,9 @@ for(dim; dim<=dimmax; dim+=diminc){
    gettimeofday( &tv1, NULL);
    #ifdef ACML
    dgemv('T', dim, dim, 1, A, dim, x, 1, 0, y, 1);
-   #endif /*  ACML */
+   #elif defined (VECLIB) || defined (CBLAS) || defined (MKL)
+   cblas_dgemv(CblasRowMajor, CblasNoTrans, dim, dim, 1, A, dim, x, 1, 0, y, 1);
+   #endif
 
    gettimeofday( &tv2, NULL);
    timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
@@ -179,7 +181,10 @@ for(dim; dim<=dimmax; dim+=diminc){
    gettimeofday( &tv1, NULL);
    #ifdef ACML
    dgemm('T', 'T', dim, dim, dim, 1, A, dim, B, dim, 0, C, dim);
-   #endif /*  ACML */
+   #elif defined (VECLIB) || defined (CBLAS) || defined (MKL)
+   cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+               dim, dim, dim, 1, A, dim, B, dim, 0, C, dim);
+   #endif
 
    gettimeofday( &tv2, NULL);
    timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
