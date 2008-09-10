@@ -35,12 +35,8 @@ int timeelapsed=0;
 int total=0;
 unsigned int mflops=0;
 unsigned int order=0;
-<<<<<<< HEAD:blas/blas-code/blasSpeeds.c
 unsigned int dim=100, dimmax=10000, diminc=100;
 int counter=0;
-=======
-unsigned int dim=100, dimmax=1000000, diminc=100;
->>>>>>> 6093b3c6a1bd9feb1b1d741a35510914860a183e:blas/blas-code/blasSpeeds.c
 
 int main(int argc, char **argv){
 
