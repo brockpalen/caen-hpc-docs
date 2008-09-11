@@ -230,6 +230,7 @@ for(dim; dim<=dimmax; dim+=diminc){
 
    /* endline needed to fpretty output */
    printf("\n");
+   fflush(stdout);
 } /* end for */
 return 0;
 }
