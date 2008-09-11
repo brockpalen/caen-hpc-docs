@@ -158,4 +158,25 @@
 User coded routines for xGEMM() are really a serious of xGEMV() calls. These operations cause data to be requested redundently from memory. \\
 Users should always try to use Blas 3 calls even when they could be done with Blas 1 or 2.
  } % end note
+
+\begin{frame}{Blas 1 \& 2 performance}
+\begin{center}
+  \includegraphics[height=3in]{blas12}
+\end{center}
+\note{
+\begin{itemize}
+ \item \texttt{pgcc -DACML -DBLAS1 -DBLAS2 -DBLAS3 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
+ \item \texttt{pgi/7.2 acml/4.1.0}
+ \item opt2218  2.613 Ghz, 2flop/hz,  5.226 Gflop
+ \item Pentium Pro 200 Mhz (1995) 1 FPU 200MFlop/s Peak
+\end{itemize}
+} % end note
+\end{frame}
+
+\begin{frame}{Blas 3}
+
+\note{
+
+} %
+\end{frame}
 \end{document}
