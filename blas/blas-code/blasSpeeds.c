@@ -227,6 +227,12 @@ for(dim; dim<=dimmax; dim+=diminc){
    #if defined (BLAS2) || defined (BLAS3)
    free(A);
    #endif
+   
+   /* free blas 3 only Matrix's */
+   #ifdef BLAS3
+   free(B);
+   free(C);
+   #endif
 
    /* endline needed to fpretty output */
    printf("\n");
