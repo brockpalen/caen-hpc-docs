@@ -190,7 +190,7 @@ for(dim; dim<=dimmax; dim+=diminc){
    timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
    timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
    order=dim*dim*dim*2;
-   mflops=order/timeelapsed;
+   mflops=(dim*dim)/(timeelapsed/dim/2);
    printf(" %10d", mflops);
 
 
