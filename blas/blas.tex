@@ -167,9 +167,12 @@ Users should always try to use Blas 3 calls even when they could be done with Bl
 \begin{itemize}
  \item \texttt{pgcc -DACML -DBLAS1 -DBLAS2 -DBLAS3 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
  \item \texttt{pgi/7.2 acml/4.1.0}
- \item opt2218  2.613 Ghz, 2flop/hz,  5.226 Gflop
+ \item opt2218  2.613 Ghz, 2flop/Hz,  5.226 Gflop
  \item Pentium Pro 200 Mhz (1995) 1 FPU 200MFlop/s Peak
 \end{itemize}
+ 
+ The Pentium Pro released in 1995 was available up to 200MHz. This CPU consisted of a single FPU (Floating Point Unit) that could execute up to 1 FP op per Hz.  This resulted in a max performance of 1flop*200MHz=200MFlop/s.  
+ The point of this example was to show how even simple operations most result in performance at some small fraction of peak performance. Of the C code presented only the matrix*vector results in speed faster than the Pentium Pro's peak.
 } % end note
 \end{frame}
 
