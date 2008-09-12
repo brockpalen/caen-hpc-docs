@@ -177,9 +177,25 @@ Users should always try to use Blas 3 calls even when they could be done with Bl
 \end{frame}
 
 \begin{frame}{Blas 3}
-
+\begin{center}
+  \includegraphics[height=3in]{blas3}
+\end{center}
 \note{
-
+BLAS3 allows maximum performance to be extracted from the CPU without any fancy programming.  The C code because it really is a matrix vector product over N vectors results in the same poor performance as BLAS2.  This example compares results on a Opteron 2218 with a peak speed of 5226 Mflop/s and the achieved speed. \\
+Opteron 2218 has 2 FPU's and operates at 2.613 Ghz.
 } %
+\end{frame}
+
+\section{Code}
+\subsection{Obtaining}
+\begin{frame}{Obtaning the BLAS}
+\begin{block}{Libraries}
+ \begin{itemize}
+  \item Intel:  MKL Math Kernel Library 
+  \item AMD: ACML AMD Core Math Library
+  \item Apple/PowerPC/Intel: VecLib
+  \item IBM/Power: ESSL
+ \end{itemize}
+\end{block}
 \end{frame}
 \end{document}
