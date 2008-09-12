@@ -23,3 +23,5 @@ icc blasSpeed.c -DBLAS3 -DMKL -lmkl
 Apple:
 gcc blasSpeed.c -DBLAS2 -framework vecLib -DVECLIB
 
+Use blas12.gnuplot to plot blas1 blas2 output
+
