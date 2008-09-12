@@ -182,8 +182,73 @@ Users should always try to use Blas 3 calls even when they could be done with Bl
 \end{center}
 \note{
 BLAS3 allows maximum performance to be extracted from the CPU without any fancy programming.  The C code because it really is a matrix vector product over N vectors results in the same poor performance as BLAS2.  This example compares results on a Opteron 2218 with a peak speed of 5226 Mflop/s and the achieved speed. \\
-Opteron 2218 has 2 FPU's and operates at 2.613 Ghz.
+Opteron 2218 has 2 FPU's and operates at 2.613 Ghz. 
 } %
+\end{frame}
+
+\section{Formating}
+\subsection{Types}
+\begin{frame}{Types}
+ \begin{block}{Type Prefix}
+  \begin{itemize}
+   \item D Double
+   \item S Single/Float
+   \item C Complex
+   \item Z Double Complex
+    \item<2-> SGEMM() vs ZGEMM()
+  \end{itemize}
+ \end{block}
+ \note{
+ BLAS Supports 4 types.  Single, double, complex and double complex. A single letter D,S,C, or Z prefix a function for its use. For example DGEMM() is a matrix multiply when the matrixs are made of doubles, while SGEMM() is for floats/REAL's.  \\
+Note that Single should be faster than double and double faster than complex and complex faster than double complex. \\
+Last C has no native complex type. Most the BLAS libs define a struct with real and imag parts. Check the header of your BLAS lib for their own complex type. Fortran uses the native complex and complex*16 types.
+
+ }%note
+\end{frame}
+
+\subsection{Naming}
+\begin{frame}{Naming}
+ \begin{block}{Naming}
+  \begin{columns}[T]
+   \begin{column}{5cm}
+    \begin{itemize}
+     \item GE - GEneral
+     \item SY - Symmetric
+     \item HE - HErmitian
+     \item TR - TRiangular
+     \item GB - General Band
+    \end{itemize}
+   \end{column}
+   \begin{column}{5cm}
+    \begin{itemize}
+     \item SB - Sym. Band
+     \item HB - Herm. Band
+     \item SP - Sum. Packed
+     \item HP - Herm. Packed
+     \item TP - Triang. Packed
+    \end{itemize}
+   \end{column}
+  \end{columns}
+ \end{block}
+\end{frame}
+
+\begin{frame}{Transpose and CBlas}
+ \begin{block}{Transpose and CBlas options}
+  \begin{itemize}
+   \item 'N' - No Transpose, CblasNoTrans
+   \item 'T' - Transpose, CblasTrans
+   \item 'C' - Conjugate Transpose, CblasConjTrans
+   \item 'U' or 'L' CblasUpper, CblasLower Triangular
+   \item 'N' or 'U' CblasNonUnit, CblasUnit Triangular
+  \end{itemize}
+ \end{block}
+ \begin{block}{CBlas Memory Ordering}
+  \begin{itemize}
+   \item CblasRowMajor
+   \item CblasColMajor
+  \end{itemize}
+ \end{block}
+ See: \url{http://www.netlib.org/blas/blasqr.ps}
 \end{frame}
 
 \section{Code}
@@ -195,7 +260,38 @@ Opteron 2218 has 2 FPU's and operates at 2.613 Ghz.
   \item AMD: ACML AMD Core Math Library
   \item Apple/PowerPC/Intel: VecLib
   \item IBM/Power: ESSL
+  \item Intel/AMD/Alpha/IA64: GOTO Blas
+  \item Any: ATLAS \url{http://math-atlas.sourceforge.net/}
  \end{itemize}
 \end{block}
+\note{
+Each CPU manufacture publishes a library that implements the same functions. This allows code writen on one system to compile and link against the BLAS lib for another system and extract all the performance of the new cpu type.  Also manufactures release updated versions of their BLAS libraries to use new cpu features. Because of this every time you are on a new system ask your Admin what cpu type it uses and grab the newest version of the BLAS library for that cpu. \\
+Most are free, and some will run on others, for example ACML will work on Intel Chips. A wonderful library that is free and works on most if not all CPU's is ATLAS.
+} %note
+\end{frame}
+
+\subsection{Support Code}
+\begin{frame}{Fortran vs. C}
+  \begin{center}
+  \includegraphics[height=3.0in]{matrixorder}  
+  \end{center}
+ \note{
+ Fortran and C store matrixes in memory two differnt ways.  C/C++ store them in row major. That is the fastest varrying index is along the row of an array.  In fortran it is column major. Because of this BLAS libraries that are based on Fortran (most of them) even their C calls expect the matrix to be in column major order. \\
+
+Note for C/C++ code matrixs can not be of the form M[i][j].  They must be of form M[i*j].  Fortran can use its normal form just fine M(j,i).
+ } %note
+\end{frame}
+\begin{frame}{Fortran vs. C}
+ \begin{block}{Fortran from C}
+ \begin{itemize}
+  \item BLAS1 or any array does not require special treatment.
+  \item A transposed matrix in C is a non-transposed matrix in fortran:
+  \begin{itemize}
+   \item \texttt{dgemm('T', 'T', dim, dim, dim, 1, A, dim, B, dim, 0, C, dim);}
+   \item \texttt{DGEMM('N', 'N', DIM, DIM, DIM, 1, A, DIM, B, DIM, 0, C, DIM)}
+   \item When calling the fortran based BLAS from C
+  \end{itemize}
+ \end{itemize}
+ \end{block}
 \end{frame}
 \end{document}
