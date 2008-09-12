@@ -15,7 +15,7 @@ plot  'blas12' using 1:2 with lines title 'ACML ddot()',    \
       200  lt -1 title 'Pentium Pro (1995)'
 
 #pause or plot gone
-#pause(-1)
+pause(-1)
 
 #set output 'blas12.png'
 #set terminal png size 1024,768
