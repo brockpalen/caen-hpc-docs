@@ -35,7 +35,7 @@ int timeelapsed=0;
 int total=0;
 unsigned int mflops=0;
 unsigned int order=0;
-unsigned int dim=100, dimmax=10000, diminc=100;
+unsigned int dim=50, dimmax=10000, diminc=10;
 int counter=0;
 
 int main(int argc, char **argv){
@@ -211,8 +211,7 @@ for(dim; dim<=dimmax; dim+=diminc){
    gettimeofday( &tv2, NULL);
    timeelapsed = tv2.tv_sec*1000000+tv2.tv_usec;
    timeelapsed-= tv1.tv_sec*1000000+tv1.tv_usec;
-   order=dim*dim*dim*2;
-   mflops=order/timeelapsed;
+   mflops=(dim*dim)/(timeelapsed/dim/2);
    printf(" %10d", mflops);
 
    #endif /* blas3 */  
