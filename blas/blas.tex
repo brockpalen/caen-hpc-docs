@@ -278,7 +278,13 @@ Most are free, and some will run on others, for example ACML will work on Intel 
  \note{
  Fortran and C store matrixes in memory two differnt ways.  C/C++ store them in row major. That is the fastest varrying index is along the row of an array.  In fortran it is column major. Because of this BLAS libraries that are based on Fortran (most of them) even their C calls expect the matrix to be in column major order. \\
 
-Note for C/C++ code matrixs can not be of the form M[i][j].  They must be of form M[i*j].  Fortran can use its normal form just fine M(j,i).
+Note for C/C++ code matrixs can not be of the form M[i][j].  They must be of form M[i*j].  Fortran can use its normal form just fine M(j,i). \\
+
+Fortran to C array conversion.\\
+\begin{enumerate}
+ \item Subtract 1 from each subscript
+ \item Take the transpose
+\end{enumerate}
  } %note
 \end{frame}
 \begin{frame}{Fortran vs. C}
@@ -287,8 +293,8 @@ Note for C/C++ code matrixs can not be of the form M[i][j].  They must be of for
   \item BLAS1 or any array does not require special treatment.
   \item A transposed matrix in C is a non-transposed matrix in fortran:
   \begin{itemize}
-   \item \texttt{dgemm('T', 'T', dim, dim, dim, 1, A, dim, B, dim, 0, C, dim);}
-   \item \texttt{DGEMM('N', 'N', DIM, DIM, DIM, 1, A, DIM, B, DIM, 0, C, DIM)}
+   \item \texttt{dgemm('T', 'T', M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, LDC);}
+   \item \texttt{DGEMM('N', 'N', M, N, K, ALPHA, A, LDA, B, LDB, BETA, C, LDC)}
    \item When calling the fortran based BLAS from C
   \end{itemize}
  \end{itemize}
