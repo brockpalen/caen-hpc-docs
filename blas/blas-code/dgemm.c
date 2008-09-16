@@ -107,5 +107,9 @@ for(i=0;i<lda;i++){
    }
    printf("\n");
 }
+
+free(a);
+free(b);
+free(c);
 return 0;
 }
