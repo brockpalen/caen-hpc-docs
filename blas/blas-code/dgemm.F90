@@ -34,7 +34,7 @@ INTEGER ldb  ! On entry, LDB specifies the first dimension of B as declared
 INTEGER ldc  ! On entry, LDC specifies the first dimension of C as declared
              ! in  the  calling  (sub)  program.   LDC  must  be  at  least
              ! max( 1, m ).
-INTEGER alpha, beta
+DOUBLE PRECISION alpha, beta
 
 #define WHERESTR "[file %s, line %d]"
 #define WHEREARG __FILE__,__LINE__
