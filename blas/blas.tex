@@ -204,7 +204,7 @@ Opteron 2218 has 2 FPU's and operates at 2.613 Ghz.
   \end{itemize}
  \end{block}
  \note{
- BLAS Supports 4 types.  Single, double, complex and double complex. A single letter D,S,C, or Z prefix a function for its use. For example DGEMM() is a matrix multiply when the matrixs are made of doubles, while SGEMM() is for floats/REAL's.  \\
+ BLAS Supports 4 types.  single, double, complex and double complex. A single letter D,S,C, or Z prefix a function for its use. For example DGEMM() is a matrix multiply when the matrixs are made of doubles, while SGEMM() is for floats/REAL's.  \\
 Note that Single should be faster than double and double faster than complex and complex faster than double complex. \\
 Last C has no native complex type. Most the BLAS libs define a struct with real and imag parts. Check the header of your BLAS lib for their own complex type. Fortran uses the native complex and complex*16 types.
 
@@ -322,11 +322,11 @@ A good alternative is the CBLAS which does most this work for you. The CAC will 
   \end{itemize}
  \end{block}
  \note{
-  Most major perfromance gains come from major changes in structer. To take advantage of these changes users would need to recompile their code. A way a user can avoid this is by using a BLAS that was already built to take advantage of the new hardware. \\
+  Most major perfromance gains come from major changes in structure. To take advantage of these changes users would need to modify and recompile their code. A way a user can avoid this is by using a BLAS that was already built to take advantage of the new hardware. \\
 
-Major Changes:\\
+Major Performance Changes:\\
 \begin{itemize}
- \item Barcelong 128bit SIMD double peak spead/hz
+ \item Barcelona 128bit SIMD double peak spead/hz
  \item CELL-BE reaches 102 GFlop/s using 8 SPE's \\
    \url{http://en.wikipedia.org/wiki/Cell\_(microprocessor)\#PowerXCell\_8i\_Variant}
  \item \$8,000 Telsla reacheas 4 TFlop/s using GPU's \\
