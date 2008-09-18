@@ -299,5 +299,52 @@ Fortran to C array conversion.\\
   \end{itemize}
  \end{itemize}
  \end{block}
+ \note{
+ Because of the way Fortran stores data, a call from C is transposed in the view of the Fortran code that makes up the BLAS. To get around this a call to the BLAS only needs to told to work on the transpose of the input matrix. This is the same as saying DONT transpose from native fortran.  Only C/C++ users need to worry about this. \\
+A good alternative is the CBLAS which does most this work for you. The CAC will help anyone get there code to compile with the CBLAS.
+ } % note
+\end{frame}
+
+\subsection{Free Performance}
+\begin{frame}{Free Performance}
+ \begin{block}{ACML 3.5.0 vs. 4.1.0}
+  \begin{itemize}
+   \item AMD Releases the Barcelona
+   \item IBM Releases the CELL-BE
+   \item Nvidia Releases CUBlas for GPU's
+   \item <2-> Updating a blas library leverages new hardware
+   \item <3-> Little or no code changes needed
+  \end{itemize}
+ \end{block}
+ \note{
+  Most major perfromance gains come from major changes in structer. To take advantage of these changes users would need to recompile their code. A way a user can avoid this is by using a BLAS that was already built to take advantage of the new hardware. \\
+
+Major Changes:\\
+\begin{itemize}
+ \item Barcelong 128bit SIMD double peak spead/hz
+ \item CELL-BE reaches 102 GFlop/s using 8 SPE's \\
+   \url{http://en.wikipedia.org/wiki/Cell\_(microprocessor)\#PowerXCell\_8i\_Variant}
+ \item \$8,000 Telsla reacheas 4 TFlop/s using GPU's \\
+   \url{http://en.wikipedia.org/wiki/NVIDIA\_Tesla}
+\end{itemize}
+} %notes
+\end{frame}
+\begin{frame}{ACML 3.5.0 vs. 4.1.0}
+ \begin{center}
+   \includegraphics[height=3in]{blasVersions}
+ \end{center}
+ \note{
+ Test was done on an AMD opt 2356 at 2311.87 MHz. \\
+ This model of CPU added a 128 SIMD vector engine that doubles the available number of flops to code that uses it.  This boosted max speed from 4.62 GFlop/s to 9.24. The data for version 3.5.0 of the library was generated on the same physical node. \\
+
+What users should take away is that using vendor BLAS lets old code get the maximum speed from available hardware.  As more and more exotic systems become available like GPU's and the CELL-BE this will ease performance upgrades to code.
+
+} %
+\end{frame}
+
+\subsection{Free Parallel}
+\begin{frame}
+
+
 \end{frame}
 \end{document}
