@@ -343,8 +343,93 @@ What users should take away is that using vendor BLAS lets old code get the maxi
 \end{frame}
 
 \subsection{Free Parallel}
-\begin{frame}
+\begin{frame}{OpenMP and BLAS}
+ \begin{block}{OpenMP}
+  \begin{itemize}
+   \item Type of Paralell Programming
+   \item Shared Memory Paralell
+   \item Simplest way to use Multi-Core
+   \item Most BLAS has it built in
+   \item Easy Performance 
+  \end{itemize}
+ \end{block}
+ \note{
+ OpenMP is one of the simplest forms of Parallel code. You can even mix in OpenMP libraries (BLAS) with code that is serial (my code).  OpenMP must live in a single node and was limited because of this till the advent of multi-core.  Most systems now have 8 cores and more on the way. \\
+To compile code with OpenMP on make sure you are using the MP version of a library.  Enable OpenMP in your comipler and link again the MP blas: \\
+\texttt{pgf90 -mp blascode.F90 -lacml\_mp -pgf90libs} \\
+To set the number of threads/CPU's to use: \\
+\texttt{export OMP\_NUM\_THREADS=8}
 
+} %note
+\end{frame}
+\begin{frame}{OpenMP Performance}
+ \begin{center}
+  \includegraphics[height=3in]{openmp}
+ \end{center}
+ \note{
+ Data generated with blasSpeed.c using acml/4.1.0-pgi pgi/7.2. CPU used was AMD Opteron 2356 at 2311MHz. \\
+ Notice how for large data that the performance of DGEMM on 2 cpu's is twice as fast as 1 cpu.  4 is twice that of 2 and 8 twice as 4.  Note though that to reach peak speed on 8 cpus takes much larger data to reach peak performance. \\
+Lastly users should remember that not all LAPACK functions use DGEMM and not all BLAS3 routines will reach the same speed as the same data size.
+ } % note
+\end{frame}
 
+\section{Higher Level Libraries}
+\subsection{LAPACK}
+\begin{frame}{Linear Algerbra Package}
+ \begin{block}{LAPACK}
+  \begin{itemize}
+   \item Uses BLAS for performance
+   \item Supports Parallel OpenMP via BLAS
+   \item All Math Libraries provide it
+   \item \url{http://www.netlib.org/lapack/}
+   \item Simultaneous linear equations, least-squares solutions of linear systems of equations, eigenvalue problems, and singular value problems
+   \item dgesv() Solve 20,000 equations in 2 minutes
+  \end{itemize}
+ \end{block}
+ \note{
+ \texttt{make dgesv} \\
+ \texttt{./hdf-write}\\
+ \texttt{./hdf-read} \\
+ ACML/4.1.0 pgi/7.2, on 8 core opt 2356.
+ } % note
+\end{frame}
+
+\subsection{fftw}
+\begin{frame}{Fastest Fourier Transform in the West}
+ \begin{block}{fftw}
+  \begin{itemize}
+   \item \url{http://www.fftw.org}
+   \item FFTW is a C subroutine library for computing the discrete Fourier transform (DFT) in one or more dimensions, of arbitrary input size, and of both real and complex data (as well as of even/odd data, i.e. the discrete cosine/sine transforms or DCT/DST). 
+   \item Does support FORTRAN
+   \item Works best on multiples of small primes
+   \item Shared memory parallel via threads
+   \item MPI Version
+  \end{itemize}
+ \end{block}
+ \note{
+ Free library works very well. Fftw is portable across most HPC systems. The newest version even suports the CellBE. Not as flexable as BLAS and Lapack (not CPU vendor provided) but Fftw is the most portable high performance library available at no cost. \\
+Good alternatives are each CPU vendors fft methods. MKL provides fft's for Intel CPUs, ACML does the same for AMD cpus.
+} % note
+\end{frame}
+
+\subsection{Nag/IMSl}
+\begin{frame}{NAG/IMSL}
+ \begin{block}{Nag}
+  \begin{itemize}
+   \item \url{http://www.nag.com/numeric/numerical\_libraries.asp}
+   \item Not free
+   \item Built on BLAS for Performance
+   \item SMP (Shared Memory Parallel) Version
+   \item CAC Cluster has Nag Licenses
+  \end{itemize}
+ \end{block}
+ \begin{block}{IMSL}
+  \begin{itemize}
+   \item \url{http://www.vni.com/products/imsl/}
+   \item Not free
+   \item Build on BLAS for Performance
+   \item CAC Cluster has IMSL Licenses
+  \end{itemize}
+ \end{block}
 \end{frame}
 \end{document}
