@@ -112,7 +112,7 @@
    \[
     \alpha A=c
    \]
-  \begin{block}{Sacle A Vector}
+  \begin{block}{xSCAL() Sacle A Vector }
    \begin{itemize}
     \item<2-> 2n Flops
     \item<3-> 3n Refernces
@@ -165,7 +165,7 @@ Users should always try to use Blas 3 calls even when they could be done with Bl
 \end{center}
 \note{
 \begin{itemize}
- \item \texttt{pgcc -DACML -DBLAS1 -DBLAS2 -DBLAS3 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
+ \item \texttt{pgcc -DACML -DBLAS1 -DBLAS2 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
  \item \texttt{pgi/7.2 acml/4.1.0}
  \item opt2218  2.613 Ghz, 2flop/Hz,  5.226 Gflop
  \item Pentium Pro 200 Mhz (1995) 1 FPU 200MFlop/s Peak
@@ -181,6 +181,11 @@ Users should always try to use Blas 3 calls even when they could be done with Bl
   \includegraphics[height=3in]{blas3}
 \end{center}
 \note{
+\begin{itemize}
+ \item \texttt{pgcc -DACML -DBLAS3 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
+ \item \texttt{pgi/7.2 acml/4.1.0}
+ \item opt2218  2.613 Ghz, 2flop/Hz,  5.226 Gflop
+\end{itemize}
 BLAS3 allows maximum performance to be extracted from the CPU without any fancy programming.  The C code because it really is a matrix vector product over N vectors results in the same poor performance as BLAS2.  This example compares results on a Opteron 2218 with a peak speed of 5226 Mflop/s and the achieved speed. \\
 Opteron 2218 has 2 FPU's and operates at 2.613 Ghz. 
 } %
