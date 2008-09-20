@@ -1,0 +1,58 @@
+makefile:  The makefile for all of the programs for the IBM SP, DEC Alpha &
+makefile:  Cray T3e.  Must be edited to set the correct compile options for
+makefile:  for each machine.  Do a make both to make all of the examples
+
+run_ibm:  Script to run all of the examples on the IBM SP
+run_t3e:  Script to run all of the examples on the Cray T3e
+run_dec:  Script to run all of the examples on the DEC Alpha
+ex00  This is a simple hello world program. Each node prints out 
+ex00  it's rank and the size of the current MPI run (Total number of
+ex00  nodes).
+
+ex01  This is a simple send/receive program in MPI
+
+ex02 Program shows how to use probe and get_count to find the size
+ex02 of an incomming message
+
+ex03  This is a simple isend/ireceive program in MPI
+
+ex04  This is a simple broadcast program in MPI
+
+ex05 This program shows how to use MPI_Scatter and MPI_Gather
+ex05 Each processor gets different data from the root processor
+ex05 by way of mpi_scatter.  The data is summed and then sent back
+ex05 to the root processor using MPI_Gather.  The root processor
+ex05 then prints the global sum. 
+
+ex06 This program shows how to use MPI_Scatter and MPI_Reduce
+ex06 Each processor gets different data from the root processor
+ex06 by way of mpi_scatter.  The data is summed and then sent back
+ex06 to the root processor using MPI_Reduce.  The root processor
+ex06 then prints the global sum. 
+
+ex07 This program shows how to use MPI_Alltoall.  Each processor
+ex07 send/rec a different  random number to/from other processors.  
+
+ex08 This program shows how to use MPI_Gatherv.  Each processor sends a
+ex08 different amount of data to the root processor.  We use MPI_Gather
+ex08 first to tell the root how much data is going to be sent.
+ex08 do the mpi init stuff
+
+ex09 This program shows how to use MPI_Alltoallv.  Each processor 
+ex09 send/rec a different and random amount of data to/from other
+ex09 processors.  
+ex09 We use MPI_Alltoall to tell how much data is going to be sent.
+
+ex10 This program is designed to show how to set up a new communicator. 
+ex10 We set up a communicator that includes all but one of the processors,
+ex10 The last processor is not part of the new communcator, TIMS_COMM_WORLD
+ex10 We use the routine MPI_Group_rank to find the rank within the new
+ex10 connunicator.  For the last processor the rank is MPI_UNDEFINED because
+ex10 it is not part of the communicator.  For this processor we call get_input
+ex10 The processors in TIMS_COMM_WORLD pass a token between themselves in the
+ex10 subroutine pass_token.  The remaining processor gets input, i, from the terminal
+ex10 and passes it to processor 1 of MPI_COMM_WORLD.  If i > 100 the program stops
+ex10 global variables
+
+ex11 Shows how to use MPI_Type_vector to send noncontiguous blocks of data
+ex11 and MPI_Get_count and MPI_Get_elements to see the number of elements sent

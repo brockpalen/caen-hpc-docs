@@ -1,0 +1,16 @@
+#!/bin/sh
+#PBS -N pbstrial 
+#PBS -l nodes=4:ppn=2,walltime=15:00
+#PBS -q cac
+#PBS -V
+
+##change this
+#PBS -M brockp@umich.edu
+#PBS -m abe 
+#PBS -j oe 
+#
+echo "I ran on `hostname`" 
+#
+cat $PBS_NODEFILE
+
+mpirun -np 8 /home/${USER}/mpicodes/c_ex05
