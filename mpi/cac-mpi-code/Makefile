@@ -37,7 +37,7 @@ clean:
 
 #make tar
 tar:
-	-tar -czvf ../mpi-cac.tar.gz ../mpi-cac
+	-tar -czvf ../cac-mpi-code.tar.gz ../cac-mpi-code
 
 #c version helloworld.c
 chello: helloworld.c

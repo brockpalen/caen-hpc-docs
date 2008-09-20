@@ -339,16 +339,16 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
 \begin{frame}{First MPI Program}
 \begin{block}{helloworld}
  \begin{enumerate}
-  \item<1->\texttt{cp \~{}brockp/mpi-cac.tar.gz \~{}}
-  \item<1->\texttt{tar -xzvf mpi-cac.tar.gz}
-  \item<1->\texttt{cd mpi-cac}
+  \item<1->\texttt{cp \~{}brockp/cac-mpi-code.tar.gz \~{}}
+  \item<1->\texttt{tar -xzvf cac-mpi-code.tar.gz}
+  \item<1->\texttt{cd cac-mpi-code}
   \item<2-> C: \texttt{mpicc -o chello helloworld.c}
   \item<2-> F90: \texttt{mpif90 -o fhello helloworld.f90}
   \item<3-> mpirun -np 4 fhello
  \end{enumerate}
 \end{block}
  \note{
-  \texttt{mpi-cac.tar.gz} includes a \texttt{Makefile} all examples can be built by running \texttt{make} or built one at a time, \texttt{make chello} will build the \texttt{helloworld.c} example.  While \texttt{make fapps} will build all Fortran examples.  See \texttt{README} included for information.
+  \texttt{cac-mpi-code.tar.gz} includes a \texttt{Makefile} all examples can be built by running \texttt{make} or built one at a time, \texttt{make chello} will build the \texttt{helloworld.c} example.  While \texttt{make fapps} will build all Fortran examples.  See \texttt{README} included for information.
  } %note
 \end{frame}
 
