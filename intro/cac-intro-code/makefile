@@ -112,7 +112,7 @@ FSCR= f_ex00.f90 f_ex01.f90 f_ex02.f90 f_ex03.f90 f_ex04.f90 f_ex05.f90\
 CSRC= c_ex00.c c_ex01.c c_ex02.c c_ex03.c c_ex04.c c_ex05.c\
       c_ex06.c c_ex07.c c_ex08.c c_ex09.c c_ex10.c com_split.c\
       c_ex11.c
-REST= readme run_ibm run_t3e run_dec makefile 
+REST= readme run makefile
 
 tar:
 	/bin/tar -cf new_ex.tar $(FSCR) $(CSRC) $(REST)
