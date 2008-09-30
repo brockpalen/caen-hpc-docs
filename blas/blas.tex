@@ -165,7 +165,7 @@ Users should always try to use BLAS 3 calls even when they could be done with BL
 \end{center}
 \note{
 \begin{itemize}
- \item \texttt{pgcc -DACML -DBLAS1 -DBLAS2 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
+ \item \texttt{pgcc -fastsse -DACML -DBLAS1 -DBLAS2 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
  \item \texttt{pgi/7.2 acml/4.1.0}
  \item opt2218  2.613 Ghz, 2flop/Hz,  5.226 Gflop
  \item Pentium Pro 200 Mhz (1995) 1 FPU 200MFlop/s Peak
@@ -182,7 +182,7 @@ Users should always try to use BLAS 3 calls even when they could be done with BL
 \end{center}
 \note{
 \begin{itemize}
- \item \texttt{pgcc -DACML -DBLAS3 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
+ \item \texttt{pgcc -fastsse -DACML -DBLAS3 blasSpeeds.c -lacml -pgf90libs -lpgftnrtl}
  \item \texttt{pgi/7.2 acml/4.1.0}
  \item opt2218  2.613 Ghz, 2flop/Hz,  5.226 Gflop
 \end{itemize}
