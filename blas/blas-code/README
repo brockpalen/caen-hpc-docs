@@ -25,3 +25,9 @@ gcc blasSpeed.c -DBLAS2 -framework vecLib -DVECLIB
 
 Use blas12.gnuplot to plot blas1 blas2 output
 
+acmlVersion.c
+---------------
+Shows which version of acml you are running and what comipler it was built with
+
+Compile example:
+pgcc acmlVersion.c -lacml
