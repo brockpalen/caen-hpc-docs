@@ -437,4 +437,46 @@ Good alternatives are each CPU vendors fft methods. MKL provides fft's for Intel
   \end{itemize}
  \end{block}
 \end{frame}
+
+\begin{frame}{ACML Compile}
+PGI ships ACML with their compiler: \\
+\texttt{module load pgi/7.2}        \\
+\texttt{pgf90 source.F90 -lacml}    \\
+\texttt{pgcc  source.c -lacml -pgf90libs -lpgftnrtl} \\
+Threaded OpenMP:                    \\
+\texttt{pgf90 -mp source.F90 -lacml\_mp}            \\
+\texttt{pgcc  -mp source.c   -lacml\_mp -pgf90libs -lpgftnrtl} \\
+\texttt{export OMP\_NUM\_THREADS=4}                 \\
+\end{frame}
+\begin{frame}{ACML Compile (g77)}
+\texttt{module load acml/3.5.0-gnu}       \\
+\texttt{gcc source.c \$ACML\_INC \$ACML\_LINK -lacml -lg2c} \\
+\texttt{g77 source.f \$ACML\_LINK -lacml -lg2c}  \\
+\begin{block}{Tips}
+Versions also exists for \texttt{gfortran, ifort, pathscale, NAG, and SunStudio}for download from AMD. 
+\end{block}
+\begin{block}{Tools}
+Example program \texttt{acmlVersion.c} will show which version of ACML linked against by calling \texttt{acmlversion()}
+\end{block}
+\end{frame}
+
+\begin{frame}{MKL Compile}
+\texttt{module load mkl}            \\
+\texttt{ifort source.F90 -L \$MKL\_LINK -lmkl}      \\
+\texttt{icc   source.c   -I \$MKL\_INC -L \$MKL\_LINK -lmkl}  \\
+Threaded OpenMP:                    \\
+Only need to set \texttt{OMP\_NUM\_THREADS} if not using OpenMP in your own code.  MKL always has threading enabled, \texttt{-openmp} is the flag to enable OpenMP in your own code.
+\begin{block}{Tools}
+Example program \texttt{mklVersion.c} will show which version of MKL is in use and linked against by calling \texttt{MKLGetVersion(*MKLVersion)} \\
+\end{block}
+\end{frame}
+\begin{frame}{CBlas}
+\begin{block}{Building CBlas}
+ CBlas can be built against any fortran BLAS library. This makes using BLAS much simpler from the C programers view. An example of how I build with CBlas requires that I link agains the BLAS library also.  This is nice because I can link ether serial BLAS or threaded BLAS.
+\end{block}
+\texttt{pgcc -mp source.c -I \$CBLAS\_INC -L \$CBLAS\_LINK -L \$ACML\_LINK -lcblas -lacml\_mp -pgf90libs -lpgftnrtl}       \\
+\begin{block}{MKL VecLib and ATLAS}
+There is no need to build CBlas against MKL, VecLib on the MAC, or ATLAS as it is already included.
+\end{block}
+\end{frame}
 \end{document}
