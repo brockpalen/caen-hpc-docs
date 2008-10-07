@@ -438,6 +438,8 @@ Good alternatives are each CPU vendors fft methods. MKL provides fft's for Intel
  \end{block}
 \end{frame}
 
+\section{Compile}
+\subsection{ACML}
 \begin{frame}{ACML Compile}
 PGI ships ACML with their compiler: \\
 \texttt{module load pgi/7.2}        \\
@@ -460,6 +462,7 @@ Example program \texttt{acmlVersion.c} will show which version of ACML linked ag
 \end{block}
 \end{frame}
 
+\subsection{MKL}
 \begin{frame}{MKL Compile}
 \texttt{module load mkl}            \\
 \texttt{ifort source.F90 -L \$MKL\_LINK -lmkl}      \\
