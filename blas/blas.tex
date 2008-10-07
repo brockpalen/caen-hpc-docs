@@ -473,6 +473,8 @@ Only need to set \texttt{OMP\_NUM\_THREADS} if not using OpenMP in your own code
 Example program \texttt{mklVersion.c} will show which version of MKL is in use and linked against by calling \texttt{MKLGetVersion(*MKLVersion)} \\
 \end{block}
 \end{frame}
+
+\subsection{CBlas}
 \begin{frame}{CBlas}
 \begin{block}{Building CBlas}
  CBlas can be built against any fortran BLAS library. This makes using BLAS much simpler from the C programers view. An example of how I build with CBlas requires that I link agains the BLAS library also.  This is nice because I can link ether serial BLAS or threaded BLAS.
