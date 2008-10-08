@@ -2,7 +2,7 @@
 # Brock Palen 
 # brockp@umich.edu
 #
-#pgcc -DACML -DBLAS3 blasSpeed.c -lacml -pgf90libs -lpgftnrtl
+#pgcc -fastsse -DACML -DBLAS3 blasSpeed.c -lacml -pgf90libs -lpgftnrtl
 #
 set key below
 set xlabel 'N'
