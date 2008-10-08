@@ -1,4 +1,4 @@
-program dgemm
+program dgemm_example
 !!!!!!!!!!!!!!!!
 !Brock Palen
 !brockp@umich.edu
@@ -69,4 +69,4 @@ CALL DGEMM('N','N',M,N,K,alpha,a,lda,b,ldb,beta,c,ldc)
 DO I = LBOUND(c,1), UBOUND(c,1)
     WRITE(*,*) (c(I,J), J=LBOUND(c,2), UBOUND(c,2))
 END DO
-end program dgemm
+end program dgemm_example

@@ -95,7 +95,7 @@ b[8]=8.0;
 #ifdef ACML
 dgemm('T','T',M,N,K,alpha,a,lda,b,ldb,beta,c,ldc);
 #elif defined(CBLAS) || defined(MKL) || defined(VECLIB)
-cblas_degemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
              M,N,K,alpha,a,lda,b,ldb,beta,c,ldc);
 #endif
 
