@@ -53,3 +53,12 @@ Show which version of MKL you are using and the detected CPU type
 
 Compile example:
 icc mklVersion.c -lmkl
+
+FFTW Example
+cosfftw.c
+--------------
+Computes the magnatude of the DFT of cos() using fftw-3.x
+module load fftw/3.1.1-pgi
+pgcc cosfft.c $FFTW_INC $FFTW_LINK -lfftw3
+-DSAMPLES=# 	Set the size of the transform
+-DNDEBUG	Don't print the result of the transform
