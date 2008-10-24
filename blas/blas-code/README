@@ -1,0 +1,64 @@
+Example BLAS/Lapack/FFTW programs
+----------------------------
+Brock Palen brockp@umich.edu
+http://cac.engin.umich.edu
+http://www.umich.edu/~brockp
+
+dgemm[.c|.F90]
+------------
+Computes the matrix product using dgemm() or cblas_dgemm()
+
+Compile example:
+pgcc dgemm.c -DACML -lacml -pgf90libs -lpgftnrtl
+pgf90 dgemm.F90 -lacml
+
+Threaded Version:
+pgcc -mp dgemm.c -DACML -lacml_mp -pgf90libs -lpgftnrtl
+pgf90 -mp dgemm.F90 -lacml_mp
+icc -openmp dgemm.c -DMKL -lmkl
+ifort -openmp dgemm.F90 -lmkl
+
+blasSpeed.c
+-------------
+Demonstrates performance of each blas level
+
+BLAS1 ddot()
+BLAS2 dgemv()
+BLAS3 dgemm()
+
+Supports MKL, ACML, CBLAS, and VECLIB
+Cflags:  BLAS1 BLAS2 BLAS3 ACML MKL VECLIB
+
+Compile example:
+Linux:
+pgcc blasSpeed.c -DBLAS1 -BLAS2 -DACML -lacml -lpgftnrtl
+gcc blasSpeed.c -DBLAS1 -DACML -lacml -lg2c
+icc blasSpeed.c -DBLAS3 -DMKL -lmkl
+Apple:
+gcc blasSpeed.c -DBLAS2 -framework vecLib -DVECLIB
+
+Use blas12.gnuplot to plot blas1 blas2 output
+
+
+BLAS/LAPACK Version codes
+acmlVersion.c
+---------------
+Shows which version of acml you are running and what comipler it was built with
+
+Compile example:
+pgcc acmlVersion.c -lacml
+
+mklVersion.c
+Show which version of MKL you are using and the detected CPU type
+
+Compile example:
+icc mklVersion.c -lmkl
+
+FFTW Example
+cosfftw.c
+--------------
+Computes the magnatude of the DFT of cos() using fftw-3.x
+module load fftw/3.1.1-pgi
+pgcc cosfft.c $FFTW_INC $FFTW_LINK -lfftw3
+-DSAMPLES=# 	Set the size of the transform
+-DNDEBUG	Don't print the result of the transform
