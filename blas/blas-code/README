@@ -4,6 +4,12 @@ Brock Palen brockp@umich.edu
 http://cac.engin.umich.edu
 http://www.umich.edu/~brockp
 
+dgemm-0-50.png dgemm-0-15.png
+-----------
+Demonstarates calling dgemm() many time on very small values on N.
+This shows while the blas overhead for small values of N is high vs C code,
+It does not take long for BLAS to be much faster, (around 10x10).
+
 dgemm[.c|.F90]
 ------------
 Computes the matrix product using dgemm() or cblas_dgemm()
