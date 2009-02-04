@@ -34,8 +34,58 @@
     \tableofcontents
   \end{frame}
   
-  \section{Resources}
-  \subsection {Applications}
-  \subsection {Development Tools}
-  \subsection {Hardware}
+  \section {Hardware}
+   \subsection{Compute}
+    \begin{frame}{Compute}
+     \begin{block}{Compute}
+      \begin{itemize}
+       \item{3100+ x86\_64 CPU's Grows Monthly}
+       \item{32 Itanium II's}
+       \item{2GB Memory/CPU Several TB Ram total}
+       \item{Upto 96/64GB Memory to single thread}
+      \end{itemize}
+     \end{block}
+     \begin{block}{Non Standard Compute}
+      \begin{itemize}
+       \item<2->{GPGPU's}
+       \item<2->{40 Total GPU's}
+      \end{itemize}
+     \end{block}
+    \end{frame}
+    \begin{frame}{Pre/Post Processing}
+      3D lab machine
+    \end{frame}
+   \subsection{Networks}
+    \begin{frame}{Networks}
+     \begin{block}{Networks}
+      \begin{itemize}
+       \item Every node has 1Gbps Ethernet full nonblocking
+       \item 98+ Nodes with 20Gbps Infiniband
+       \item Over 2 Tbps network ability
+       \item 10Gbps link to North Campus
+      \end{itemize}
+     \end{block}
+    \end{frame}
+   \subsection{Storage}
+    \begin{frame}{Storage}
+     \begin{block}{Comodity Storage}
+      \begin{itemize}
+       \item \texttt{/home/} 40GB Quota available by NFS, snapshots no backups
+       \item \texttt{/afs/} AFS Tokens for \texttt{umich.edu} cell on login, any token allowed on login nodes
+      \end{itemize}
+     \end{block}
+     \begin{block}{Performance Storage}
+      \begin{itemize}
+        \item \texttt{/nobackup/} 50TB Parallel filesystem
+        \item Supports writes upto 700MB/s Reads 650MB/s
+        \item Supports MPI-IO and other Parallel IO
+        \item Mounted on \texttt{login.engin.umich.edu}
+        \item Mounted on 3D Lab Linux Machines
+      \end{itemize}
+     \end{block}
+    \end{frame}
+  \section {Software}
+    \subsection{Applications}
+    \subsection {Development Tools}
+  \section{Examples}
 \end{document}
