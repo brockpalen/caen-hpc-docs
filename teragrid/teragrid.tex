@@ -1,0 +1,46 @@
+%\documentclass{beamer}
+\documentclass[handout]{beamer}
+
+\usepackage{pgfpages} 
+
+%\setbeameroption{show only notes}
+
+\usetheme{default}
+
+\mode<presentation> {
+%  \usetheme{Warsaw}
+  \usetheme{Frankfurt}
+%  \usetheme{Boadilla}
+%  \usetheme{Marburg}
+}
+
+\mode<handout>{\setbeamercolor{background canvas}{bg=black!5} %
+    \pgfpagesuselayout{4 on 1}[letterpaper,border shrink=4mm,landscape] %
+    \setbeameroption{show notes}}
+
+\title[CAC Intro] {TeraGrid}
+\author{Brock Palen\\ \texttt{brockp@umich.edu}}
+\date{TBD}
+
+\begin{document}
+  \setbeamercovered{transparent}  
+  \begin{frame}
+    \titlepage
+  \end{frame}
+
+%table of contents
+  \begin{frame}{Outline}
+    \tableofcontents
+  \end{frame}
+  
+  \section{About}
+  \subsection {About}
+
+  \section{Resources}
+  
+  \subsection{Compute}
+  \subsection{Storage}
+  \subsection{Vis}
+
+  \section{Getting Allocations}
+\end{document}
