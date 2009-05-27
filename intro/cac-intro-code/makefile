@@ -115,5 +115,5 @@ CSRC= c_ex01.c c_ex02.c c_ex03.c c_ex04.c c_ex05.c\
 REST= readme run makefile helloworld.f90 helloworld.c
 
 tar:
-	-tar -cvf ../cac-intro-code.tar.gz ../cac-intro-code
+	-tar -cvf ../cac-intro-code.tar ../cac-intro-code
 	
