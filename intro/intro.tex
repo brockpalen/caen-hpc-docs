@@ -440,9 +440,9 @@ resources_used.walltime=00:49:57
   \uncover<3-> {Interactive jobs allow users to interact with the shell on a remote node \\}
  \end{block}
  \begin{block}{Example}
-  \uncover<4-> {\texttt{qsub -I -l nodes=2:ppn=2,walltime=15:00 -q cac}}
+  \uncover<4-> {\texttt{qsub -I -V -l nodes=2:ppn=2,walltime=15:00 -q cac}}
   \note{Interactive jobs can use X11 forwarding also}
-  \note[item]{\texttt{qsub -I -X nodes=2:ppn=2,walltime=15:00 -q route}}
+  \note[item]{\texttt{qsub -I -X -V -l nodes=2:ppn=2,walltime=15:00 -q route}}
   \note[item]{Used with ddt our parallel debugger}
  \end{block}
 \end{frame}
