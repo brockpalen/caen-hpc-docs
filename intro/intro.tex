@@ -159,7 +159,10 @@ Both filesystems are shared on all CAC systems.
 For /nobackup user directories have to be created by the user \texttt{mkdir /nobackup/\$USER}.  All users are logged into /home by default. \\
 
 Users can check their quota useage on home with \texttt{quota}.\\
-Users can also see their use of /nobackup with: \texttt{lfs quota /nobackup/}
+Users can also see their use of /nobackup with: \texttt{lfs quota /nobackup/}\\
+
+\texttt{/home} provides snapshots, a readonly view of your directory at a point in time, this allows recovery of modified/deleted files, but is not a backup for defence against hardware failure.  \\
+Snapshots are located at \texttt{/home/.ckpt/}.
 } %end note
 \end{frame}
   
