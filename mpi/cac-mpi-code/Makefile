@@ -8,8 +8,8 @@ CC  = mpicc	        #mpi C compiler
 F90 = mpif90 		#mpi f90 compiler
 
 #flags for compilers/linkers
-CFLAGS = -fastsse  -Minfo -Mneginfo
-FFLAGS = -fastsse  -Minfo -Mneginfo
+CFLAGS = -fast  -Minfo -Mneginfo
+FFLAGS = -fast  -Minfo -Mneginfo
 
 
 #nothing should be changed below here
