@@ -61,7 +61,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
    \begin{block}{Compute Hardware}
     \begin{itemize}
     \item 1 Altix node, 32 cores
-    \item 745 Opteron nodes, over 2900 cores
+    \item 660 Compute nodes, over 3600 cores
     \item Gigabit networking and Infiniband networking
     \item Upto 96GB of memory (64GB public) for SMP work
     \end{itemize}
@@ -82,7 +82,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
     \begin{itemize}
     \item nyx is the Opteron cluster;
     \item Login: \texttt{nyx-login.engin.umich.edu}
-    \item Running RedHat Enterprise Linux 4
+    \item Running RedHat Enterprise Linux 5
     \item Uses PBS for Resource Access
     \end{itemize}
    \end{block}
@@ -132,7 +132,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
  \begin{column}{7cm}
  \begin{block}{/home}
   \begin{itemize}
-   \item 7TB total size
+   \item 6TB total size
    \item 40GB quota per user
    \item Reliable but slow
    \item Only for current jobs
@@ -141,7 +141,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
  \begin{block}{/nobackup}
   \begin{itemize}
    \item Fast and supports MPI-IO
-   \item 49TB total size
+   \item 73TB total size
    \item No quotas
    \item Only for current jobs
    \item \texttt{mkdir /nobackup/\$USER}
@@ -158,7 +158,11 @@ Both filesystems are shared on all CAC systems.
 \\
 For /nobackup user directories have to be created by the user \texttt{mkdir /nobackup/\$USER}.  All users are logged into /home by default. \\
 
-/home provides read-only snapshots. These allow users to recover deleted/modified files from the past.  Snapshops are located at /home/.snapshot
+Users can check their quota useage on home with \texttt{quota}.\\
+Users can also see their use of /nobackup with: \texttt{lfs quota /nobackup/}\\
+
+\texttt{/home} provides snapshots, a readonly view of your directory at a point in time, this allows recovery of modified/deleted files, but is not a backup for defence against hardware failure.  \\
+Snapshots are located at \texttt{/home/.ckpt/}.
 } %end note
 \end{frame}
   
@@ -302,10 +306,8 @@ For /nobackup user directories have to be created by the user \texttt{mkdir /nob
     \item We use a system called Torque, it is derived from PBS
     \item The batch system controls access to queues
     \item The scheduling (Maui/Moab) system decides if and where jobs can run
-    \item<2-> There is a single public queue: \texttt{cac}
-    \item<2-> There are many private queues for people who own or rent nodes
-	%fix this
-    \item<2-> If you don't know use the \texttt{route} queue
+    \item<2-> There is a single queue: \texttt{cac}
+    \item<3-> Users with private nodes can check their status with \texttt{resinfo.pl -n RESNAME}
     \end{itemize}
    \end{block}
   \end{frame}
@@ -440,9 +442,9 @@ resources_used.walltime=00:49:57
   \uncover<3-> {Interactive jobs allow users to interact with the shell on a remote node \\}
  \end{block}
  \begin{block}{Example}
-  \uncover<4-> {\texttt{qsub -I -l nodes=2:ppn=2,walltime=15:00 -q cac}}
+  \uncover<4-> {\texttt{qsub -I -V -l nodes=2:ppn=2,walltime=15:00 -q cac}}
   \note{Interactive jobs can use X11 forwarding also}
-  \note[item]{\texttt{qsub -I -X nodes=2:ppn=2,walltime=15:00 -q route}}
+  \note[item]{\texttt{qsub -I -X -V -l nodes=2:ppn=2,walltime=15:00 -q route}}
   \note[item]{Used with ddt our parallel debugger}
  \end{block}
 \end{frame}
@@ -570,7 +572,7 @@ this is read by six people.  The odds of a quick reply are best this way.
  \end{itemize}
  \end{block}
  \begin{block}{Survey}
-    \url{https://www.engin.umich.edu/form/exit08\_01}
+    \url{https://www.engin.umich.edu/form/exit09}
  \end{block}
 \end{frame}
 \end{document}
