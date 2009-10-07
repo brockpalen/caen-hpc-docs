@@ -276,9 +276,9 @@ Snapshots are located at \texttt{/home/.ckpt/}.
  \begin{block}{Serial Code}
   \begin{itemize}
    \item Fortran 90
-         \\ \texttt{pgf90 -fastsse -o f90hello helloworld.f90}
+         \\ \texttt{pgf90 -fast -o f90hello helloworld.f90}
    \item C
-         \\ \texttt{pgcc -fastsse -o chello helloworld.c}
+         \\ \texttt{pgcc -fast -o chello helloworld.c}
   \end{itemize}
  \end{block}
 \end{frame}
@@ -289,7 +289,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
    \item \texttt{mpirun -np 2 c\_ex01}
    \item <2-> Thats it...  Ok not really
    \item <3-> \texttt{make clean}
-   \item <3-> \texttt{mpicc -fastsse -o c\_ex01 c\_ex01.c}
+   \item <3-> \texttt{mpicc -fast -o c\_ex01 c\_ex01.c}
     \note[item]{'man make' Make lets you manage large bits of code. Works for all source types}
   \end{itemize}
  \end{block}
@@ -357,7 +357,7 @@ A simple single cpu example
 \uncover{mpirun -np 16 mcnp5.mpi i=input2 o=output2 r=restart2}
   \end{semiverbatim}  
  \note[item]{-N sets the job name, can not start with a number}
- \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must email -np.}
+ \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np.}
  \note[item]{-q optional: which queue to submit to, use default: \texttt{route}}
  \note[item]{-M Who to email, can be more than one address}
  \note[item]{-m when to email a=abort, b=begin, e=end}
