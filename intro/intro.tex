@@ -357,7 +357,7 @@ A simple single cpu example
 \uncover{mpirun -np 16 mcnp5.mpi i=input2 o=output2 r=restart2}
   \end{semiverbatim}  
  \note[item]{-N sets the job name, can not start with a number}
- \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np.}
+ \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np. When running under PBS -np is optional. If ommited one rank is started per requested cpu.}
  \note[item]{-q optional: which queue to submit to, use default: \texttt{route}}
  \note[item]{-M Who to email, can be more than one address}
  \note[item]{-m when to email a=abort, b=begin, e=end}
