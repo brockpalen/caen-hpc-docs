@@ -13,4 +13,4 @@ echo "I ran on `hostname`"
 #
 cat $PBS_NODEFILE
 
-mpirun -np 8 /home/${USER}/mpicodes/c_ex05
+mpirun /home/${USER}/cac-intro-code/c_ex05

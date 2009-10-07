@@ -18,10 +18,11 @@ default: c_examples f_examples
 #C_OP= -O4 -lm -lmpi
 
 #LINUX SETTINGS
+#http://cac.engin.umich.edu/resources/software/pgi.html
 F90=mpif90
-F_OP=-fastsse
+F_OP=-fast
 CC=mpicc
-C_OP= -fastsse
+C_OP= -fast
 
 FEXE= f_ex00 f_ex01 f_ex02 f_ex03 f_ex04 f_ex05 f_ex06 f_ex07 f_ex08 f_ex09 f_ex10 f_ex11
 CEXE=  c_ex01 c_ex02 c_ex03 c_ex04 c_ex05 c_ex06 c_ex07 c_ex08 c_ex09 c_ex10 c_ex11
@@ -115,5 +116,5 @@ CSRC= c_ex01.c c_ex02.c c_ex03.c c_ex04.c c_ex05.c\
 REST= readme run makefile helloworld.f90 helloworld.c
 
 tar:
-	-tar -cvf ../cac-intro-code.tar ../cac-intro-code
+	-tar -czvf ../cac-intro-code.tar.gz ../cac-intro-code
 	
