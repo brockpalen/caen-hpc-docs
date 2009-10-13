@@ -481,8 +481,8 @@ Example program \texttt{acmlVersion.c} will show which version of ACML linked ag
 \subsection{MKL}
 \begin{frame}{MKL Compile}
 \texttt{module load mkl}            \\
-\texttt{ifort source.F90 -L \$MKL\_LINK -lmkl}      \\
-\texttt{icc   source.c   -I \$MKL\_INC -L \$MKL\_LINK -lmkl}  \\
+\texttt{ifort source.F90 -L \$MKL\_LINK -lmkl -liomp5}      \\
+\texttt{icc   source.c   -I \$MKL\_INC -L \$MKL\_LINK -lmkl -liomp5 -lpthread}  \\
 Threaded OpenMP:                    \\
 Only need to set \texttt{OMP\_NUM\_THREADS} if not using OpenMP in your own code.  MKL always has threading enabled, \texttt{-openmp} is the flag to enable OpenMP in your own code.
 \begin{block}{Tools}
