@@ -466,10 +466,10 @@ Threaded OpenMP:                    \\
 \texttt{pgcc  -mp source.c   -lacml\_mp -pgf90libs -lpgftnrtl} \\
 \texttt{export OMP\_NUM\_THREADS=4}                 \\
 \end{frame}
-\begin{frame}{ACML Compile (g77)}
-\texttt{module load acml/3.5.0-gnu}       \\
-\texttt{gcc source.c \$ACML\_INC \$ACML\_LINK -lacml -lg2c} \\
-\texttt{g77 source.f \$ACML\_LINK -lacml -lg2c}  \\
+\begin{frame}{ACML Compile (gfortran)}
+\texttt{module load acml/4.0.1-gnu}       \\
+\texttt{gcc source.c -I\$ACML\_INC -L\$ACML\_LINK -lacml -lgfortran} \\
+\texttt{gfortran source.f -L\$ACML\_LINK -lacml}  \\
 \begin{block}{Tips}
 Versions also exists for \texttt{gfortran, ifort, pathscale, NAG, and SunStudio}for download from AMD. 
 \end{block}
