@@ -212,13 +212,18 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \begin{itemize}
     \item \texttt{module list} \\ Show loaded modules
     \item \texttt{module load \textit{modulename}} \\  Load \textit{modulename} for use
+    \item \texttt{module avail} \\ Show all available modules
     \item \texttt{module avail \textit{modulename}} \\ Show available versions of module \textit{modulename}
     \item \texttt{module rm \textit{modulename}} \\  Remove currently loaded module
   \end{itemize}
   \end{block}
-  \note[item]{Show Example}
+  \note{Module Tutorial: \url{http://cac.engin.umich.edu/resources/software/modules.html}}
+  \note[item]{\texttt{module list}}
+  \note[item]{\texttt{module load matlab} or \texttt{module load matlab/2009a}}
+  \note[item]{\texttt{module avail openmpi}}
+  \note[item]{\texttt{module rm matlab}}
 \end{frame}
-\begin{frame}{Module Fun}
+\begin{frame}{Module Customization}
   \begin{block}{Module Customization}
   \begin{itemize}
   \item \texttt{\~{}/privatemodules/default}
@@ -227,8 +232,15 @@ Snapshots are located at \texttt{/home/.ckpt/}.
    \\    Holds user created module
   \item \texttt{man modulefile}
   \end{itemize}
-  \note[item]{example using fftw follows}
   \end{block}
+  \begin{block}{Using Modules with Libraries}
+   \begin{itemize}
+    \item \texttt{module load fftw/fftw/3.2.1-gcc}
+    \item \texttt{gcc fftw3.c -I\$FFTW\_INC -L\$FFTW\_LINK -lfftw3}
+    \item \url{http://cac.engin.umich.edu/resources/software/linkinglibs.html}
+   \end{itemize}
+  \end{block}
+  \note{FFTW Docs: \\ \url{http://cac.engin.umich.edu/resources/software/fftw3.html} \\  There is an example fftw3.c located on that page that will work with the example on the slide.  Note that fftw-2.x is not compatible with fftw-3.x use 3 when available as it is much faster. }
 \end{frame}
 \begin{frame}{Module Example}
  \begin{block}{Module Example}
