@@ -49,19 +49,19 @@ fhello: helloworld.f90
 
 #c version of deadlock.c with deadlock
 cdeadlock: deadlock.c
-	$(CC) $(CFLAGS) -DSIZE=120 -o $@ $?
+	$(CC) $(CFLAGS) -DSIZE=504 -o $@ $?
 
 #c version with  no deadlock 
 no-cdeadlock: deadlock.c
-	$(CC) $(CFLAGS) -DSIZE=119 -o $@ $?
+	$(CC) $(CFLAGS) -DSIZE=503 -o $@ $?
 
 #f90 version deadlock.c with deadlock
 fdeadlock: deadlock.F90
-	$(F90) $(FFLAGS) -DSIZE=120 -o $@ $?
+	$(F90) $(FFLAGS) -DSIZE=504 -o $@ $?
 
 #f90 version with no deadlock
 no-fdeadlock: deadlock.F90
-	$(F90) $(FFLAGS) -DSIZE=119 -o $@ $?
+	$(F90) $(FFLAGS) -DSIZE=503 -o $@ $?
 
 #c version of calculate pi
 cpi: cpi.c
