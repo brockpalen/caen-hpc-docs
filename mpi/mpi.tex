@@ -385,6 +385,7 @@ The same issues apply here as MPI send. For every \texttt{MPI\_Send()} there mus
       \item \texttt{mpirun -np 4 cdeadlock}
       \item \texttt{make no-cdeadlock} or \texttt{make no-fdeadlock}
     \end{itemize}
+    As of openmpi/1.3.2-pgi the \texttt{ompi\_info --param btl sm} btl\_sm\_eager\_limit is 4096 bytes. The MPI envilope is 64bytes, or the same size as 8 doubles, this lets 503 doubles be the max that can be sent over the sm btl before locking up.  504doubles*8bytes/double+64bytes=4096bytes.
 } %notes
 \end{frame} 
 \begin{frame}{MPI\_Sendrecv()}
