@@ -11,7 +11,7 @@ int main(void){
   printf("mkl version: %d.%d.%d\n"
                        ,pVersion.MajorVersion
                        ,pVersion.MinorVersion
-                       ,pVersion.BuildNumber);
+                       ,pVersion.UpdateVersion);
 
   printf("Build: %s\n", pVersion.Build);
   printf("Detected CPU %s\n", pVersion.Processor);
