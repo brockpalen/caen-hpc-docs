@@ -101,6 +101,24 @@
     \end{block}
   \end{frame}
 
+  \section{Hardware}
+   \subsection{Networks}
+   \begin{frame}{Network Types}
+    \begin{block}{Networks Matter}
+    Networks have a huge impact on performance of MPI functions. Most MPI libraries abstract networks away and chose the fastest network found for a given communication.
+    \end{block}
+    \begin{block}{Network Examples}
+    \begin{itemize}
+     \item <1->{Ethernet 1Gbps ~40 $\mu$sec}
+     \item <1->{Shared Memory varries 200nanosec-1$\mu$sec}
+     \item <2->{Myricom MX 10Gbps ~5 $\mu$sec}
+     \item <2->{QDR Infiniband 40Gbps ~1.5 $\mu$sec}
+     \item <3->{Comcast 0.006Gbps}
+    \end{itemize}
+    \end{block}
+     \note{MPI abstracts out how the data moves, understanding over what your data is moved is highly important. Examples while every machine comes with an Ethernet network port the performance is poor. Infiniband and Myricom have high costs, but provide huge performance gains. Significant gains using fast networks can be made in the number of cores an MPI application can scale to.  The better networks also support Operating System Bypass, a method of using pinned memory to copy MPI data directly into the the receve buffer of an MPI call. Ethernet requires the TCP stack of the OS Kernel, and thus requires extra buffer copies, and consumes extra CPU resources in this copy.}
+   \end{frame}
+
   \section{Code}
    \subsection{Mechanics}
    \begin{frame}{MPI Mechanics}
