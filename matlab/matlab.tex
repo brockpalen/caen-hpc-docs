@@ -33,7 +33,7 @@
   \end{frame}
   
   \section{Running MATLAB}
-   \subsection {Invoking General MATLAB}
+   \subsection{Invoking General MATLAB}
    \begin{frame}{MATLAB}
     \begin{block}{Load MATLAB Module}
          \texttt{module load matlab}
@@ -52,25 +52,116 @@
    \end{frame}
 
 
-   \subsection {Compiling with MCC}
-  % \subsection {Dealing with MATLAB Threads}
+   \subsection{Compiling with MCC}
+   \begin{frame}{MCC the MATLAB Compiler}
+    \begin{block}{MCC the MATLAB Compiler}
+     This is what most people running code a batch system such as the CAC resources should be using. \\
+     MCC takes your mcode wraps it with the needed MATLAB libraries to run the code without having MATLAB licenses or Toolbox licneses.
+    \end{block}
+    \begin{block}{Web Documentation}
+     \url{http://cac.engin.umich.edu/resources/software/mcc.html}
+    \end{block}
+   \end{frame}
+ 
+   \begin{frame}{MCC Usage}
+    \begin{block}{Compiling with MCC}
+     \texttt{mcc -R -singleCompThread -m simple.m -I includes/} \\
+     \texttt{./simple}
+    \end{block}
+    \begin{block}{simple.m}
+     \texttt{rand2(5)}
+    \end{block}
+    \begin{block}{includes/rand2.m}
+     \texttt{function [out1] = rand2(arg1) \\
+out1 = rand(arg1);}
+    \end{block}
+    \note{\texttt{mcc} is capable of much more, it can also build: dynamic shared objects, callable from C/C++/Fortran, allowing the mixing or matlab into those languages rather than the normal mixing them into matlab using mex files. \\
+  The -I flag is the most problemmatic for people, it points to mfiles that you call that are not in MATLABPATH. \\
+Full \texttt{mcc} documentation from MathWorks: \url{http://www.mathworks.de/access/helpdesk/help/toolbox/compiler/mcc.html}
+    } %note
+   \end{frame}
+   \begin{frame}{MCC and exernal Mfiles}
+    \begin{block}{Calling Custom Functions}
+     If your main mfile calls other mfiles they must be handeled with care:
+     \begin{itemize}
+      \item Use \texttt{-I directory/} to add them to the search path internal to matlab
+      \item Multiple \texttt{-I} may be given to the compiler of the files are in multiple locations
+     \end{itemize}
+    \end{block}
+    \begin{block}{Common Error from not including needed paths}
+    \texttt{??? Undefined function or method 'rand2' for input arguments of type 'double'.}
+    \end{block}
+    \note{ \texttt{mcc} will compile anything you give it, and will not throw errors if the code is not allowed to be compiled, or if the needed include options were not given to it. Errors will only appear at runtime. \\
+When passing values to \texttt{-I directory/}  the space is important. \texttt{mcc} will fail to compile if passed \texttt{-Idirectory/}. \\
+ Users can also use \texttt{-a directory/*.m}  for force all mfiles in that location to be bundeled into the executable. Most users do not need this but it is another option.
+
+    } %note
+   \end{frame}
+
+   
+   \begin{frame}{MCC Limitations}
+    \begin{block}{MCC Limits}
+     \begin{itemize}
+     \item Cannot call SIMULINK models, sim()
+     \item Cannot use the local parallel configuration (more latter)
+     \item Not all toolboxes supported: \\
+      \url{http://www.mathworks.com/products/compiler/compiler\_support.html}
+     \end{itemize}
+    \end{block}
+   \end{frame}
+
+   \begin{frame}{Passing Arguments to MCC}
+    \begin{block}{Everything Passed as a String}
+     \begin{itemize}
+      \item Compiling with MCC is very slow
+      \item <2->Solution!
+      \item <3->Compile a function and pass arguemnts
+      \item <3->All arguements are passed as strings
+     \end{itemize}
+    \end{block}
+    \begin{block}{Example}
+     \texttt{matlab -r myfcn$\backslash$(arg1,arg2$\backslash$)}
+     \\ becomes \\
+     \texttt{./myfcn arg1 arg2}
+    \end{block}
+   \end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Compiling Functions Ctd}
+    \begin{block}{Example Code}
+    \begin{semiverbatim}
+	function m = myfcn(arg1, arg2)
+	if ischar(arg1)
+	   arg1=str2num(arg1);
+	end
+	if ischar(arg2)
+	   arg2=str2num(arg2);
+	end
+    \end{semiverbatim}
+    \end{block}
+    \note{ By using the \texttt{if ischar(arg)} check even when this code is not compiled and ran from normal matlab it will work just fine. Thus this check is safe to use in all cases.  The power of a compiled function is that users can compile once (compiling with mcc is slow) and run multiple cases passing arguments from the command line. This allows for a compile once run many situation, saving time and effort.
+
+    } %note
+\end{frame}
+
+   \subsection{Dealing with MATLAB Threads}
     %both compiler and normal matlab, dont confuse with DCT
-  %\section{Parallel Computing Toolbox}
-  % \subsection{parfor}
-  % \subsection{Distributed Jobs}
-  % \subsection{Parallel Jobs}
-  % \subsection{SIMD}
-  % \subsection{Creating a Prallel Configuration}
-  %\section {Licencing}
-  % \subsection {Interacting with PBS and GRES}
-  % \subsection {MATLAB Core}
-  % \subsection {Toolboxes}
-  % \subsection {Parallel Computing Toolbox}
-  %\section{Optimizing Matlab with mlint}
-  % \subsection {Resizing Arrays}
-  % \subsection {mlint Hints}
-  % \subsection {mex files}
+  \section{Parallel Computing Toolbox}
+   \subsection{parfor}
+   \subsection{Distributed Jobs}
+   \subsection{Parallel Jobs}
+   \subsection{SIMD}
+   \subsection{Creating a Prallel Configuration}
+  \section{Licencing}
+   \subsection{Interacting with PBS and GRES}
+   \subsection{MATLAB Core}
+   \subsection{Toolboxes}
+   \subsection{Parallel Computing Toolbox}
+  \section{Optimizing Matlab with mlint}
+   \subsection{Resizing Arrays}
+   \subsection{mlint Hints}
+   \subsection{mex files}
     %nag library here
-  %\section{Survey}
+  \section{Survey}
   %exit survey
 \end{document}
