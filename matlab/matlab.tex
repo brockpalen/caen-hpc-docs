@@ -179,10 +179,100 @@ On login-amd3 using a dim of 10000 on 4 cores takes 60 seconds to solve, 5000 ta
 \end{frame}
     %both compiler and normal matlab, dont confuse with DCT
   \section{Parallel Computing Toolbox}
+   \begin{frame}{Prallel Computing Toolbox}
+    \begin{block}{PCT/DCT}
+     \begin{itemize}
+      \item Formerly known as Distributed Computing Toolbox (DCT)
+      \item Can work inside or along batch systems (PBS on CAC systems)
+      \item Provides explicit parallel programming
+      \item Supports 4 types of parallelism
+      \begin{itemize}
+       \item parfor
+       \item distributed jobs
+       \item parallel jobs
+       \item single program multiple data (SPMD)
+      \end{itemize}
+     \end{itemize}
+    \end{block}
+   \end{frame}
+
    \subsection{parfor}
+\begin{frame}[fragile]
+\frametitle{PARFOR}
+    \begin{block}{Parallel for loop}
+     \begin{semiverbatim}
+      \texttt{
+matlabpool open local 4
+{\bf parfor} i=1:100  
+   A(i)=i;   
+end
+
+\%reduction
+x=0;   
+{\bf parfor} i=1:100 
+   x=x+i;  
+end
+matlabpool close  }  
+     \end{semiverbatim}
+    \end{block}
+\note{parfor can be tricky it has many limitations, and looks simpler at first look.  In general if you are familure with OpenMP programming the same restrictions apply to parfor().  Parfor documentation is available in the MATLAB PCT pages. In general, if your parallel varable is incrimented in your code (in our examles i) it will not work in parfor.  A way to think of this is, can my parfor if ran serial, work forwards and backwards?  If it can only work forwards parfor will not work.
+} %note
+\end{frame}
+
+\begin{frame}{matlabpool what is it}
+  \begin{block}{matlabpool open $<$config$>$ N}
+   Starts a group of cores parallel codes will run on. Pools should be left open till all parallel work is finished. Starting pools takes a long time.  Pools should also always be closed.
+  \end{block}
+  \begin{block}{local configuration}
+   \begin{itemize}
+    \item Available on all PCT toolbox machines
+    \item Supports single node only
+    \item Limited for 8 cores (increases over time)
+   \end{itemize}
+  \end{block}
+  \note{pools startup parallel configurations.  These are not easy to make but are known to work on nyx. The local config every matlab with PCT comes with can be ran on a lab machine or desktop.  It does not require any PCT engine licenses and thus is great for debugging or running smaller single node jobs. Note that pools that use the local config can not be compiled with mcc.  The number of cores the local config is limited to is 8 with current version (2009a/b) MathWorks has raised the limit as cpus add more and more cores. It is very kind of them to do this and allows real work to be done without having any PCT engines.
+  } %note
+\end{frame}
+
    \subsection{Distributed Jobs}
+   \begin{frame}{Distributed Jobs}
+    \begin{block}{Distributed Jobs}
+     \begin{itemize}
+      \item A single job runs several unrelated tasks
+      \item Works directly with the batch system (PBS) to submit each task as a cluster job
+      \item Does not require a PBS file as MATLAB talks to PBS for you
+      \item Host MATLAB does not require to be running when tasks run
+      \item MATLAB can read results from tasks back in
+     \end{itemize}
+    \end{block}
+   \end{frame}
+
+\begin{frame}[fragile]
+   \frametitle{Distributed Job Example}
+     \begin{semiverbatim}
+sched=findResource('scheduler', 'type', 'torque') 
+%Do NOT set nodes, ppn or tpn 
+set(sched,'SubmitArguments','-l walltime=24:00:00 -q cac')
+%Create a job  
+job1=createJob(sched) 
+
+%add a few tasks, each task will be a one cpu jobs in PBS 
+createTask(job1, @rand, 1, {3,3});
+createTask(job1, @rand, 1, {3,3});
+get(job1, 'Tasks')  
+
+%Submit job and its tasks to the cluster 
+submit(job1)  
+%you may now exit matlab
+     \end{semiverbatim}
+\note{
+The sched object holds the information about how long you need memory etc.  These are in the SubmitArguments property that matches that of a similar PBS job.
+You can create multiple jobs with their own tasks and submit them all.  Note in distributed jobs do not set to use multiple cpus or processors per node (ppn). Each task is a {\bf single} core job. Distributed jobs are parallel in the sense that each of these single cpu tasks run on their own cpu at the same time. These tasks are then farmed out to the cluster via pbs. They each write their own results to mat files in a format that can be read back in by the cluster.
+} %note 
+\end{frame}
+
    \subsection{Parallel Jobs}
-   \subsection{SIMD}
+   \subsection{SPMD}
    \subsection{Creating a Prallel Configuration}
   \section{Licencing}
    \subsection{Interacting with PBS and GRES}
