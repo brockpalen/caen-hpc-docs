@@ -144,7 +144,39 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
     } %note
 \end{frame}
 
-   \subsection{Dealing with MATLAB Threads}
+   \section{Dealing with MATLAB Threads}
+  \begin{frame}{Implicit Threads}
+   \begin{block}{Threads for MATLAB Functions}
+    \begin{itemize}
+     \item Many MATLAB functions are multi-threaded
+     \item MATLAB uses all cores on systems by default
+     \item Use \texttt{ matlab -singleCompThread -r <input>} to force single thread
+     \item \texttt{maxNumCompThreads(N)} sets the number of threads but should nolonger be used
+     \item Only use a single thread on CAC nodes due to control (Working with MathWorks on this limitation)
+     \item Don't confuse with Parallel Computing Toolbox, every MATLAB has this functionality
+    \end{itemize}
+   \end{block}
+  \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Implicit Thread Example}
+   \begin{block}{Thread Example}
+\texttt{matlab -r implicitthreads$\backslash$(10000$\backslash$)} \\
+Solves Ax=b
+   \end{block}
+   \begin{block}{Example}
+    \texttt{
+A=rand(dim); \\
+b=rand(dim,1); \\
+x=zeros(dim,1); \\
+tic \\
+x=A$\backslash$b;\\
+toc  }
+  \end{block}
+\note{
+On login-amd3 using a dim of 10000 on 4 cores takes 60 seconds to solve, 5000 takes 10 seconds.  When ran with \texttt{-singleCompThread} 5000 takes 27 seconds. Many interal functions and toolboxes support this type of parallelism for free. It will not be discused much due to the lack of control over the number of threads used in a shared environment.
+} %note
+\end{frame}
     %both compiler and normal matlab, dont confuse with DCT
   \section{Parallel Computing Toolbox}
    \subsection{parfor}
