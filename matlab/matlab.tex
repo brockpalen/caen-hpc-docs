@@ -46,7 +46,7 @@
         \texttt{matlab -singleCompThread -r function$\backslash$(arg1,arg2$\backslash$)}
      \end{itemize}
     \end{block}
-    \note{ Modules Docs: http://cac.engin.umich.edu/resources/software/modules.html \\ Use of \texttt{-singleCompThread} will be explained latter in matlab with threads. The CAC used to use \texttt{maxNumCompThreads\(N\)} where N was the number of parallel threads matlab should use. MathWorks depercated the use of that function, and currently the only way is use all threads (not acceptable in a batch environment) or a single thread use the single thread option.
+    \note{ Modules Docs: http://cac.engin.umich.edu/resources/software/modules.html \\ Use of \texttt{-singleCompThread} will be explained latter in MATLAB with threads. The CAC used to use \texttt{maxNumCompThreads\(N\)} where N was the number of parallel threads MATLAB should use. MathWorks deprecated the use of that function, and currently the only way is use all threads (not acceptable in a batch environment) or a single thread use the single thread option.
    } %notes
     
    \end{frame}
@@ -56,7 +56,7 @@
    \begin{frame}{MCC the MATLAB Compiler}
     \begin{block}{MCC the MATLAB Compiler}
      This is what most people running code a batch system such as the CAC resources should be using. \\
-     MCC takes your mcode wraps it with the needed MATLAB libraries to run the code without having MATLAB licenses or Toolbox licneses.
+     MCC takes your mcode wraps it with the needed MATLAB libraries to run the code without having MATLAB licenses or Toolbox licenses.
     \end{block}
     \begin{block}{Web Documentation}
      \url{http://cac.engin.umich.edu/resources/software/mcc.html}
@@ -75,25 +75,25 @@
      \texttt{function [out1] = rand2(arg1) \\
 out1 = rand(arg1);}
     \end{block}
-    \note{\texttt{mcc} is capable of much more, it can also build: dynamic shared objects, callable from C/C++/Fortran, allowing the mixing or matlab into those languages rather than the normal mixing them into matlab using mex files. \\
-  The -I flag is the most problemmatic for people, it points to mfiles that you call that are not in MATLABPATH. \\
+    \note{\texttt{mcc} is capable of much more, it can also build: dynamic shared objects, callable from C/C++/FORTRAN, allowing the mixing or MATLAB into those languages rather than the normal mixing them into MATLAB using mex files. \\
+  The -I flag is the most problematic for people, it points to mfiles that you call that are not in MATLABPATH. \\
 Full \texttt{mcc} documentation from MathWorks: \url{http://www.mathworks.de/access/helpdesk/help/toolbox/compiler/mcc.html}
     } %note
    \end{frame}
-   \begin{frame}{MCC and exernal Mfiles}
+   \begin{frame}{MCC and external Mfiles}
     \begin{block}{Calling Custom Functions}
-     If your main mfile calls other mfiles they must be handeled with care:
+     If your main mfile calls other mfiles they must be handled with care:
      \begin{itemize}
-      \item Use \texttt{-I directory/} to add them to the search path internal to matlab
+      \item Use \texttt{-I directory/} to add them to the search path internal to MATLAB
       \item Multiple \texttt{-I} may be given to the compiler of the files are in multiple locations
      \end{itemize}
     \end{block}
     \begin{block}{Common Error from not including needed paths}
     \texttt{??? Undefined function or method 'rand2' for input arguments of type 'double'.}
     \end{block}
-    \note{ \texttt{mcc} will compile anything you give it, and will not throw errors if the code is not allowed to be compiled, or if the needed include options were not given to it. Errors will only appear at runtime. \\
+    \note{ \texttt{mcc} will compile anything you give it, and will not throw errors if the code is not allowed to be compiled, or if the needed include options were not given to it. Errors will only appear at run time. \\
 When passing values to \texttt{-I directory/}  the space is important. \texttt{mcc} will fail to compile if passed \texttt{-Idirectory/}. \\
- Users can also use \texttt{-a directory/*.m}  for force all mfiles in that location to be bundeled into the executable. Most users do not need this but it is another option.
+ Users can also use \texttt{-a directory/*.m}  for force all mfiles in that location to be bundled into the executable. Most users do not need this but it is another option.
 
     } %note
    \end{frame}
@@ -115,12 +115,12 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
      \begin{itemize}
       \item Compiling with MCC is very slow
       \item <2->Solution!
-      \item <3->Compile a function and pass arguemnts
-      \item <3->All arguements are passed as strings
+      \item <3->Compile a function and pass arguments
+      \item <3->All arguments are passed as strings
      \end{itemize}
     \end{block}
     \begin{block}{Example}
-     \texttt{matlab -r myfcn$\backslash$(arg1,arg2$\backslash$)}
+     \texttt{MATLAB -r myfcn$\backslash$(arg1,arg2$\backslash$)}
      \\ becomes \\
      \texttt{./myfcn arg1 arg2}
     \end{block}
@@ -139,7 +139,7 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
 	end
     \end{semiverbatim}
     \end{block}
-    \note{ By using the \texttt{if ischar(arg)} check even when this code is not compiled and ran from normal matlab it will work just fine. Thus this check is safe to use in all cases.  The power of a compiled function is that users can compile once (compiling with mcc is slow) and run multiple cases passing arguments from the command line. This allows for a compile once run many situation, saving time and effort.
+    \note{ By using the \texttt{if ischar(arg)} check even when this code is not compiled and ran from normal MATLAB it will work just fine. Thus this check is safe to use in all cases.  The power of a compiled function is that users can compile once (compiling with mcc is slow) and run multiple cases passing arguments from the command line. This allows for a compile once run many situation, saving time and effort.
 
     } %note
 \end{frame}
@@ -151,7 +151,7 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
      \item Many MATLAB functions are multi-threaded
      \item MATLAB uses all cores on systems by default
      \item Use \texttt{ matlab -singleCompThread -r <input>} to force single thread
-     \item \texttt{maxNumCompThreads(N)} sets the number of threads but should nolonger be used
+     \item \texttt{maxNumCompThreads(N)} sets the number of threads but should no longer be used
      \item Only use a single thread on CAC nodes due to control (Working with MathWorks on this limitation)
      \item Don't confuse with Parallel Computing Toolbox, every MATLAB has this functionality
     \end{itemize}
@@ -174,12 +174,12 @@ x=A$\backslash$b;\\
 toc  }
   \end{block}
 \note{
-On login-amd3 using a dim of 10000 on 4 cores takes 60 seconds to solve, 5000 takes 10 seconds.  When ran with \texttt{-singleCompThread} 5000 takes 27 seconds. Many interal functions and toolboxes support this type of parallelism for free. It will not be discused much due to the lack of control over the number of threads used in a shared environment.
+On login-amd3 using a dim of 10000 on 4 cores takes 60 seconds to solve, 5000 takes 10 seconds.  When ran with \texttt{-singleCompThread} 5000 takes 27 seconds. Many integral functions and toolboxes support this type of parallelism for free. It will not be discussed much due to the lack of control over the number of threads used in a shared environment.
 } %note
 \end{frame}
     %both compiler and normal matlab, dont confuse with DCT
   \section{Parallel Computing Toolbox}
-   \begin{frame}{Prallel Computing Toolbox}
+   \begin{frame}{Parallel Computing Toolbox}
     \begin{block}{PCT/DCT}
      \begin{itemize}
       \item Formerly known as Distributed Computing Toolbox (DCT)
@@ -215,7 +215,7 @@ end
 matlabpool close  }  
      \end{semiverbatim}
     \end{block}
-\note{parfor can be tricky it has many limitations, and looks simpler at first look.  In general if you are familure with OpenMP programming the same restrictions apply to parfor().  Parfor documentation is available in the MATLAB PCT pages. In general, if your parallel varable is incrimented in your code (in our examles i) it will not work in parfor.  A way to think of this is, can my parfor if ran serial, work forwards and backwards?  If it can only work forwards parfor will not work.
+\note{parfor can be tricky it has many limitations, and looks simpler at first look.  In general if you are failure with OpenMP programming the same restrictions apply to parfor().  Parfor documentation is available in the MATLAB PCT pages. In general, if your parallel variable is incremented in your code (in our examples i) it will not work in parfor.  A way to think of this is, can my parfor if ran serial, work forwards and backwards?  If it can only work forwards parfor will not work.
 } %note
 \end{frame}
 
@@ -230,7 +230,7 @@ matlabpool close  }
     \item Limited for 8 cores (increases over time)
    \end{itemize}
   \end{block}
-  \note{pools startup parallel configurations.  These are not easy to make but are known to work on nyx. The local config every matlab with PCT comes with can be ran on a lab machine or desktop.  It does not require any PCT engine licenses and thus is great for debugging or running smaller single node jobs. Note that pools that use the local config can not be compiled with mcc.  The number of cores the local config is limited to is 8 with current version (2009a/b) MathWorks has raised the limit as cpus add more and more cores. It is very kind of them to do this and allows real work to be done without having any PCT engines.
+  \note{pools start up parallel configurations.  These are not easy to make but are known to work on nyx. The local config every MATLAB with PCT comes with can be ran on a lab machine or desktop.  It does not require any PCT engine licenses and thus is great for debugging or running smaller single node jobs. Note that pools that use the local config can not be compiled with mcc.  The number of cores the local config is limited to is 8 with current version (2009a/b) MathWorks has raised the limit as cpus add more and more cores. It is very kind of them to do this and allows real work to be done without having any PCT engines.
   } %note
 \end{frame}
 
@@ -284,21 +284,21 @@ results\{1,1\}
 results\{2,1\}
   \end{semiverbatim}
 \note{
-Note using \texttt{getAllOutputArguments} loads all of the data from the tasks into the memory of the host matlab, this could be to large, there are ways in the PCT manual to read data Task at a time, or even a subset of data from a task, such that all task data does not need to be held in memory at once. The example assumes a single job in the directory matlab is ran in, if you have more than one the \texttt{find} functions all take options by name wallclock etc to fins a specific job and results etc.
+Note using \texttt{getAllOutputArguments} loads all of the data from the tasks into the memory of the host matlab, this could be to large, there are ways in the PCT manual to read data Task at a time, or even a subset of data from a task, such that all task data does not need to be held in memory at once. The example assumes a single job in the directory MATLAB is ran in, if you have more than one the \texttt{find} functions all take options by name wallclock etc to fins a specific job and results etc.
 } %note
 \end{frame}
 
    \subsection{Parallel Jobs}
    \begin{frame}{Parallel Jobs}
     \begin{block}{Default Modules}
-     Distrbuted MATLAB jobs require that \texttt{module load matlab} is in your default modules on login. \\
+     Distributed MATLAB jobs require that \texttt{module load matlab} is in your default modules on login. \\
 \url{http://cac.engin.umich.edu/resources/software/modules.html}
     \end{block}
     \begin{block}{Parallel Jobs}
      Parallel jobs are those in which the workers (or labs) can communicate with each other during the evaluation of their tasks. 
     \end{block}
     \note{
-Parallel jobs are really the MPI for matlab. When you submit a parallel job (again MATLAB submits the PBS job for you) it will be a single multiple cpus PBS unlike distributed jobs where each is a single cpu multiple PBS job.  MATLAB also provides higher level functions in parallel jobs that minimizes the amount of parallel programming dificulty the user has.
+Parallel jobs are really the MPI for matlab. When you submit a parallel job (again MATLAB submits the PBS job for you) it will be a single multiple cpus PBS unlike distributed jobs where each is a single cpu multiple PBS job.  MATLAB also provides higher level functions in parallel jobs that minimizes the amount of parallel programming difficulty the user has.
 } %note
    \end{frame}
    
@@ -350,13 +350,13 @@ total\_sum = gplus(column\_sum)
  \end{block}
 \end{frame}
 
-   \subsection{Creating a Prallel Configuration}
-\begin{frame}{Prallel Configurations}
-\begin{block}{What is a Prallel Config?}
+   \subsection{Creating a Parallel Configuration}
+\begin{frame}{Parallel Configurations}
+\begin{block}{What is a Parallel Config?}
  \begin{itemize}
   \item MATLAB Prefers parallel configs
   \item CAC does not
-  \item Inflexable from the command line
+  \item Inflexible from the command line
   \item Some parallel features require configs and cannot use the \texttt{findResource()} function
   \begin{itemize}
    \item Anything that uses \texttt{matlabpool}
@@ -366,7 +366,7 @@ total\_sum = gplus(column\_sum)
 \end{block}
 \end{frame}
 
-\begin{frame}{Torque/PBS Prallel Configs}
+\begin{frame}{Torque/PBS Parallel Configs}
  Contact the CAC \url{cac-support@umich.edu} for help, All settings should be left to the defaults unless listed
  \begin{block}{Torque configs}
   \begin{itemize}
@@ -401,21 +401,21 @@ total\_sum = gplus(column\_sum)
    \item Use mpiexec if running matlab from a PBS script 
   \end{itemize}
  \end{block}
-\note{This is confusing, the PBS case is if MATLAB is submitting your job for you, you never run qsub, etc. The mpiexec case (the recomended) is where you submit a PBS job with qsub like any other code on a cluster and that PBS script runs MATLAB which calls your parallel config. \\
+\note{This is confusing, the PBS case is if MATLAB is submitting your job for you, you never run qsub, etc. The mpiexec case (the recommended) is where you submit a PBS job with qsub like any other code on a cluster and that PBS script runs MATLAB which calls your parallel config. \\
 We really wish this was simpler but it is not. \\
 \texttt{mpiLibConf.m} must go in \texttt{~/matlab/} it cannot be in the normal MATLAB PATH due to bugs in the software. Note that the path to \texttt{libmpich.so} and the path to mpiexec are subjet to change. Example after a major upgrade of a CAC cluster the path will change. Another example is if you wish to run MATLAB over infiniband such as the FLUX cluster.
 } %note
 \end{frame}
 
-  \section{Licencing}
-  \begin{frame}{Licencing}
+  \section{Licensing}
+  \begin{frame}{Licensing}
    \begin{block}{MATLAB is not free}
     \begin{itemize}
      \item If mcode is compiled with \texttt{mcc} {\bf NO} licenses are needed and you can ignore the rest of this
      \item MATLAB/SIMULINK and Toolboxes/Blocksets all have their own licenses.
      \item The CAC and CAEN do not have equal number of all licenses
      \item The CAC shares tokens with CAEN lab machines
-     \item If you cannot use \texttt{mcc} on your mcode you {\bf MUST} request licneses on the cluster via PBS
+     \item If you cannot use \texttt{mcc} on your mcode you {\bf MUST} request licenses on the cluster via PBS
      \item Classroom tokens are to not be used for research, this is wrong and illegal
     \end{itemize}
    \end{block}
@@ -426,19 +426,19 @@ We really wish this was simpler but it is not. \\
 \frametitle{PBS and GRES}
     \begin{block}{Do not ignore this message}
      \begin{semiverbatim}
-There are a limited number of matlab licenses
+There are a limited number of MATLAB licenses
 Request the number each job needs like so:
 	 #PBS -l nodes=1,walltime=24:00:00,gres=matlab
 	 #PBS -l nodes=1,gres=matlab%Communication_toolbox
-Requests one matlab and one Communication_toolbox
+Requests one MATLAB and one Communication_toolbox
      \end{semiverbatim}
     \end{block}
 \end{frame}
-\begin{frame}{PBS and Licneses}
+\begin{frame}{PBS and Licenses}
     \begin{block}{qsub -l gres=matlab\%simulink}
      \begin{itemize}
       \item There can be only one \texttt{gres=} line
-      \item If requesting multiple licenses seperate with \%
+      \item If requesting multiple licenses separate with \%
       \item We do not track all Toolboxes/Blocksets Contact the CAC to track the ones you use
       \item Check what we do track: \\
 \texttt{diagnose -n DEFAULT}
@@ -448,7 +448,7 @@ Requests one matlab and one Communication_toolbox
 } % note
 \end{frame}
    \subsection{Parallel Computing Toolbox}
-   \begin{frame}{Prallel Computing Toolbox Tokens}
+   \begin{frame}{Parallel Computing Toolbox Tokens}
     \begin{block}{PCT is different}
      \begin{itemize}
       \item PCT jobs use only \texttt{matlab\_distrib\_comp\_engine} tokens 
@@ -461,11 +461,11 @@ Requests one matlab and one Communication_toolbox
       \end{itemize}
      \end{itemize}
     \end{block}
-\note{Using PCT users can streach limited licneses. Any worker running under PCT does not use any licneses other than the single engin license. Engins are much cheaper than many toolboxes.  Though you must have at least one valid license for the toolbox for the PCT worker to allow those features. That token is not used when the worker runs and does not even need to be available at the time the worker starts.
+\note{Using PCT users can stretch limited licenses. Any worker running under PCT does not use any licenses other than the single engin license. Engins are much cheaper than many toolboxes.  Though you must have at least one valid license for the toolbox for the PCT worker to allow those features. That token is not used when the worker runs and does not even need to be available at the time the worker starts.
 } %note
    \end{frame}
 
-  \section{Optimizing Matlab}
+  \section{Optimizing MATLAB}
   \begin{frame}{mlint}
    \begin{block}{MATLAB Static code analyzer}
     \begin{itemize}
@@ -514,15 +514,15 @@ toc
 \begin{frame}{mex}
 \begin{block}{mex files}
  \begin{itemize}
-  \item Compiled C/Fortran Etc that can be called from MATLAB
+  \item Compiled C/FORTRAN Etc that can be called from MATLAB
   \item Example NAG Library \\
 \url{http://www.nag.co.uk/numeric/MB/start.asp}
-  \item If performance is a huge deal make your long running routines in C/Fortran and run from mex
-  \item MATLAB speed has improved significantly, but in cases C/Fortran are still faster
+  \item If performance is a huge deal make your long running routines in C/FORTRAN and run from mex
+  \item MATLAB speed has improved significantly, but in cases C/FORTRAN are still faster
  \end{itemize}
 \end{block}
 \note{
-The CAC via CAEN has unlimited licences to the NAG toolbox on MATLAB. It is not uncommon to use MATLAB as a frontend to parallel codes built as mex files.
+The CAC via CAEN has unlimited licenses to the NAG toolbox on MATLAB. It is not uncommon to use MATLAB as a front end to parallel codes built as mex files.
 }%
 \end{frame}
   \section{Survey}
