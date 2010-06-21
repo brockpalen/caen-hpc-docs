@@ -340,7 +340,63 @@ total\_sum = gplus(column\_sum)
 \end{frame}
 
    \subsection{SPMD}
+%TODO
    \subsection{Creating a Prallel Configuration}
+\begin{frame}{Prallel Configurations}
+\begin{block}{What is a Prallel Config?}
+ \begin{itemize}
+  \item MATLAB Prefers parallel configs
+  \item CAC does not
+  \item Inflexable from the command line
+  \item Some parallel features require configs and cannot use the \texttt{findResource()} function
+  \begin{itemize}
+   \item Anything that uses \texttt{matlabpool}
+   \item SPMD
+  \end{itemize}
+ \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Torque/PBS Prallel Configs}
+ Contact the CAC \url{cac-support@umich.edu} for help, All settings should be left to the defaults unless listed
+ \begin{block}{Torque configs}
+  \begin{itemize}
+   \item {\bf ResourceTemplate:}\\ \texttt{-V -l nodes=\^{}N\^{},gres=matlab\_distrib\_comp\_engin:\^{}N\^{}}
+    \begin{itemize}
+     \item {Add other PBS options here \texttt{qos, -A, preempt, etc}}
+    \end{itemize}
+  \end{itemize}
+ \end{block}
+\end{frame}
+
+\begin{frame}{mpiexec Parallel Configs}
+ \begin{block}{MPIEXEC Config}
+  \begin{itemize}
+   \item {\bf EnvironmentSetMethod:} \texttt{setenv}
+   \item {\bf MpiexecFileName:} \\ \texttt{/home/software/rhel5/mpiexec/0.83/bin/mpiexec}
+  \end{itemize}
+ \end{block}
+ \begin{block}{~/matlab/mpiLibConf.m}
+  \texttt{function [lib, extras] = mpiLibConf} \\
+  \texttt{lib = '/home/software/rhel5/mpich2/1.2.1p1/lib/libmpich.so';} \\
+  \texttt{extras = \{\};}
+ \end{block}
+\end{frame}
+
+\begin{frame}{When to use Torque/PBS or mpiexec}
+ \begin{block}{Which config to use?}
+  \begin{itemize}
+   \item Avoid parallel configs if you can
+   \item Use Torque if submitting work from nyx-login {\bf from MATLAB}
+   \item Use mpiexec if running matlab from a PBS script 
+  \end{itemize}
+ \end{block}
+\note{This is confusing, the PBS case is if MATLAB is submitting your job for you, you never run qsub, etc. The mpiexec case (the recomended) is where you submit a PBS job with qsub like any other code on a cluster and that PBS script runs MATLAB which calls your parallel config. \\
+We really wish this was simpler but it is not. \\
+\texttt{mpiLibConf.m} must go in \texttt{~/matlab/} it cannot be in the normal MATLAB PATH due to bugs in the software. Note that the path to \texttt{libmpich.so} and the path to mpiexec are subjet to change. Example after a major upgrade of a CAC cluster the path will change. Another example is if you wish to run MATLAB over infiniband such as the FLUX cluster.
+} %note
+\end{frame}
+
   \section{Licencing}
    \subsection{Interacting with PBS and GRES}
    \subsection{MATLAB Core}
