@@ -236,10 +236,6 @@ matlabpool close  }
 
    \subsection{Distributed Jobs}
    \begin{frame}{Distributed Jobs}
-    \begin{block}{Default Modules}
-     Distrbuted MATLAB jobs require that \texttt{module load matlab} is in your default modules on login. \\
-\url{http://cac.engin.umich.edu/resources/software/modules.html}
-    \end{block}
     \begin{block}{Distributed Jobs}
      \begin{itemize}
       \item A single job runs several unrelated tasks
@@ -275,7 +271,37 @@ You can create multiple jobs with their own tasks and submit them all.  Note in 
 } %note 
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Reading Distributed Jobs}
+  \begin{semiverbatim}
+sched=findResource('scheduler', 'type', 'torque')
+
+job = findJob(sched)
+tasks = findTask(job)
+results = getAllOutputArguments(job)
+
+results\{1,1\}
+results\{2,1\}
+  \end{semiverbatim}
+\note{
+Note using \texttt{getAllOutputArguments} loads all of the data from the tasks into the memory of the host matlab, this could be to large, there are ways in the PCT manual to read data Task at a time, or even a subset of data from a task, such that all task data does not need to be held in memory at once. The example assumes a single job in the directory matlab is ran in, if you have more than one the \texttt{find} functions all take options by name wallclock etc to fins a specific job and results etc.
+} %note
+\end{frame}
+
    \subsection{Parallel Jobs}
+   \begin{frame}{Parallel Jobs}
+    \begin{block}{Default Modules}
+     Distrbuted MATLAB jobs require that \texttt{module load matlab} is in your default modules on login. \\
+\url{http://cac.engin.umich.edu/resources/software/modules.html}
+    \end{block}
+    \begin{block}{Parallel Jobs}
+     Parallel jobs are those in which the workers (or labs) can communicate with each other during the evaluation of their tasks. 
+    \end{block}
+    \note{
+Parallel jobs are really the MPI for matlab. When you submit a parallel job (again MATLAB submits the PBS job for you) it will be a single multiple cpus PBS unlike distributed jobs where each is a single cpu multiple PBS job.  MATLAB also provides higher level functions in parallel jobs that minimizes the amount of parallel programming dificulty the user has.
+} %note
+   \end{frame}
+
    \subsection{SPMD}
    \subsection{Creating a Prallel Configuration}
   \section{Licencing}
