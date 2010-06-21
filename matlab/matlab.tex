@@ -46,7 +46,7 @@
         \texttt{matlab -singleCompThread -r function$\backslash$(arg1,arg2$\backslash$)}
      \end{itemize}
     \end{block}
-    \note{ Modules Docs: http://cac.engin.umich.edu/resources/software/modules.html \\ Use of \texttt{-singleCompThread} will be explained latter in MATLAB with threads. The CAC used to use \texttt{maxNumCompThreads\(N\)} where N was the number of parallel threads MATLAB should use. MathWorks deprecated the use of that function, and currently the only way is use all threads (not acceptable in a batch environment) or a single thread use the single thread option.
+    \note{ Modules Docs: http://cac.engin.umich.edu/resources/software/modules.html \\ Use of \texttt{-singleCompThread} will be explained later in MATLAB with threads. The CAC used to use \texttt{maxNumCompThreads\(N\)} where N was the number of parallel threads MATLAB should use. MathWorks deprecated the use of that function, and currently the only way is use all threads (not acceptable in a batch environment) or a single thread use the single thread option.
    } %notes
     
    \end{frame}
@@ -55,7 +55,7 @@
    \subsection{Compiling with MCC}
    \begin{frame}{MCC the MATLAB Compiler}
     \begin{block}{MCC the MATLAB Compiler}
-     This is what most people running code a batch system such as the CAC resources should be using. \\
+     This is what most people running code on a batch system such as the CAC resources should be using. \\
      MCC takes your mcode wraps it with the needed MATLAB libraries to run the code without having MATLAB licenses or Toolbox licenses.
     \end{block}
     \begin{block}{Web Documentation}
@@ -75,7 +75,7 @@
      \texttt{function [out1] = rand2(arg1) \\
 out1 = rand(arg1);}
     \end{block}
-    \note{\texttt{mcc} is capable of much more, it can also build: dynamic shared objects, callable from C/C++/FORTRAN, allowing the mixing or MATLAB into those languages rather than the normal mixing them into MATLAB using mex files. \\
+    \note{\texttt{mcc} is capable of much more, it can also build dynamic shared objects, callable from C/C++/FORTRAN, allowing the mixing or MATLAB into those languages rather than the normal mixing them into MATLAB using mex files. \\
   The -I flag is the most problematic for people, it points to mfiles that you call that are not in MATLABPATH. \\
 Full \texttt{mcc} documentation from MathWorks: \url{http://www.mathworks.de/access/helpdesk/help/toolbox/compiler/mcc.html}
     } %note
@@ -103,7 +103,7 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
     \begin{block}{MCC Limits}
      \begin{itemize}
      \item Cannot call SIMULINK models, sim()
-     \item Cannot use the local parallel configuration (more latter)
+     \item Cannot use the local parallel configuration (more later)
      \item Not all toolboxes supported: \\
       \url{http://www.mathworks.com/products/compiler/compiler\_support.html}
      \end{itemize}
