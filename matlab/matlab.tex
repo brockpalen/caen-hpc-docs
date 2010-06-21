@@ -348,32 +348,6 @@ total\_sum = gplus(column\_sum)
     \item Use \texttt{pmode} to debug
   \end{itemize}
  \end{block}
- \begin{block}{Example dgesvspmd.m}
-  Solves Ax=b 
- \end{block}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{dgesvspmd.m}
-\begin{semiverbatim}
-matlabpool mpiexec-works 10
-N=20000
-PART=N/matlabpool('size')
-tic;
-spmd
-  A=rand(PART,N);
-  dim=1;
-  D=codistributed(A,codistributor('1d', dim));
-  x=rand(PART,1);
-  x=codistributed(x,codistributor('1d', 1));
-end
-toc
-clear A;
-tic;
-spmd
-end
-toc
-\end{semiverbatim}
 \end{frame}
 
    \subsection{Creating a Prallel Configuration}
