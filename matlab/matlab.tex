@@ -340,7 +340,42 @@ total\_sum = gplus(column\_sum)
 \end{frame}
 
    \subsection{SPMD}
-%TODO
+\begin{frame}{Single Program Multiple Data}
+ \begin{block}{SPMD}
+  \begin{itemize}
+    \item Uses global arrays to partition data across workers
+    \item Many functions work in parallel across partitioned data
+    \item Use \texttt{pmode} to debug
+  \end{itemize}
+ \end{block}
+ \begin{block}{Example dgesvspmd.m}
+  Solves Ax=b 
+ \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{dgesvspmd.m}
+\begin{semiverbatim}
+matlabpool mpiexec-works 10
+N=20000
+PART=N/matlabpool('size')
+tic;
+spmd
+  A=rand(PART,N);
+  dim=1;
+  D=codistributed(A,codistributor('1d', dim));
+  x=rand(PART,1);
+  x=codistributed(x,codistributor('1d', 1));
+end
+toc
+clear A;
+tic;
+spmd
+end
+toc
+\end{semiverbatim}
+\end{frame}
+
    \subsection{Creating a Prallel Configuration}
 \begin{frame}{Prallel Configurations}
 \begin{block}{What is a Prallel Config?}
@@ -374,6 +409,7 @@ total\_sum = gplus(column\_sum)
   \begin{itemize}
    \item {\bf EnvironmentSetMethod:} \texttt{setenv}
    \item {\bf MpiexecFileName:} \\ \texttt{/home/software/rhel5/mpiexec/0.83/bin/mpiexec}
+   \item {\bf SubmitArguments:} \\ \texttt{--comm=pmi}
   \end{itemize}
  \end{block}
  \begin{block}{~/matlab/mpiLibConf.m}
