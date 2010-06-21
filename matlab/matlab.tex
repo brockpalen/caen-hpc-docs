@@ -398,10 +398,62 @@ We really wish this was simpler but it is not. \\
 \end{frame}
 
   \section{Licencing}
+  \begin{frame}{Licencing}
+   \begin{block}{MATLAB is not free}
+    \begin{itemize}
+     \item If mcode is compiled with \texttt{mcc} {\bf NO} licenses are needed and you can ignore the rest of this
+     \item MATLAB/SIMULINK and Toolboxes/Blocksets all have their own licenses.
+     \item The CAC and CAEN do not have equal number of all licenses
+     \item The CAC shares tokens with CAEN lab machines
+     \item If you cannot use \texttt{mcc} on your mcode you {\bf MUST} request licneses on the cluster via PBS
+     \item Classroom tokens are to not be used for research, this is wrong and illegal
+    \end{itemize}
+   \end{block}
+  \end{frame}
+
    \subsection{Interacting with PBS and GRES}
-   \subsection{MATLAB Core}
-   \subsection{Toolboxes}
+\begin{frame}[fragile]
+\frametitle{PBS and GRES}
+    \begin{block}{Do not ignore this message}
+     \begin{semiverbatim}
+There are a limited number of matlab licenses
+Request the number each job needs like so:
+	 #PBS -l nodes=1,walltime=24:00:00,gres=matlab
+	 #PBS -l nodes=1,gres=matlab%Communication_toolbox
+Requests one matlab and one Communication_toolbox
+     \end{semiverbatim}
+    \end{block}
+\end{frame}
+\begin{frame}{PBS and Licneses}
+    \begin{block}{qsub -l gres=matlab\%simulink}
+     \begin{itemize}
+      \item There can be only one \texttt{gres=} line
+      \item If requesting multiple licenses seperate with \%
+      \item We do not track all Toolboxes/Blocksets Contact the CAC to track the ones you use
+      \item Check what we do track: \\
+\texttt{diagnose -n DEFAULT}
+     \end{itemize}
+    \end{block}
+\note{Not all toolboxes/blocksets need to be tracked. Those that have many installed and there is not a limitation do not need to be tracked. If users submit jobs or run jobs that get FLEXlm errors this is because of licenses and should contact cac-support@umich.edu to have those tokens tracked.
+} % note
+\end{frame}
    \subsection{Parallel Computing Toolbox}
+   \begin{frame}{Prallel Computing Toolbox Tokens}
+    \begin{block}{PCT is different}
+     \begin{itemize}
+      \item PCT jobs use only \texttt{matlab\_distrib\_comp\_engine} tokens 
+      \item No toolbox or MATLAB tokens are needed for workers only engines
+      \item Users only need to request engine tokens if submitting using the mpiexec parallel config
+      \begin{itemize}
+       \item \texttt{gres=matlab\_dist\_comp\_engine:N}
+       \item N is the number of workers
+       \item If MATLAB submits your PBS job for you this can be ignored
+      \end{itemize}
+     \end{itemize}
+    \end{block}
+\note{Using PCT users can streach limited licneses. Any worker running under PCT does not use any licneses other than the single engin license. Engins are much cheaper than many toolboxes.  Though you must have at least one valid license for the toolbox for the PCT worker to allow those features. That token is not used when the worker runs and does not even need to be available at the time the worker starts.
+} %note
+   \end{frame}
   \section{Optimizing Matlab with mlint}
    \subsection{Resizing Arrays}
    \subsection{mlint Hints}
