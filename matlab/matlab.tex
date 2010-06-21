@@ -174,7 +174,7 @@ x=A$\backslash$b;\\
 toc  }
   \end{block}
 \note{
-On login-amd3 using a dim of 10000 on 4 cores takes 60 seconds to solve, 5000 takes 10 seconds.  When ran with \texttt{-singleCompThread} 5000 takes 27 seconds. Many integral functions and toolboxes support this type of parallelism for free. It will not be discussed much due to the lack of control over the number of threads used in a shared environment.
+On login-amd3 using a dim of 10000 on 4 cores takes 60 seconds to solve, 5000 takes 10 seconds.  When ran with \texttt{-singleCompThread} 5000 takes 27 seconds. Many internal functions and toolboxes support this type of parallelism for free. It will not be discussed much due to the lack of control over the number of threads used in a shared environment.
 } %note
 \end{frame}
     %both compiler and normal matlab, dont confuse with DCT
@@ -215,7 +215,7 @@ end
 matlabpool close  }  
      \end{semiverbatim}
     \end{block}
-\note{parfor can be tricky it has many limitations, and looks simpler at first look.  In general if you are failure with OpenMP programming the same restrictions apply to parfor().  Parfor documentation is available in the MATLAB PCT pages. In general, if your parallel variable is incremented in your code (in our examples i) it will not work in parfor.  A way to think of this is, can my parfor if ran serial, work forwards and backwards?  If it can only work forwards parfor will not work.
+\note{parfor can be tricky it has many limitations, and looks simple at first look.  In general if you are familure with OpenMP programming the same restrictions apply to parfor().  Parfor documentation is available in the MATLAB PCT pages. In general, if your parallel variable is incremented in your code (in our examples i) it will not work in parfor.  A way to think of this is, can my parfor if ran serial, work forwards and backwards?  If it can only work forwards parfor will not work.
 } %note
 \end{frame}
 
@@ -230,7 +230,7 @@ matlabpool close  }
     \item Limited for 8 cores (increases over time)
    \end{itemize}
   \end{block}
-  \note{pools start up parallel configurations.  These are not easy to make but are known to work on nyx. The local config every MATLAB with PCT comes with can be ran on a lab machine or desktop.  It does not require any PCT engine licenses and thus is great for debugging or running smaller single node jobs. Note that pools that use the local config can not be compiled with mcc.  The number of cores the local config is limited to is 8 with current version (2009a/b) MathWorks has raised the limit as cpus add more and more cores. It is very kind of them to do this and allows real work to be done without having any PCT engines.
+  \note{Pools are started parallel configurations.  These are not easy to make but are known to work on nyx. The local configuration which every MATLAB with PCT comes with can be ran on a lab machine or desktop.  It does not require any PCT engine licenses and thus is great for debugging or running smaller single node jobs. Note that pools that use the local config can not be compiled with mcc.  The number of cores the local config is limited to is 8 with current version (2009a/b) MathWorks has raised the limit as cpus add more and more cores. It is very kind of them to do this and allows real work to be done without having any PCT engines.
   } %note
 \end{frame}
 
@@ -248,7 +248,7 @@ matlabpool close  }
    \end{frame}
 
 \begin{frame}[fragile]
-   \frametitle{Distributed Job Example}
+   \frametitle{Distributed Job Example distributedjob.m}
      \begin{semiverbatim}
 sched=findResource('scheduler', 'type', 'torque') 
 %Do NOT set nodes, ppn or tpn 
@@ -266,13 +266,13 @@ submit(job1)
 %you may now exit matlab
      \end{semiverbatim}
 \note{
-The sched object holds the information about how long you need memory etc.  These are in the SubmitArguments property that matches that of a similar PBS job.
+The sched object holds the information about your job, how long you need (walltime), memory, etc.  These are in the SubmitArguments property that matches that of a similar PBS job.
 You can create multiple jobs with their own tasks and submit them all.  Note in distributed jobs do not set to use multiple cpus or processors per node (ppn). Each task is a {\bf single} core job. Distributed jobs are parallel in the sense that each of these single cpu tasks run on their own cpu at the same time. These tasks are then farmed out to the cluster via pbs. They each write their own results to mat files in a format that can be read back in by the cluster.
 } %note 
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Reading Distributed Jobs}
+\frametitle{Reading Distributed Jobs distributedjob2.m}
   \begin{semiverbatim}
 sched=findResource('scheduler', 'type', 'torque')
 
@@ -303,7 +303,7 @@ Parallel jobs are really the MPI for matlab. When you submit a parallel job (aga
    \end{frame}
    
 \begin{frame}[fragile]
-\frametitle{Parallel Job Setup}
+\frametitle{Parallel Job Setup paralleljob.m}
  \begin{semiverbatim}
 sched=findResource('scheduler', 'type', 'torque')
 set(sched, 'SubmitArguments', '-l walltime=15:00
@@ -321,7 +321,7 @@ destroy(pjob)
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Parallel Kernel}
+\frametitle{Parallel Kernel colsum.m}
 \begin{semiverbatim}
 function total\_sum = colsum
 if labindex == 1
@@ -444,7 +444,7 @@ Requests one MATLAB and one Communication_toolbox
 \texttt{diagnose -n DEFAULT}
      \end{itemize}
     \end{block}
-\note{Not all toolboxes/blocksets need to be tracked. Those that have many installed and there is not a limitation do not need to be tracked. If users submit jobs or run jobs that get FLEXlm errors this is because of licenses and should contact cac-support@umich.edu to have those tokens tracked.
+\note{Not all toolboxes/blocksets need to be tracked. Those that have many installed or have no limit do not need to be tracked. If users submit jobs or run jobs that get FLEXlm errors this is because of licenses and should contact cac-support@umich.edu to have those tokens tracked.
 } % note
 \end{frame}
    \subsection{Parallel Computing Toolbox}
