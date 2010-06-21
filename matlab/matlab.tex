@@ -144,7 +144,7 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
     } %note
 \end{frame}
 
-   \section{Dealing with MATLAB Threads}
+   \subsection{Dealing with MATLAB Threads}
   \begin{frame}{Implicit Threads}
    \begin{block}{Threads for MATLAB Functions}
     \begin{itemize}
@@ -236,10 +236,6 @@ matlabpool close  }
 
    \subsection{Distributed Jobs}
    \begin{frame}{Distributed Jobs}
-    \begin{block}{Default Modules}
-     Distrbuted MATLAB jobs require that \texttt{module load matlab} is in your default modules on login. \\
-\url{http://cac.engin.umich.edu/resources/software/modules.html}
-    \end{block}
     \begin{block}{Distributed Jobs}
      \begin{itemize}
       \item A single job runs several unrelated tasks
@@ -275,19 +271,267 @@ You can create multiple jobs with their own tasks and submit them all.  Note in 
 } %note 
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Reading Distributed Jobs}
+  \begin{semiverbatim}
+sched=findResource('scheduler', 'type', 'torque')
+
+job = findJob(sched)
+tasks = findTask(job)
+results = getAllOutputArguments(job)
+
+results\{1,1\}
+results\{2,1\}
+  \end{semiverbatim}
+\note{
+Note using \texttt{getAllOutputArguments} loads all of the data from the tasks into the memory of the host matlab, this could be to large, there are ways in the PCT manual to read data Task at a time, or even a subset of data from a task, such that all task data does not need to be held in memory at once. The example assumes a single job in the directory matlab is ran in, if you have more than one the \texttt{find} functions all take options by name wallclock etc to fins a specific job and results etc.
+} %note
+\end{frame}
+
    \subsection{Parallel Jobs}
+   \begin{frame}{Parallel Jobs}
+    \begin{block}{Default Modules}
+     Distrbuted MATLAB jobs require that \texttt{module load matlab} is in your default modules on login. \\
+\url{http://cac.engin.umich.edu/resources/software/modules.html}
+    \end{block}
+    \begin{block}{Parallel Jobs}
+     Parallel jobs are those in which the workers (or labs) can communicate with each other during the evaluation of their tasks. 
+    \end{block}
+    \note{
+Parallel jobs are really the MPI for matlab. When you submit a parallel job (again MATLAB submits the PBS job for you) it will be a single multiple cpus PBS unlike distributed jobs where each is a single cpu multiple PBS job.  MATLAB also provides higher level functions in parallel jobs that minimizes the amount of parallel programming dificulty the user has.
+} %note
+   \end{frame}
+   
+\begin{frame}[fragile]
+\frametitle{Parallel Job Setup}
+ \begin{semiverbatim}
+sched=findResource('scheduler', 'type', 'torque')
+set(sched, 'SubmitArguments', '-l walltime=15:00
+             -q cac -M brockp@umich.edu -m abe')
+pjob=createParallelJob(sched);
+set(pjob, 'MaximumNumberOfWorkers', 4)
+set(pjob, 'MinimumNumberOfWorkers', 4)
+set(pjob, 'FileDependencies', {'colsum.m'})
+t=createTask(pjob, @colsum, 1, {})
+submit(pjob)
+waitForState(pjob)
+results=getAllOutputArguments(pjob)
+destroy(pjob)
+ \end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Parallel Kernel}
+\begin{semiverbatim}
+function total\_sum = colsum
+if labindex == 1
+  % Send magic square to other labs 
+  A = labBroadcast(1,magic(numlabs))
+else
+  % Receive broadcast on other labs 
+  A = labBroadcast(1)
+end
+
+% Calculate sum of column identified by labindex for this lab 
+column\_sum = sum(A(:,labindex))
+% Calculate total sum by combining column sum from all labs 
+total\_sum = gplus(column\_sum)
+\end{semiverbatim}
+\end{frame}
+
    \subsection{SPMD}
+\begin{frame}{Single Program Multiple Data}
+ \begin{block}{SPMD}
+  \begin{itemize}
+    \item Uses global arrays to partition data across workers
+    \item Many functions work in parallel across partitioned data
+    \item Use \texttt{pmode} to debug
+  \end{itemize}
+ \end{block}
+\end{frame}
+
    \subsection{Creating a Prallel Configuration}
+\begin{frame}{Prallel Configurations}
+\begin{block}{What is a Prallel Config?}
+ \begin{itemize}
+  \item MATLAB Prefers parallel configs
+  \item CAC does not
+  \item Inflexable from the command line
+  \item Some parallel features require configs and cannot use the \texttt{findResource()} function
+  \begin{itemize}
+   \item Anything that uses \texttt{matlabpool}
+   \item SPMD
+  \end{itemize}
+ \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Torque/PBS Prallel Configs}
+ Contact the CAC \url{cac-support@umich.edu} for help, All settings should be left to the defaults unless listed
+ \begin{block}{Torque configs}
+  \begin{itemize}
+   \item {\bf ResourceTemplate:}\\ \texttt{-V -l nodes=\^{}N\^{},gres=matlab\_distrib\_comp\_engin:\^{}N\^{}}
+    \begin{itemize}
+     \item {Add other PBS options here \texttt{qos, -A, preempt, etc}}
+    \end{itemize}
+  \end{itemize}
+ \end{block}
+\end{frame}
+
+\begin{frame}{mpiexec Parallel Configs}
+ \begin{block}{MPIEXEC Config}
+  \begin{itemize}
+   \item {\bf EnvironmentSetMethod:} \texttt{setenv}
+   \item {\bf MpiexecFileName:} \\ \texttt{/home/software/rhel5/mpiexec/0.83/bin/mpiexec}
+   \item {\bf SubmitArguments:} \\ \texttt{--comm=pmi}
+  \end{itemize}
+ \end{block}
+ \begin{block}{~/matlab/mpiLibConf.m}
+  \texttt{function [lib, extras] = mpiLibConf} \\
+  \texttt{lib = '/home/software/rhel5/mpich2/1.2.1p1/lib/libmpich.so';} \\
+  \texttt{extras = \{\};}
+ \end{block}
+\end{frame}
+
+\begin{frame}{When to use Torque/PBS or mpiexec}
+ \begin{block}{Which config to use?}
+  \begin{itemize}
+   \item Avoid parallel configs if you can
+   \item Use Torque if submitting work from nyx-login {\bf from MATLAB}
+   \item Use mpiexec if running matlab from a PBS script 
+  \end{itemize}
+ \end{block}
+\note{This is confusing, the PBS case is if MATLAB is submitting your job for you, you never run qsub, etc. The mpiexec case (the recomended) is where you submit a PBS job with qsub like any other code on a cluster and that PBS script runs MATLAB which calls your parallel config. \\
+We really wish this was simpler but it is not. \\
+\texttt{mpiLibConf.m} must go in \texttt{~/matlab/} it cannot be in the normal MATLAB PATH due to bugs in the software. Note that the path to \texttt{libmpich.so} and the path to mpiexec are subjet to change. Example after a major upgrade of a CAC cluster the path will change. Another example is if you wish to run MATLAB over infiniband such as the FLUX cluster.
+} %note
+\end{frame}
+
   \section{Licencing}
+  \begin{frame}{Licencing}
+   \begin{block}{MATLAB is not free}
+    \begin{itemize}
+     \item If mcode is compiled with \texttt{mcc} {\bf NO} licenses are needed and you can ignore the rest of this
+     \item MATLAB/SIMULINK and Toolboxes/Blocksets all have their own licenses.
+     \item The CAC and CAEN do not have equal number of all licenses
+     \item The CAC shares tokens with CAEN lab machines
+     \item If you cannot use \texttt{mcc} on your mcode you {\bf MUST} request licneses on the cluster via PBS
+     \item Classroom tokens are to not be used for research, this is wrong and illegal
+    \end{itemize}
+   \end{block}
+  \end{frame}
+
    \subsection{Interacting with PBS and GRES}
-   \subsection{MATLAB Core}
-   \subsection{Toolboxes}
+\begin{frame}[fragile]
+\frametitle{PBS and GRES}
+    \begin{block}{Do not ignore this message}
+     \begin{semiverbatim}
+There are a limited number of matlab licenses
+Request the number each job needs like so:
+	 #PBS -l nodes=1,walltime=24:00:00,gres=matlab
+	 #PBS -l nodes=1,gres=matlab%Communication_toolbox
+Requests one matlab and one Communication_toolbox
+     \end{semiverbatim}
+    \end{block}
+\end{frame}
+\begin{frame}{PBS and Licneses}
+    \begin{block}{qsub -l gres=matlab\%simulink}
+     \begin{itemize}
+      \item There can be only one \texttt{gres=} line
+      \item If requesting multiple licenses seperate with \%
+      \item We do not track all Toolboxes/Blocksets Contact the CAC to track the ones you use
+      \item Check what we do track: \\
+\texttt{diagnose -n DEFAULT}
+     \end{itemize}
+    \end{block}
+\note{Not all toolboxes/blocksets need to be tracked. Those that have many installed and there is not a limitation do not need to be tracked. If users submit jobs or run jobs that get FLEXlm errors this is because of licenses and should contact cac-support@umich.edu to have those tokens tracked.
+} % note
+\end{frame}
    \subsection{Parallel Computing Toolbox}
-  \section{Optimizing Matlab with mlint}
+   \begin{frame}{Prallel Computing Toolbox Tokens}
+    \begin{block}{PCT is different}
+     \begin{itemize}
+      \item PCT jobs use only \texttt{matlab\_distrib\_comp\_engine} tokens 
+      \item No toolbox or MATLAB tokens are needed for workers only engines
+      \item Users only need to request engine tokens if submitting using the mpiexec parallel config
+      \begin{itemize}
+       \item \texttt{gres=matlab\_dist\_comp\_engine:N}
+       \item N is the number of workers
+       \item If MATLAB submits your PBS job for you this can be ignored
+      \end{itemize}
+     \end{itemize}
+    \end{block}
+\note{Using PCT users can streach limited licneses. Any worker running under PCT does not use any licneses other than the single engin license. Engins are much cheaper than many toolboxes.  Though you must have at least one valid license for the toolbox for the PCT worker to allow those features. That token is not used when the worker runs and does not even need to be available at the time the worker starts.
+} %note
+   \end{frame}
+
+  \section{Optimizing Matlab}
+  \begin{frame}{mlint}
+   \begin{block}{MATLAB Static code analyzer}
+    \begin{itemize}
+     \item Both a command line tool and a function
+     \item Those hints the MATLAB editor gives you are from mlint
+     \item If mlint says to do something it is a good idea
+    \end{itemize}
+   \end{block}
+   \begin{block}{mlint example}
+    \texttt{mlint lengthofline.m} \\
+L 23 (C 12-15): NUMEL(x) is usually faster than PROD(SIZE(x)). \\
+L 24 (C 5-11): The variable 'notline' appears to change size on every loop iteration. Consider preallocating for speed.
+   \end{block}
+  \end{frame}
    \subsection{Resizing Arrays}
-   \subsection{mlint Hints}
+\begin{frame}[fragile]
+\frametitle{Resizing Arrays, Pre-Allocate}
+\begin{columns}[T]
+\begin{column}{5cm}
+ \begin{block}{slowloop.m}
+  \begin{semiverbatim}
+tic
+for i=1:100000
+    j(i)=i;
+end
+toc
+  \end{semiverbatim}
+ \end{block}
+\end{column}
+\begin{column}{5cm}
+\begin{block}{fastloop.m 100x faster}
+\begin{semiverbatim}
+tic
+j=zeros(1,100000);
+for i=1:100000
+    j(i)=i;
+end
+toc
+\end{semiverbatim}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
    \subsection{mex files}
-    %nag library here
+\begin{frame}{mex}
+\begin{block}{mex files}
+ \begin{itemize}
+  \item Compiled C/Fortran Etc that can be called from MATLAB
+  \item Example NAG Library \\
+\url{http://www.nag.co.uk/numeric/MB/start.asp}
+  \item If performance is a huge deal make your long running routines in C/Fortran and run from mex
+  \item MATLAB speed has improved significantly, but in cases C/Fortran are still faster
+ \end{itemize}
+\end{block}
+\note{
+The CAC via CAEN has unlimited licences to the NAG toolbox on MATLAB. It is not uncommon to use MATLAB as a frontend to parallel codes built as mex files.
+}%
+\end{frame}
   \section{Survey}
-  %exit survey
+  \begin{frame}{Contact and Survey}
+   \begin{block}{Support}
+    \url{cac-support@umich.edu}
+   \end{block}
+   \begin{block}{Exit Survey}
+    \url{https://www.engin.umich.edu/form/exit}
+   \end{block}
+  \end{frame}
 \end{document}
