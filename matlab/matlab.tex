@@ -301,6 +301,43 @@ Note using \texttt{getAllOutputArguments} loads all of the data from the tasks i
 Parallel jobs are really the MPI for matlab. When you submit a parallel job (again MATLAB submits the PBS job for you) it will be a single multiple cpus PBS unlike distributed jobs where each is a single cpu multiple PBS job.  MATLAB also provides higher level functions in parallel jobs that minimizes the amount of parallel programming dificulty the user has.
 } %note
    \end{frame}
+   
+\begin{frame}[fragile]
+\frametitle{Parallel Job Setup}
+ \begin{semiverbatim}
+sched=findResource('scheduler', 'type', 'torque')
+set(sched, 'SubmitArguments', '-l walltime=15:00
+             -q cac -M brockp@umich.edu -m abe')
+pjob=createParallelJob(sched);
+set(pjob, 'MaximumNumberOfWorkers', 4)
+set(pjob, 'MinimumNumberOfWorkers', 4)
+set(pjob, 'FileDependencies', {'colsum.m'})
+t=createTask(pjob, @colsum, 1, {})
+submit(pjob)
+waitForState(pjob)
+results=getAllOutputArguments(pjob)
+destroy(pjob)
+ \end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Parallel Kernel}
+\begin{semiverbatim}
+function total\_sum = colsum
+if labindex == 1
+  % Send magic square to other labs 
+  A = labBroadcast(1,magic(numlabs))
+else
+  % Receive broadcast on other labs 
+  A = labBroadcast(1)
+end
+
+% Calculate sum of column identified by labindex for this lab 
+column\_sum = sum(A(:,labindex))
+% Calculate total sum by combining column sum from all labs 
+total\_sum = gplus(column\_sum)
+\end{semiverbatim}
+\end{frame}
 
    \subsection{SPMD}
    \subsection{Creating a Prallel Configuration}
