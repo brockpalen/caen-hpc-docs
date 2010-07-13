@@ -145,6 +145,30 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
     } %note
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{MCC PBS File}
+\begin{semiverbatim}
+#PBS -N matlab1
+#PBS -l nodes=1,mem=1gb,walltime=24:00:00
+# note the lack of a need for gres here 
+#PBS -M your-email-address
+#PBS -m abe
+#PBS -V 
+echo "I ran on:"
+cat \$PBS\_NODEFILE
+#
+{\bf #Setup MCR cache directory locally }
+{\bf export MCR\_CACHE\_ROOT=/tmp/mcr\_cache\_\$PBS\_JOBID }
+{\bf mkdir -p \$MCR\_CACHE\_ROOT }
+# 
+cd /home/your-user-name/your-matlab-directory
+#Run the compiled mcode tocmpile.m
+./tocmpile 
+\end{semiverbatim}
+\note{ MCR\_CACHE\_DIR changes the location of a compiler cache directory that is accessed by all compiled codes.  When many codes are ran at once this cache locks up causing jobs to never progress.  They will look to be running in the queue, but produce no results, or produce them many times slower than expected. Setting the cache directory to a local location (/tmp/ in our case) prevents this problem.  It does not cause any issues with results or running speed.
+} % note
+\end{frame}
+
    \subsection{Dealing with MATLAB Threads}
   \begin{frame}{Implicit Threads}
    \begin{block}{Threads for MATLAB Functions}
