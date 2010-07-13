@@ -66,6 +66,7 @@
    \begin{frame}{MCC Usage}
     \begin{block}{Compiling with MCC}
      \texttt{mcc -R -singleCompThread -m simple.m -I includes/} \\
+     Run Resulting Executable: \\
      \texttt{./simple}
     \end{block}
     \begin{block}{simple.m}
@@ -142,6 +143,30 @@ When passing values to \texttt{-I directory/}  the space is important. \texttt{m
     \note{ By using the \texttt{if ischar(arg)} check even when this code is not compiled and ran from normal MATLAB it will work just fine. Thus this check is safe to use in all cases.  The power of a compiled function is that users can compile once (compiling with mcc is slow) and run multiple cases passing arguments from the command line. This allows for a compile once run many situation, saving time and effort.
 
     } %note
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{MCC PBS File}
+\begin{semiverbatim}
+#PBS -N matlab1
+#PBS -l nodes=1,mem=1gb,walltime=24:00:00
+# note the lack of a need for gres here 
+#PBS -M your-email-address
+#PBS -m abe
+#PBS -V 
+echo "I ran on:"
+cat \$PBS\_NODEFILE
+#
+{\bf #Setup MCR cache directory locally }
+{\bf export MCR\_CACHE\_ROOT=/tmp/mcr\_cache\_\$PBS\_JOBID }
+{\bf mkdir -p \$MCR\_CACHE\_ROOT }
+# 
+cd /home/your-user-name/your-matlab-directory
+#Run the compiled mcode tocmpile.m
+./tocmpile 
+\end{semiverbatim}
+\note{ MCR\_CACHE\_DIR changes the location of a compiler cache directory that is accessed by all compiled codes.  When many codes are ran at once this cache locks up causing jobs to never progress.  They will look to be running in the queue, but produce no results, or produce them many times slower than expected. Setting the cache directory to a local location (/tmp/ in our case) prevents this problem.  It does not cause any issues with results or running speed.
+} % note
 \end{frame}
 
    \subsection{Dealing with MATLAB Threads}
@@ -257,6 +282,7 @@ set(sched,'SubmitArguments','-l walltime=24:00:00 -q cac')
 job1=createJob(sched) 
 
 %add a few tasks, each task will be a one cpu jobs in PBS 
+%set(job1, 'FileDependencies', {'directory/'})
 createTask(job1, @rand, 1, {3,3});
 createTask(job1, @rand, 1, {3,3});
 get(job1, 'Tasks')  
@@ -337,6 +363,21 @@ column\_sum = sum(A(:,labindex))
 % Calculate total sum by combining column sum from all labs 
 total\_sum = gplus(column\_sum)
 \end{semiverbatim}
+\end{frame}
+
+\begin{frame}{FileDependencies}
+\begin{block}{List of directories and files that the worker will need to access}
+\begin{itemize}
+ \item Required for both Parallel and Distributed jobs
+ \item Cell Array of directories or files
+ \item Only non-standard mfiles need be included
+\end{itemize}
+\end{block}
+
+\begin{block}{Example}
+  \texttt{set(job1,'FileDependencies',{'fd1' 'fd2' 'fdfile1.m'})}
+\end{block}
+
 \end{frame}
 
    \subsection{SPMD}
