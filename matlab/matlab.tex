@@ -257,6 +257,7 @@ set(sched,'SubmitArguments','-l walltime=24:00:00 -q cac')
 job1=createJob(sched) 
 
 %add a few tasks, each task will be a one cpu jobs in PBS 
+%set(job1, 'FileDependencies', {'directory/'})
 createTask(job1, @rand, 1, {3,3});
 createTask(job1, @rand, 1, {3,3});
 get(job1, 'Tasks')  
@@ -337,6 +338,21 @@ column\_sum = sum(A(:,labindex))
 % Calculate total sum by combining column sum from all labs 
 total\_sum = gplus(column\_sum)
 \end{semiverbatim}
+\end{frame}
+
+\begin{frame}{FileDependencies}
+\begin{block}{List of directories and files that the worker will need to access}
+\begin{itemize}
+ \item Required for both Parallel and Distributed jobs
+ \item Cell Array of directories or files
+ \item Only non-standard mfiles need be included
+\end{itemize}
+\end{block}
+
+\begin{block}{Example}
+  \texttt{set(job1,'FileDependencies',{'fd1' 'fd2' 'fdfile1.m'})}
+\end{block}
+
 \end{frame}
 
    \subsection{SPMD}
