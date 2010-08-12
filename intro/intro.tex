@@ -371,7 +371,6 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \frametitle{Creating a PBS Batch File}
 A simple single cpu example
   \begin{semiverbatim}
-\uncover<1->{#!/bin/sh}
 \uncover<1->{#PBS -N cpu-1}
 \uncover<2->{#PBS -l nodes=1,walltime=1:00:00}
 \uncover<3->{#PBS -m abe}
@@ -379,7 +378,9 @@ A simple single cpu example
 \uncover<4->{#PBS -q route}
 \uncover<5->{#PBS -j oe}
 \uncover<6->{#PBS -V}
-\uncover<7->{cat \$PBS\_NODEFILE}
+\uncover<7->{#PBS -l qos=qualityOfService}
+\uncover<7->{#PBS -A account}
+\uncover<8->{cat \$PBS\_NODEFILE}
 \uncover<8->{cd \~{}/input1dir/}
 \uncover<8->{mcnp5.mpi i=input o=output r=restart}
   \end{semiverbatim}
@@ -387,9 +388,10 @@ A simple single cpu example
 \begin{frame}[fragile]
   \frametitle{Creating a PBS Batch File}
   \begin{semiverbatim}  
-\uncover{#!/bin/sh}
 \uncover{#PBS -N mcnp-8x2}
 \uncover{#PBS -l nodes=8:ppn=2,walltime=8:00:00}
+\uncover{#PBS -l qos=qualityOfService}
+\uncover{#PBS -A account}
 \uncover{#PBS -q route}
 \uncover{#PBS -M brockp@umich.edu}
 \uncover{#PBS -m ae}
@@ -410,6 +412,40 @@ A simple single cpu example
  \note{See \texttt{man qsub} for all options}
  \note{Example pbs file included with example codes \texttt{run}}
 \end{frame}
+
+%explain account/qos
+\begin{frame}{Accounts and Quality Of Service}
+ \begin{block}{\#PBS -A account}
+  Accounts control access to resources you have access to
+ \end{block}
+ \begin{block}{\#PBS -l qos=qualityOfService}
+  QOS (Quality Of Service) controls other limits
+ \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{diagnose}
+ \begin{block}{diagnose -v -u \$USER}
+  Displays accounts and QOS's users can access
+ \end{block}
+\begin{semiverbatim}
+[brockp@nyx-login-intel1 ~]$ diagnose -v -u djsiege
+evaluating user information
+Name    Priority    Flags  QDef      QOSList*        
+
+djsiege    0       -      djsiege cac,preempt,djsiege
+  GDEF=meche
+  UID=1913288
+  EMAILADDRESS=djsiege@umich.edu
+  QOSRate=100.00%
+  ADEF=djsiege  ALIST=cac,djsiege
+  Message: profiling enabled (1 of 50 samples/00:30:00 interval)
+\end{semiverbatim}
+\note{
+\texttt{QDef} is the default QOS which will be used if none is given by the job. \texttt{QOSList} is the full list of valid QOS's the user may request. \texttt{ADEF=} is the default account if omitted from the the job. \texttt{ALIST} is the full list of valid accounts the user may request. \\ It is very important to get the jobs account and QOS set correctly.  In almost all cases the are the same value and the default should be fine.  If a job changes one in most cases the other should also be changed to match. In Flux allocations, accounts specify against what allocation jobs should be deducted from.
+} %note
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Submitting, Checking, and Deleting Batch Jobs}
   \begin{itemize}
