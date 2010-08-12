@@ -100,6 +100,27 @@ TeraGrid is for users who need access to resources that can not be provided on c
   \end{frame}
 %note
    \note{\texttt{nyx-login.engin.umich.edu} is a pool of currently 5 machines (subject to change). When you first connect the login session will go to one of the 5 nodes randomly. Future sessions from that machine for the day should go to the same machine.  You can check the specific machine the session is on by running \texttt{hostname}. The 5 machines are split between the two types of systems the nyx cluster supports currently AMD and Intel.  If you do not care the type of login node you land on (matlab, abaqus etc) use \texttt{nyx-login.engin.umich.edu}.  If the type of machine is of interest use \texttt{nyx-login-intel.engin.umich.edu} or \texttt{nyx-login-amd.engin.umich.edu}.  These pools contain only login nodes of that type.  Note that cpu models vary between vendors, see: \url{http://cac.engin.umich.edu/resources/software/pgi.html\#cputypes} to optimize for your CPU type. }
+
+%flux
+\begin{frame}{Hardware: Flux Allocations}
+ \begin{columns}[c]
+  \begin{column}{7cm}
+   \begin{block}{Flux}
+    \begin{itemize}
+     \item Shares login, software, storage, queue, with Nyx.
+     \item 2000 Intel Cores
+     \item 12 Cores/Node
+     \item 48 GB ram/node
+     \item 40Gbps Infiniband for MPI
+     \item Flux requires allocations of cpus and time
+    \end{itemize}
+   \end{block}
+  \end{column}
+  \begin{column}{5cm}
+   \begin{center}\includegraphics[height=2.7in]{Flux-ib}\end{center}
+  \end{column}
+ \end{columns}
+\end{frame}
  
 %bighouse
   \begin{frame}{Hardware: bighouse}
