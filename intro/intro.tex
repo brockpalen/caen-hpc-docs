@@ -60,7 +60,6 @@ TeraGrid is for users who need access to resources that can not be provided on c
   \begin{frame}{Hardware}
    \begin{block}{Compute Hardware}
     \begin{itemize}
-    \item 1 Altix node, 32 cores
     \item 800 Compute nodes, over 4600 cores
     \item Gigabit networking and Infiniband networking
     \item Upto 96GB of memory (64GB public) for SMP work
@@ -101,27 +100,6 @@ TeraGrid is for users who need access to resources that can not be provided on c
 %note
    \note{\texttt{nyx-login.engin.umich.edu} is a pool of currently 5 machines (subject to change). When you first connect the login session will go to one of the 5 nodes randomly. Future sessions from that machine for the day should go to the same machine.  You can check the specific machine the session is on by running \texttt{hostname}. The 5 machines are split between the two types of systems the nyx cluster supports currently AMD and Intel.  If you do not care the type of login node you land on (matlab, abaqus etc) use \texttt{nyx-login.engin.umich.edu}.  If the type of machine is of interest use \texttt{nyx-login-intel.engin.umich.edu} or \texttt{nyx-login-amd.engin.umich.edu}.  These pools contain only login nodes of that type.  Note that cpu models vary between vendors, see: \url{http://cac.engin.umich.edu/resources/software/pgi.html\#cputypes} to optimize for your CPU type. }
  
-%bighouse
-  \begin{frame}{Hardware: bighouse}
-   \begin{columns}[c]
-    \begin{column}{7cm}
-    \begin{block}{Bighouse}
-    \begin{itemize}
-      \item bighouse is our Itanium SMP machine
-      \item Login: \texttt{bighouse.engin.umich.edu}
-      \item Running SuSE Linux Enterprise Server 10
-      \item ProPack 5 from SGI
-      \item Uses PBS for Resource Access
-      \item Only available for benchmarking (Private)
-         \note{Bighouse: Available to Aero Space Dept \\ The Itanium II CPUs in bighouse are quite dated.  If such a machine is needed, Infiniband on the nyx system, or ScalMP may be a better solution. \\ Bighouse does not support many common software apps that work on the x86\_64 nyx system such as matlab.}
-    \end{itemize}
-   \end{block}
-   \end{column}
-   \begin{column}{5cm}
-    \begin{center}\includegraphics[height=2.7in]{tallbighouse} \end{center}
-   \end{column}
-   \end{columns}
-  \end{frame}
 % vislab
 \begin{frame}{Hardware: 3dlab}
  \begin{center}\includegraphics[height=2.0in]{3dlab}\end{center}
@@ -183,12 +161,6 @@ Snapshots are located at \texttt{/home/.ckpt/}.
     \begin{itemize}
       \item OpenMPI
       \item PGI Compilers
-    \end{itemize}
-    \end{block}
-    \begin{block}{Bighouse Defaults}
-    \begin{itemize}
-      \item Message Passing Toolkit (MPT)
-      \item Intel Compilers
     \end{itemize}
     \end{block}
   \end{frame}
@@ -285,12 +257,6 @@ Snapshots are located at \texttt{/home/.ckpt/}.
     \item Use: \texttt{mpicc, mpiCC, mpif90} for MPI code
     \item Use: \texttt{pgcc, pgCC, pgf90} with \texttt{-mp} for OpenMP Code
    \end{itemize}
-   \end{block}
-   \begin{block}{Bighouse}
-    \begin{itemize}
-     \item Use: \texttt{icc, icpc, ifort} with \texttt{-lmpi} for MPI code
-     \item Use: \texttt{icc, icpc, ifort} with \texttt{-openmp} for OpenMP code
-    \end{itemize}
    \end{block}
   \end{frame}
 \begin{frame}{Compile Example}
