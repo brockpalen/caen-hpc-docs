@@ -62,7 +62,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
     \begin{itemize}
     \item 900 Compute nodes, over 7200 cores
     \item Gigabit networking and Infiniband networking
-    \item Upto 96GB of memory (64GB public) for SMP work
+    \item Up to 96GB of memory (64GB public) for SMP work
     \end{itemize}
    \end{block}
    \begin{block}{Visualization Hardware}
@@ -133,7 +133,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
    \item IDL Interactive Data Language
    \note[item]{IDL \url{http://www.ittvis.com/idl/}}
    \item Has /nobackup mounted
-   \note{Using Visit or Paraview in addition to the Nyx cluster or other system. Visulization supporting memory footprints orders of magnatude bigger than these systems alone support are possible. Sets of over 100GB have been done with ease. Contact cac-support@umich.edu for help. Access to these workstations are controlled by the CAC and the 3dlab.  Contact cac-support@umich.edu for access and location in the Duderstadt Center.}
+   \note{Using Visit or Paraview in addition to the Nyx cluster or other system. Visualization supporting memory footprints orders of magnitude bigger than these systems alone support are possible. Sets of over 100GB have been done with ease. Contact cac-support@umich.edu for help. Access to these workstations are controlled by the CAC and the 3dlab.  Contact cac-support@umich.edu for access and location in the Duderstadt Center.}
   \end{itemize}
 \end{frame}
 % stroage
@@ -162,15 +162,15 @@ TeraGrid is for users who need access to resources that can not be provided on c
  \end{column}
 \end{columns}
 \note{
-Both filesystems are shared on all CAC systems.
+Both file systems are shared on all CAC systems.
 \url{http://cac.engin.umich.edu/resources/storage/lustre.html}
 \\
 For /nobackup user directories have to be created by the user \texttt{mkdir /nobackup/\$USER}.  All users are logged into /home by default. \\
 
-Users can check their quota useage on home with \texttt{quota}.\\
+Users can check their quota usage on home with \texttt{quota}.\\
 Users can also see their use of /nobackup with: \texttt{lfs quota /nobackup/}\\
 
-\texttt{/home} provides snapshots, a readonly view of your directory at a point in time, this allows recovery of modified/deleted files, but is not a backup for defence against hardware failure.  \\
+\texttt{/home} provides snapshots, a read only view of your directory at a point in time, this allows recovery of modified/deleted files, but is not a backup for defense against hardware failure.  \\
 Snapshots are located at \texttt{/home/.ckpt/}.
 } %end note
 \end{frame}
@@ -297,7 +297,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \begin{itemize}
    \item \texttt{make}
    \item \texttt{mpirun -np 2 c\_ex01}
-   \item <2-> Thats it...  Ok not really
+   \item <2-> That's it...  Ok not really
    \item <3-> \texttt{make clean}
    \item <3-> \texttt{mpicc -fast -o c\_ex01 c\_ex01.c}
     \note[item]{'man make' Make lets you manage large bits of code. Works for all source types}
@@ -335,7 +335,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \end{frame}
 \begin{frame}[fragile]
   \frametitle{Creating a PBS Batch File}
-A simple single cpu example
+A simple single CPU example
   \begin{semiverbatim}
 \uncover<1->{#PBS -N cpu-1}
 \uncover<2->{#PBS -l nodes=1,walltime=1:00:00}
@@ -374,7 +374,7 @@ A simple single cpu example
  \note[item]{-M Who to email, can be more than one address}
  \note[item]{-m when to email a=abort, b=begin, e=end}
  \note[item]{-j optional: join STDOUT and STDERR default is to not}
- \note[item]{-V Copy submit environment to compute environtment, ALWAYS use this}
+ \note[item]{-V Copy submit environment to compute environment, ALWAYS use this}
  \note{See \texttt{man qsub} for all options}
  \note{Example pbs file included with example codes \texttt{run}}
 \end{frame}
@@ -513,7 +513,7 @@ resources_used.walltime=00:49:57
 \subsection{Understanding the Scheduler}
 \begin{frame}{Understanding the Scheduler}
 The scheduler determines what jobs can run, when they can run, and where.  There
-are many factors that go into the scheduler's decision.
+are many factors that go into the schedulers decision.
    \begin{block}{Limits and Priority}
     \begin{itemize}
     \item<1-> Limited number jobs eligible for scheduling
@@ -546,7 +546,7 @@ filled by short jobs that otherwise would have waited.\\
 \end{frame}
 \subsection{Scheduler Commands}
 \begin{frame}{Understanding the Scheduler}
-There are several commands that can give you insight into the scheduler's
+There are several commands that can give you insight into the schedulers
 decisions.
 \begin{itemize}
 \item \texttt{showq} --- shows the state of the queue at that moment in time,
