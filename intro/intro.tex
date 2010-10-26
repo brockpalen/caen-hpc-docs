@@ -399,7 +399,7 @@ A simple single CPU example
 \uncover{cd \$\{HOME\}/input2/}
 \uncover{echo "I ran on: "}
 \uncover{cat \$PBS\_NODEFILE}
-\uncover{mpirun mcnp5.mpi i=input2 o=output2 r=restart2}
+\uncover{mpirun mcnp5 i=input2 o=output2 r=restart2}
   \end{semiverbatim}  
  \note[item]{-N sets the job name, can not start with a number}
  \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np. When running under PBS -np is optional. If ommited one rank is started per requested cpu.}
