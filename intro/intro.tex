@@ -155,7 +155,7 @@ Flux is a cluster managed by the CAC that are available to researchers in a fee 
  \begin{block}{/nobackup}
   \begin{itemize}
    \item Fast and supports MPI-IO
-   \item 73TB total size
+   \item 143TB total size
    \item No quotas
    \item Only for current jobs
   \end{itemize}
@@ -277,20 +277,26 @@ Snapshots are located at \texttt{/home/.ckpt/}.
       \texttt{pico}-like editor) on the clusters.
       etc.
     \item<3-| alert@1-> Only use \texttt{notepad} on Windows!
-    \item<3-| alert@1-> If made on windows fix with \texttt{dos2unix filename}
     \end{itemize}
    \end{block}
   \end{frame}
 %compile code
   \begin{frame}{Compile Code}
-   \note[item] { The following applies to the default modules}
-   \begin{block}{Nyx}
+   \note[item] { The following applies to the default modules, or the recomended flux modules}
+   \begin{block}{Flux PGI Compilers}
    \begin{itemize}
     \item Use: \texttt{mpicc, mpiCC, mpif90} for MPI code
     \item Use: \texttt{pgcc, pgCC, pgf90} with \texttt{-mp} for OpenMP Code
    \end{itemize}
    \end{block}
+   \begin{block}{Flux Intel Compilers}
+    \begin{itemize}
+     \item Use: \texttt{mpicc, mpiCC, mpif90} for MPI code
+     \item Use: \texttt{icc, icpc, ifort} with \texttt{-openmp} for OpenMP Code
+    \end{itemize}
+   \end{block}
   \end{frame}
+
 \begin{frame}{Compile Example}
  Copy Code: \texttt{cp \~{}brockp/cac-intro-code.tar.gz \~{}} 
  \\ \texttt{tar -xzvf cac-intro-code.tar.gz}  \\ \texttt{cd \~{}/cac-intro-code}
@@ -308,10 +314,10 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \begin{itemize}
    \item \texttt{make}
    \item \texttt{mpirun -np 2 c\_ex01}
-   \item <2-> That's it...  Ok not really
-   \item <3-> \texttt{make clean}
-   \item <3-> \texttt{mpicc -fast -o c\_ex01 c\_ex01.c}
+   \item <2-> \texttt{make clean}
+   \item <2-> \texttt{mpicc -fast -o c\_ex01 c\_ex01.c}
     \note[item]{'man make' Make lets you manage large bits of code. Works for all source types}
+    \note[item]{\texttt{make -jN} will compile in perallel on N cores}
   \end{itemize}
  \end{block}
 \end{frame}
@@ -327,11 +333,27 @@ Snapshots are located at \texttt{/home/.ckpt/}.
     \item We use a system called Torque, it is derived from PBS
     \item The batch system controls access to queues
     \item The scheduling (Maui/Moab) system decides if and where jobs can run
-    \item<2-> There is a single queue: \texttt{cac}
-    \item<3-> Users with private nodes can check their status with \texttt{resinfo.pl -n RESNAME}
+    \item<2-> There are two main queues: \texttt{cac} and \texttt{flux}
+    \item<3-> Users with private Nyx nodes can check their status with \texttt{resinfo.pl -n RESNAME}
     \end{itemize}
    \end{block}
   \end{frame}
+
+  \begin{frame}{Which Queue to Use}
+   \begin{block}{flux Queue}
+    \begin{itemize}
+     \item Use the \texttt{flux} queue if you have a flux allocation. 
+     \item Flux allocations all end in \texttt{\_flux}
+     \item Users outside of Engineering will always use \texttt{flux}
+    \end{itemize}
+   \end{block}
+   \begin{block}{cac or route}
+    \begin{itemize}
+     \item Available only to Engineering users
+    \end{itemize}
+   \end{block}
+  \end{frame}
+
   \begin{frame}{Introduction to the PBS Batch System}
    \begin{block}{PBS Files}
     The steps to using the batch system are:
@@ -352,14 +374,14 @@ A simple single CPU example
 \uncover<2->{#PBS -l nodes=1,walltime=1:00:00}
 \uncover<3->{#PBS -m abe}
 \uncover<3->{#PBS -M brockp@umich.edu}
-\uncover<4->{#PBS -q route}
+\uncover<4->{#PBS -q flux}
 \uncover<5->{#PBS -j oe}
 \uncover<6->{#PBS -V}
-\uncover<7->{#PBS -l qos=qualityOfService}
-\uncover<7->{#PBS -A account}
+\uncover<7->{#PBS -l qos=qualityOfService\_flux}
+\uncover<7->{#PBS -A account\_flux}
 \uncover<8->{cat \$PBS\_NODEFILE}
 \uncover<8->{cd \~{}/input1dir/}
-\uncover<8->{mcnp5.mpi i=input o=output r=restart}
+\uncover<8->{mcnp5 i=input o=output r=restart}
   \end{semiverbatim}
 \end{frame}
 \begin{frame}[fragile]
@@ -369,7 +391,7 @@ A simple single CPU example
 \uncover{#PBS -l nodes=8:ppn=2,walltime=8:00:00}
 \uncover{#PBS -l qos=qualityOfService}
 \uncover{#PBS -A account}
-\uncover{#PBS -q route}
+\uncover{#PBS -q cac}
 \uncover{#PBS -M brockp@umich.edu}
 \uncover{#PBS -m ae}
 \uncover{#PBS -j oe}
@@ -377,7 +399,7 @@ A simple single CPU example
 \uncover{cd \$\{HOME\}/input2/}
 \uncover{echo "I ran on: "}
 \uncover{cat \$PBS\_NODEFILE}
-\uncover{mpirun -np 16 mcnp5.mpi i=input2 o=output2 r=restart2}
+\uncover{mpirun mcnp5.mpi i=input2 o=output2 r=restart2}
   \end{semiverbatim}  
  \note[item]{-N sets the job name, can not start with a number}
  \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np. When running under PBS -np is optional. If ommited one rank is started per requested cpu.}
