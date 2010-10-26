@@ -107,11 +107,13 @@ TeraGrid is for users who need access to resources that can not be provided on c
    \begin{block}{Flux}
     \begin{itemize}
      \item Shares login, software, storage, queue, with Nyx.
+     \item Login Node: \texttt{flux-login.engin.umich.edu}
      \item 2000 Intel Cores
      \item 12 Cores/Node
      \item 48 GB ram/node
      \item 40Gbps Infiniband for MPI
-     \item Flux requires allocations of cpus and time
+     \item Flux requires an allocation to use
+     \item Allocations are available for purchase
     \end{itemize}
    \end{block}
   \end{column}
@@ -119,6 +121,9 @@ TeraGrid is for users who need access to resources that can not be provided on c
    \begin{center}\includegraphics[height=2.7in]{Flux-ib}\end{center}
   \end{column}
  \end{columns}
+\note{
+Flux is a cluster managed by the CAC that are available to researchers in a fee for service. There are also accomidations for grants that disallow fee for service. The minimum allocation is 1 core for 1 month. The goal of flux is quick and flexable access for researchers to get and adjust resources that match their needs.  Flux also offers GPGPUs and a few other resrouces. Contact flux-support@umich.edu for help.
+} %note
 \end{frame}
  
 % vislab
@@ -140,9 +145,8 @@ TeraGrid is for users who need access to resources that can not be provided on c
 \begin{frame}{Storage}
  \begin{columns}[c]
  \begin{column}{7cm}
- \begin{block}{/home}
+ \begin{block}{/home and /home2}
   \begin{itemize}
-   \item 6TB total size
    \item 40GB quota per user
    \item Reliable but slow
    \item Only for current jobs
@@ -178,11 +182,18 @@ Snapshots are located at \texttt{/home/.ckpt/}.
 %default software  
   \subsection {Default Software}
   \begin{frame}{Software}
-    \begin{block}{Nyx Defaults}
+    \begin{block}{Nyx/Flux Defaults}
     \begin{itemize}
       \item OpenMPI
       \item PGI Compilers
     \end{itemize}
+    \end{block}
+    \begin{block}{Recomended Flux Defaults}
+     \begin{itemize}
+      \item \texttt{module rm pgi}
+      \item \texttt{module load intel-comp}
+      \item \texttt{module swap openmpi openmpi/1.4.2-intel}
+     \end{itemize}
     \end{block}
   \end{frame}
 
