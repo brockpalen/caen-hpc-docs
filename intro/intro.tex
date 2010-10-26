@@ -459,11 +459,11 @@ $ qsub  mcnp.q
 job:\\
   \tiny
 \begin{semiverbatim}
-$ qstat -au brockp
+$ qstat -u brockp
 nyx-login.engin.umich.edu: 
 Job ID               Username Queue    Jobname    SessID NDS   TSK Memory Time  S Time
 -------------------- -------- -------- ---------- ------ ----- --- ------ ----- - -----
-542.nyx-login.engin. brockp   short    mcnp-8x2     18922     8  --    --  08:00 R 00:00
+542.nyx-login.engin. brockp   flux    mcnp-8x2     18922     8  --    --  08:00 R 00:00
 
 $ checkjob 542
 [... lots of output ...]
@@ -525,20 +525,6 @@ resources_used.walltime=00:49:57
   \note{Interactive jobs can use X11 forwarding also}
   \note[item]{\texttt{qsub -I -X -V -l nodes=2:ppn=2,walltime=15:00 -q route}}
   \note[item]{Used with ddt our parallel debugger}
- \end{block}
-\end{frame}
-%preempt jobs
-\begin{frame}{Preemptable Jobs}
- \begin{block}{Preempt}
-  \begin{itemize}
-   \item{Gives fast access to lots of fast cpus}
-   \item{Great for hundreds of short jobs}
-   \item{Uses Private nodes}
-   \item{Read: \url{http://cac.engin.umich.edu/resources/software/pbspreemption.html}}
-  \end{itemize}
- \end{block}
- \begin{block}{How to use Preemption}
-  \texttt{\#PBS -l nodes=1:ppn=4,}\textbf{qos=preempt}
  \end{block}
 \end{frame}
 
