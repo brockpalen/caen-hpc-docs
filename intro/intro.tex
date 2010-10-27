@@ -298,7 +298,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \end{frame}
 
 \begin{frame}{Compile Example}
- Copy Code: \texttt{cp \~{}brockp/cac-intro-code.tar.gz \~{}} 
+ \texttt{cp \~{}brockp/cac-intro-code.tar.gz \~{}} 
  \\ \texttt{tar -xzvf cac-intro-code.tar.gz}  \\ \texttt{cd \~{}/cac-intro-code}
  \begin{block}{Serial Code}
   \begin{itemize}
@@ -347,7 +347,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
      \item Users outside of Engineering will always use \texttt{flux}
     \end{itemize}
    \end{block}
-   \begin{block}{cac or route}
+   \begin{block}{cac}
     \begin{itemize}
      \item Available only to Engineering users
     \end{itemize}
@@ -403,7 +403,7 @@ A simple single CPU example
   \end{semiverbatim}  
  \note[item]{-N sets the job name, can not start with a number}
  \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np. When running under PBS -np is optional. If ommited one rank is started per requested cpu.}
- \note[item]{-q optional: which queue to submit to, use default: \texttt{route}}
+ \note[item]{-q optional: which queue to submit to, two valid values \texttt{cac} or \texttt{flux}
  \note[item]{-M Who to email, can be more than one address}
  \note[item]{-m when to email a=abort, b=begin, e=end}
  \note[item]{-j optional: join STDOUT and STDERR default is to not}
