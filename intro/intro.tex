@@ -403,7 +403,7 @@ A simple single CPU example
   \end{semiverbatim}  
  \note[item]{-N sets the job name, can not start with a number}
  \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np. When running under PBS -np is optional. If ommited one rank is started per requested cpu.}
- \note[item]{-q optional: which queue to submit to, two valid values \texttt{cac} or \texttt{flux}
+ \note[item]{-q optional: which queue to submit to, two valid values \texttt{cac} or \texttt{flux}}
  \note[item]{-M Who to email, can be more than one address}
  \note[item]{-m when to email a=abort, b=begin, e=end}
  \note[item]{-j optional: join STDOUT and STDERR default is to not}
@@ -448,15 +448,14 @@ djsiege    0       -      djsiege cac,preempt,djsiege
 \begin{frame}[fragile]
   \frametitle{Submitting, Checking, and Deleting Batch Jobs}
   \begin{itemize}
-  \item<1-> After you create your PBS script, you need to submit it:\\
+  \item<1-> Submit your PBS script with \texttt{qsub}:\\
   \tiny
 \begin{semiverbatim}
 $ qsub  mcnp.q 
 542.nyx-login.engin.umich.edu
 \end{semiverbatim}
 \normalsize
-  \item<2-> After you submit your script, you can check on the status of your
-job:\\
+  \item<2-> Check status of a job with \texttt{qstat}:\\
   \tiny
 \begin{semiverbatim}
 $ qstat -u brockp
@@ -469,7 +468,7 @@ $ checkjob 542
 [... lots of output ...]
 \end{semiverbatim}
 \normalsize
-  \item<3-> If you want to delete your job:\\
+  \item<3-> Delete a job:\\
 \tiny
 \begin{semiverbatim}
 $ qdel 542
