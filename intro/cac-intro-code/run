@@ -1,11 +1,16 @@
 #!/bin/sh
 #PBS -N pbstrial 
 #PBS -l nodes=4:ppn=2,walltime=15:00
-#PBS -q cac
 #PBS -V
 
-##change this
+##change -M -A and -l qos= to valid values
 #PBS -M brockp@umich.edu
+
+##which cluster to use
+#PBS -q flux
+#PBS -A account_flux
+#PBS -l qos=qos_flux
+
 #PBS -m abe 
 #PBS -j oe 
 #
@@ -13,4 +18,4 @@ echo "I ran on `hostname`"
 #
 cat $PBS_NODEFILE
 
-mpirun /home/${USER}/cac-intro-code/c_ex05
+mpirun ~/cac-intro-code/c_ex05
