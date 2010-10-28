@@ -447,18 +447,16 @@ djsiege    0       -      djsiege cac,preempt,djsiege
 
 \begin{frame}[fragile]
   \frametitle{Submitting, Checking, and Deleting Batch Jobs}
-  \begin{itemize}
-  \item<1-> Submit your PBS script with \texttt{qsub}:\\
-  \tiny
+   \begin{block}{Submit your PBS script with \texttt{qsub}}
 \begin{semiverbatim}
 $ qsub  mcnp.q 
 542.nyx-login.engin.umich.edu
 \end{semiverbatim}
-\normalsize
-  \item<2-> Check status of a job with \texttt{qstat}:\\
-  \tiny
+  \end{block}
+\begin{block}{Check status of a job with \texttt{qstat} and \texttt{checkjob}}
 \begin{semiverbatim}
 $ qstat -u brockp
+\tiny
 nyx-login.engin.umich.edu: 
 Job ID               Username Queue    Jobname    SessID NDS   TSK Memory Time  S Time
 -------------------- -------- -------- ---------- ------ ----- --- ------ ----- - -----
@@ -467,14 +465,16 @@ Job ID               Username Queue    Jobname    SessID NDS   TSK Memory Time  
 $ checkjob 542
 [... lots of output ...]
 \end{semiverbatim}
+\end{block}
 \normalsize
-  \item<3-> Delete a job:\\
-\tiny
+\begin{block}{Delete a job:}
 \begin{semiverbatim}
 $ qdel 542
-\end{semiverbatim}\normalsize
-  \end{itemize}
+\end{semiverbatim}
+\end{block}
 \end{frame}
+
+
 \begin{frame}[fragile]
  \frametitle{PBS Email}
 PBS will send an email at the start and end of your job if you use the
