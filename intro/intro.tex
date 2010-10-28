@@ -48,7 +48,7 @@
     \end{itemize}
    \end{block}
    \note{
-       TeraGrid integrates high-performance computers, data resources and tools. Currently, TeraGrid resources include more than a petaflop of computing capability and more than 30 petabytes of online and archival data storage. Researchers can also access more than 100 discipline-specific databases. 
+       TeraGrid integrates high-performance computers, data resources and tools. Currently, TeraGrid resources include more than a petaflop of computing capability and more than 30 petabytes of on-line and archival data storage. Researchers can also access more than 100 discipline-specific databases. 
 \\
 TeraGrid is for users who need access to resources that can not be provided on campus. This would be users who need access to very large parallel jobs, huge amounts of total jobs, or large data access and visualization.
 
@@ -98,7 +98,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
    \begin{center}\includegraphics[height=2.5in]{nyx-login}\end{center}
   \end{frame}
 %note
-   \note{\texttt{nyx-login.engin.umich.edu} is a pool of currently 5 machines (subject to change). When you first connect the login session will go to one of the 5 nodes randomly. Future sessions from that machine for the day should go to the same machine.  You can check the specific machine the session is on by running \texttt{hostname}. The 5 machines are split between the two types of systems the nyx cluster supports currently AMD and Intel.  If you do not care the type of login node you land on (matlab, abaqus etc) use \texttt{nyx-login.engin.umich.edu}.  If the type of machine is of interest use \texttt{nyx-login-intel.engin.umich.edu} or \texttt{nyx-login-amd.engin.umich.edu}.  These pools contain only login nodes of that type.  Note that cpu models vary between vendors, see: \url{http://cac.engin.umich.edu/resources/software/pgi.html\#cputypes} to optimize for your CPU type. }
+   \note{\texttt{nyx-login.engin.umich.edu} is a pool of currently 5 machines (subject to change). When you first connect the login session will go to one of the 5 nodes randomly. Future sessions from that machine for the day should go to the same machine.  You can check the specific machine the session is on by running \texttt{hostname}. The 5 machines are split between the two types of systems the nyx cluster supports currently AMD and Intel.  If you do not care the type of login node you land on (matlab, abaqus etc) use \texttt{nyx-login.engin.umich.edu}.  If the type of machine is of interest use \texttt{nyx-login-intel.engin.umich.edu} or \texttt{nyx-login-amd.engin.umich.edu}.  These pools contain only login nodes of that type.  Note that CPU models vary between vendors, see: \url{http://cac.engin.umich.edu/resources/software/pgi.html\#cputypes} to optimize for your CPU type. }
 
 %flux
 \begin{frame}{Hardware: Flux Allocations}
@@ -122,7 +122,7 @@ TeraGrid is for users who need access to resources that can not be provided on c
   \end{column}
  \end{columns}
 \note{
-Flux is a cluster managed by the CAC that are available to researchers in a fee for service. There are also accomidations for grants that disallow fee for service. The minimum allocation is 1 core for 1 month. The goal of flux is quick and flexable access for researchers to get and adjust resources that match their needs.  Flux also offers GPGPUs and a few other resrouces. Contact flux-support@umich.edu for help.
+Flux is a cluster managed by the CAC that are available to researchers in a fee for service. There are also accommodations for grants that disallow fee for service. The minimum allocation is 1 core for 1 month. The goal of flux is quick and flexible access for researchers to get and adjust resources that match their needs.  Flux also offers GPGPUs and a few other resources. Contact flux-support@umich.edu for help.
 } %note
 \end{frame}
  
@@ -188,7 +188,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
       \item PGI Compilers
     \end{itemize}
     \end{block}
-    \begin{block}{Recomended Flux Defaults}
+    \begin{block}{Recommended Flux Defaults}
      \begin{itemize}
       \item \texttt{module rm pgi}
       \item \texttt{module load intel-comp}
@@ -282,7 +282,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \end{frame}
 %compile code
   \begin{frame}{Compile Code}
-   \note[item] { The following applies to the default modules, or the recomended flux modules}
+   \note[item] { The following applies to the default modules, or the recommended flux modules}
    \begin{block}{Flux PGI Compilers}
    \begin{itemize}
     \item Use: \texttt{mpicc, mpiCC, mpif90} for MPI code
@@ -309,7 +309,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \end{itemize}
  \end{block}
 \end{frame}
-\begin{frame}{Compile Example Cont'd}
+\begin{frame}{Compile Example Contd}
  \begin{block}{MPI Code}
   \begin{itemize}
    \item \texttt{make}
@@ -317,7 +317,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
    \item <2-> \texttt{make clean}
    \item <2-> \texttt{mpicc -fast -o c\_ex01 c\_ex01.c}
     \note[item]{'man make' Make lets you manage large bits of code. Works for all source types}
-    \note[item]{\texttt{make -jN} will compile in perallel on N cores}
+    \note[item]{\texttt{make -jN} will compile in parallel on N cores}
   \end{itemize}
  \end{block}
 \end{frame}
@@ -399,10 +399,10 @@ A simple single CPU example
 \uncover{cd \$\{HOME\}/input2/}
 \uncover{echo "I ran on: "}
 \uncover{cat \$PBS\_NODEFILE}
-\uncover{mpirun mcnp5 i=input2 o=output2 r=restart2}
+\uncover{mpirun mcnp5.mpi i=input2 o=output2 r=restart2}
   \end{semiverbatim}  
  \note[item]{-N sets the job name, can not start with a number}
- \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np. When running under PBS -np is optional. If ommited one rank is started per requested cpu.}
+ \note[item]{-l sets the resources, walltime=HH:MM:SS or walltime=SSSSS Total number of cpus is nodes*ppn which must equal -np. When running under PBS -np is optional. If omitted one rank is started per requested cpu.}
  \note[item]{-q optional: which queue to submit to, two valid values \texttt{cac} or \texttt{flux}}
  \note[item]{-M Who to email, can be more than one address}
  \note[item]{-m when to email a=abort, b=begin, e=end}
@@ -448,7 +448,7 @@ A simple single CPU example
 evaluating user information
 Name    Priority    Flags  QDef      QOSList*        
 
-djsiege    0       -      djsiege cac,preempt,djsiege
+djsiege    0       -      djsiege cac,djsiege
   GDEF=meche
   UID=1913288
   EMAILADDRESS=djsiege@umich.edu
@@ -543,7 +543,7 @@ resources_used.walltime=00:49:57
   Email: \url{flux-support@umich.edu}
  \end{block}
 \note{
-Flux allocations look like your group purchased nodes. You have dedicated access to the N cores you have reserved.  If you rent 100 cores and don't run a single job on them you are still charged for us setting those nodes asside. Core counts can be changed.  Thus if a deadline is two months out your group can add 1000 more cores to your allocation for just those two months the cpu limits are changed by the system automaticaly.  Other specialty resources are priced differently (GPGPUS, Haddop, Large Memory).
+Flux allocations look like your group purchased nodes. You have dedicated access to the N cores you have reserved.  If you rent 100 cores and don't run a single job on them you are still charged for us setting those nodes aside. Core counts can be changed.  Thus if a deadline is two months out your group can add 1000 more cores to your allocation for just those two months the CPU limits are changed by the system automatically.  Other specialty resources are priced differently (GPGPUS, Hadoop, Large Memory).
 } %note
 \end{frame}
 
@@ -623,7 +623,7 @@ when the job will start
     \item Lots of cpus
     \item A reasonable amount of software
     \item Watch or subscribe to \url{http://cac.engin.umich.edu} for updates
-    \item Get anouncements first on Twitter: \url{http://twitter.com/UMCoECAC}
+    \item Get announcements first on Twitter: \url{http://twitter.com/UMCoECAC}
    \end{itemize}
    \item Access
     \begin{itemize}
@@ -636,7 +636,7 @@ when the job will start
 \end{frame}
 \subsection{Job Management}
 \begin{frame}{Summary}
- \begin{block}{Summary Cont'd}
+ \begin{block}{Summary Contd}
  \begin{itemize}
    \item Job Submission
      \begin{itemize}
