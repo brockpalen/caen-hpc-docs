@@ -388,7 +388,7 @@ A simple single CPU example
   \frametitle{Creating a PBS Batch File}
   \begin{semiverbatim}  
 \uncover{#PBS -N mcnp-8x2}
-\uncover{#PBS -l nodes=8:ppn=2,walltime=8:00:00}
+\uncover{#PBS -l nodes=8:ppn=2,walltime=8:00:00,pmem=2000mb}
 \uncover{#PBS -l qos=qualityOfService}
 \uncover{#PBS -A account}
 \uncover{#PBS -q cac}
@@ -410,6 +410,22 @@ A simple single CPU example
  \note[item]{-V Copy submit environment to compute environment, ALWAYS use this}
  \note{See \texttt{man qsub} for all options}
  \note{Example pbs file included with example codes \texttt{run}}
+\end{frame}
+
+%memory use
+\begin{frame}{Memory (RAM) Use}
+
+
+ \begin{block}{moab job resource violation \\ job JOBID exceeded MEM usage soft limit}
+  \begin{itemize}
+   \item Do not ignore this message
+   \item Job has consumed more ram than system allocated
+   \item Can hurt job performance by orders of magnitude by 'swapping'
+   \item Can cause nodes to crash with other jobs on them
+   \item Check memory use with \texttt{checkjob JOBID}
+   \item Fix by increasing \texttt{pmem=XXXmb}  in your PBS request
+  \end{itemize}
+ \end{block}
 \end{frame}
 
 %explain account/qos
