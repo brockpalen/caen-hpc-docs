@@ -332,7 +332,7 @@ Snapshots are located at \texttt{/home/.ckpt/}.
       is via the batch system
     \item We use a system called Torque, it is derived from PBS
     \item The batch system controls access to queues
-    \item The scheduling (Maui/Moab) system decides if and where jobs can run
+    \item The scheduler (Moab) decides if and where jobs can run
     \item<2-> There are two main queues: \texttt{cac} and \texttt{flux}
     \item<3-> Users with private Nyx nodes can check their status with \texttt{resinfo.pl -n RESNAME}
     \end{itemize}
@@ -538,7 +538,7 @@ resources_used.walltime=00:49:57
  \begin{block}{Example}
   \uncover<4-> {\texttt{qsub -I -V -l nodes=2:ppn=2,walltime=15:00 -q cac}}
   \note{Interactive jobs can use X11 forwarding also}
-  \note[item]{\texttt{qsub -I -X -V -l nodes=2:ppn=2,walltime=15:00 -q route}}
+  \note[item]{\texttt{qsub -I -X -V -l nodes=2:ppn=2,walltime=15:00 -q cac}}
   \note[item]{Used with ddt our parallel debugger}
  \end{block}
 \end{frame}
@@ -546,17 +546,15 @@ resources_used.walltime=00:49:57
 \section{The Scheduler}
 \subsection{Understanding the Scheduler}
 \begin{frame}{Understanding the Scheduler}
-The scheduler determines what jobs can run, when they can run, and where.  There
-are many factors that go into the schedulers decision.
    \begin{block}{Limits and Priority}
     \begin{itemize}
     \item<1-> Limited number jobs eligible for scheduling
-    \item<1-> Maximum number of cpus in use by one person: depends on queue
-    \item<1-> Maximum number of jobs in the queue at one time: no limit
+    \item<1-> Maximum number of cpus in use by one person: depends on allocation
+    \item<1-> Maximum number of queued jobs: no limit, please keep under 1000
     \end{itemize}
     \begin{itemize}
-    \item<2-> How long you've waited: the longer you wait, the higher your priority
-    \item<2-> Your recent usage (fairshare): People with less usage over the past month will have a higher priority than those with a lot of usage
+    \item<2-> Time in queue: the longer you wait, the higher your priority
+    \item<2-> Recent usage (fairshare): People with less usage over the past month will have a higher priority than those with a lot of usage
 
     \note[item]{We can do priorities and limits in private queues as needed for those queues. Limits on User, group, hardware in use, time of use walltime are all options}
     \end{itemize}
@@ -595,6 +593,8 @@ the job can't start
 when the job will start
 \end{itemize}
 \end{frame}
+
+
 \section{Summary}
 \subsection{Resources and Access}
 \begin{frame}{Summary}
@@ -605,14 +605,13 @@ when the job will start
     \item Lots of cpus
     \item A reasonable amount of software
     \item Watch or subscribe to \url{http://cac.engin.umich.edu} for updates
+    \item Get anouncements first on Twitter: \url{http://twitter.com/UMCoECAC}
    \end{itemize}
    \item Access
     \begin{itemize}
      \item All access is via the SSH family of commands: \texttt{ssh},
 \texttt{sftp}, \texttt{scp}
-     \item There are lots of clients for these commands for the different
-platforms
-     \item There is no graphical access, everything is via the command line
+     \item There is no graphical access, everything is via the command line with rare exceptions
     \end{itemize}
  \end{itemize}
  \end{block}
@@ -624,7 +623,7 @@ platforms
    \item Job Submission
      \begin{itemize}
      \item Every job needs a PBS script file
-     \item Two most important commands: \texttt{qsub} and \texttt{qstat -au \textit{uniqname}}
+     \item Two most important commands: \texttt{qsub} and \texttt{qstat -u \textit{uniqname}}
      \end{itemize}
    \item Job Scheduling
      \begin{itemize}
@@ -640,13 +639,12 @@ scheduler optimize for their start.
  \begin{itemize}
  \item News: \url{http://cac.engin.umich.edu}
    \begin{itemize}
+    \item Twitter: \url{http://twitter.com/UMCoECAC}
     \item RSS feed
     \item New of changes, outages, other pertinent piece of information
    \end{itemize}
   \item Contact: \url{cac-support@umich.edu}
    \begin{itemize}
-    \item Questions or concerns should be sent here (not to an individual) since
-this is read by six people.  The odds of a quick reply are best this way.
     \item We aren't parallel programmers, but we'll do what we can to help.
    \end{itemize}
  \end{itemize}
