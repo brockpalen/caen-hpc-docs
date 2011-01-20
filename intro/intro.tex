@@ -184,16 +184,9 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \begin{frame}{Software}
     \begin{block}{Nyx/Flux Defaults}
     \begin{itemize}
-      \item OpenMPI
-      \item PGI Compilers
+      \item OpenMPI \\ \texttt{openmpi/1.4.3/intel/12.0}
+      \item Intel Compilers \\ \texttt{intel-comp/12.0}
     \end{itemize}
-    \end{block}
-    \begin{block}{Recommended Flux Defaults}
-     \begin{itemize}
-      \item \texttt{module rm pgi}
-      \item \texttt{module load intel-comp}
-      \item \texttt{module swap openmpi openmpi/1.4.2-intel}
-     \end{itemize}
     \end{block}
   \end{frame}
 
@@ -303,9 +296,9 @@ Snapshots are located at \texttt{/home/.ckpt/}.
  \begin{block}{Serial Code}
   \begin{itemize}
    \item Fortran 90
-         \\ \texttt{pgf90 -fast -o f90hello helloworld.f90}
+         \\ \texttt{ifort -O3 -ipo -no-prec-div -xHost -o f90hello helloworld.f90}
    \item C
-         \\ \texttt{pgcc -fast -o chello helloworld.c}
+         \\ \texttt{icc -O3 -ipo -no-prec-div -xHost -o chello helloworld.c}
   \end{itemize}
  \end{block}
 \end{frame}
@@ -620,10 +613,9 @@ when the job will start
  \begin{itemize}
   \item Resources
    \begin{itemize}
-    \item Lots of cpus
-    \item A reasonable amount of software
     \item Watch or subscribe to \url{http://cac.engin.umich.edu} for updates
     \item Get announcements first on Twitter: \url{http://twitter.com/UMCoECAC}
+    \item Watch Tutorial Videos on YouTube: \url{http://www.youtube.com/user/UMCoECAC}
    \end{itemize}
    \item Access
     \begin{itemize}
