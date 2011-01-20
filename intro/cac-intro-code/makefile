@@ -20,9 +20,9 @@ default: c_examples f_examples
 #LINUX SETTINGS
 #http://cac.engin.umich.edu/resources/software/pgi.html
 F90=mpif90
-F_OP=-fast
+F_OP=-O3 -ipo -no-prec-div -xHost
 CC=mpicc
-C_OP= -fast
+C_OP= $(F_OP)
 
 FEXE= f_ex00 f_ex01 f_ex02 f_ex03 f_ex04 f_ex05 f_ex06 f_ex07 f_ex08 f_ex09 f_ex10 f_ex11
 CEXE=  c_ex01 c_ex02 c_ex03 c_ex04 c_ex05 c_ex06 c_ex07 c_ex08 c_ex09 c_ex10 c_ex11
