@@ -169,13 +169,11 @@ Flux is a cluster managed by the CAC that are available to researchers in a fee 
 Both file systems are shared on all CAC systems.
 \url{http://cac.engin.umich.edu/resources/storage/lustre.html}
 \\
-For /nobackup user directories have to be created by the user \texttt{mkdir /nobackup/\$USER}.  All users are logged into /home by default. \\
+For /nobackup user directories are \texttt{/nobackup/\$USER}.  All users are logged into /home by default. \\
 
 Users can check their quota usage on home with \texttt{quota}.\\
 Users can also see their use of /nobackup with: \texttt{lfs quota /nobackup/}\\
 
-\texttt{/home} provides snapshots, a read only view of your directory at a point in time, this allows recovery of modified/deleted files, but is not a backup for defense against hardware failure.  \\
-Snapshots are located at \texttt{/home/.ckpt/}.
 } %end note
 \end{frame}
   
@@ -184,8 +182,8 @@ Snapshots are located at \texttt{/home/.ckpt/}.
   \begin{frame}{Software}
     \begin{block}{Nyx/Flux Defaults}
     \begin{itemize}
-      \item OpenMPI \\ \texttt{openmpi/1.4.3/intel/12.0}
-      \item Intel Compilers \\ \texttt{intel-comp/12.0}
+      \item OpenMPI \\ \texttt{openmpi/1.4.3/intel/11.0}
+      \item Intel Compilers \\ \texttt{intel-comp/11.0}
     \end{itemize}
     \end{block}
   \end{frame}
