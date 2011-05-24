@@ -362,7 +362,7 @@ Users can also see their use of /nobackup with: \texttt{lfs quota /nobackup/}\\
 A simple single CPU example
   \begin{semiverbatim}
 \uncover<1->{#PBS -N cpu-1}
-\uncover<2->{#PBS -l nodes=1,walltime=1:00:00}
+\uncover<2->{#PBS -l procs=1,walltime=1:00:00}
 \uncover<3->{#PBS -m abe}
 \uncover<3->{#PBS -M brockp@umich.edu}
 \uncover<4->{#PBS -q flux}
@@ -379,7 +379,7 @@ A simple single CPU example
   \frametitle{Creating a PBS Batch File}
   \begin{semiverbatim}  
 \uncover{#PBS -N mcnp-8x2}
-\uncover{#PBS -l nodes=8:ppn=2,walltime=8:00:00,pmem=2000mb}
+\uncover{#PBS -l procs=16,walltime=8:00:00,pmem=2000mb}
 \uncover{#PBS -l qos=qualityOfService}
 \uncover{#PBS -A account}
 \uncover{#PBS -q cac}
