@@ -2,6 +2,7 @@
 \documentclass[handout]{beamer}
 
 \usepackage{pgfpages} 
+\usepackage{epstopdf}
 
 %\setbeameroption{show only notes}
 
@@ -70,6 +71,7 @@ Xsede is the follow on to TeraGrid, users of the TeraGrid will find that all the
      \item \url{http://um3d.dc.umich.edu/}
      \item Windows 64bit Nvidia 8GB Quad Core
      \item Linux Nvidia 16GB Quad Core 30" wide screen
+     \item 9 Display Viz Wall 4K
     \end{itemize}
    \end{block}
   \end{frame}
@@ -95,7 +97,7 @@ Xsede is the follow on to TeraGrid, users of the TeraGrid will find that all the
   \end{frame}
 %nyx-login pools
   \begin{frame}{Hardware: nyx-login}
-   \begin{center}\includegraphics[height=2.5in]{nyx-login}\end{center}
+   \begin{center}\includegraphics[height=2.0in]{nyx-login.eps}\end{center}
   \end{frame}
 %note
    \note{\texttt{nyx-login.engin.umich.edu} is a pool of currently 5 machines (subject to change). When you first connect the login session will go to one of the 5 nodes randomly. Future sessions from that machine for the day should go to the same machine.  You can check the specific machine the session is on by running \texttt{hostname}. The 5 machines are split between the two types of systems the nyx cluster supports currently AMD and Intel.  If you do not care the type of login node you land on (matlab, abaqus etc) use \texttt{nyx-login.engin.umich.edu}.  If the type of machine is of interest use \texttt{nyx-login-intel.engin.umich.edu} or \texttt{nyx-login-amd.engin.umich.edu}.  These pools contain only login nodes of that type.  Note that CPU models vary between vendors, see: \url{http://cac.engin.umich.edu/resources/software/pgi.html\#cputypes} to optimize for your CPU type. }
@@ -124,6 +126,11 @@ Xsede is the follow on to TeraGrid, users of the TeraGrid will find that all the
 \note{
 Flux is a cluster managed by the CAC that are available to researchers in a fee for service. There are also accommodations for grants that disallow fee for service. The minimum allocation is 1 core for 1 month. The goal of flux is quick and flexible access for researchers to get and adjust resources that match their needs.  Flux also offers GPGPUs and a few other resources. Contact flux-support@umich.edu for help.
 } %note
+\end{frame}
+
+%flux login pools
+\begin{frame}{Flux Login}
+ \begin{center}\includegraphics[height=1.7in]{flux-login.eps}\end{center}
 \end{frame}
  
 % vislab
