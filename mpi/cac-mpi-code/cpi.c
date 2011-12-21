@@ -29,10 +29,10 @@ int main(int argc, char **argv){
   int numprocs;      /* size of COMM_WORLD */
   double area = 0.0; /* partal sum */
   double total= 0.0; /* total sum */
-  double n = 0.0;    /* number of intervals */
+  long long n = 0.0;    /* number of intervals */
   double width;      /* interval width */
   double midpoint;   /* midpoint of f(x) */
-  int x;             /* needed counter */
+  long long x;             /* needed counter */
 
   /* call Init, size, and rank */
   MPI_Init(&argc, &argv);
@@ -42,13 +42,13 @@ int main(int argc, char **argv){
   if(rank == 0){
     printf("Started with %d ranks\n",numprocs);
     printf("Number of intervals?: \n");
-    scanf("%lf",&n);
+    scanf("%lld",&n);
 
   } /* all ranks need to be included now */
  
   MPI_Bcast(    &n,  /* buffer to send/recv in/out of */
                  1,  /* number of values to bcast */
-       MPI_DOUBLE,  /* type to send */
+     MPI_LONG_LONG,  /* type to send */
                  0,  /* root to bcast from */
     MPI_COMM_WORLD); /* communicator */
 
